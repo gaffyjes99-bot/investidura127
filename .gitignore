@@ -1,15 +1,23 @@
-# Godot 4
+# Godot 4 — archivos de caché del editor (nunca al repo)
 .godot/
 .import/
 export.cfg
-export_presets.cfg
 *.translation
 
-# Exports pesados (se suben como release, no al repo)
-export/web/*.pck
-export/web/*.wasm
+# export_presets.cfg SE TRACKEA (contiene la config del preset Web)
+# Si tuviera rutas absolutas de templates custom, ignorar con:
+# godot/export_presets.cfg
+
+# Exports Android pesados (se suben como GitHub Release)
 export/android/*.apk
 export/android/*.aab
+
+# Exports Web: el .html y .js SE trackean para GitHub Pages
+# Solo excluimos los binarios grandes en producción.
+# Para la fase de validación, TODOS los archivos de export/web/ están en el repo.
+# En producción, descomentar las siguientes líneas y usar GitHub Releases:
+# export/web/*.pck
+# export/web/*.wasm
 
 # Audio/video sin comprimir (raw)
 assets/audio/*_raw.*
