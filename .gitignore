@@ -1,0 +1,21 @@
+# Godot 4
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+*.translation
+
+# Exports pesados (se suben como release, no al repo)
+export/web/*.pck
+export/web/*.wasm
+export/android/*.apk
+export/android/*.aab
+
+# Audio/video sin comprimir (raw)
+assets/audio/*_raw.*
+assets/video/*_raw.*
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.tmp
