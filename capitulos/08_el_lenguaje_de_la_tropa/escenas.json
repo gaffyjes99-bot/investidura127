@@ -1,0 +1,31 @@
+{
+  "capitulo": 8,
+  "nombre": "El Lenguaje de la Tropa",
+  "narrador": "Kotick",
+  "insignia": "📯 Oído de Explorador",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Kotick: 'En el bosque no siempre puedes gritar. Por eso los scouts hablamos con el pito: cada sonido es una palabra.'",
+      "dialogo_muestra": "Kotick: 'Escucha con atención... ¿reconoces ese llamado? Tu tropa te está diciendo algo ahora mismo.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Animación de un dirigente tocando distintos llamados y la tropa reaccionando correctamente a cada uno (formarse, guardar silencio, alerta).",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Quiz de audio: se reproduce un llamado grabado con el pito real de la tropa, el scout selecciona su significado entre opciones. Modo inverso: se da una instrucción escrita ('Es hora de silencio') y el scout identifica cuál de 3 audios corresponde.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas de audio + comprensión, mínimo 80%. IMPORTANTE: el código exacto de llamados debe ser grabado y confirmado por el dirigente del Grupo 127 antes de producción — no existe un estándar universal.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

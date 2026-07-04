@@ -1,0 +1,75 @@
+{
+  "capitulo": 3,
+  "preguntas": [
+    {
+      "pregunta": "¿Ante quién hace el scout su Promesa en la ceremonia de investidura?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Ante el resto de la Tropa",
+      "distractores": "Solo ante el dirigente | Solo ante su patrulla | Ante sus padres únicamente",
+      "fuente": "Bitácora - Promesa Scout"
+    },
+    {
+      "pregunta": "Según B.P., la Promesa Scout es...",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Muy seria y difícil de cumplir, requiere el máximo esfuerzo",
+      "distractores": "Solo un formalismo de la ceremonia",
+      "fuente": "Bitácora - Promesa Scout"
+    },
+    {
+      "pregunta": "Recita de memoria la Promesa Scout completa (evaluación oral/escrita con espacios crecientes).",
+      "tipo": "Completar espacio (memoria progresiva)",
+      "respuesta_correcta": "Texto oficial de la Promesa de la Asociación Scouts de Colombia",
+      "distractores": null,
+      "fuente": "Confirmar texto exacto con jefe pedagógico / Escultismo para Muchachos"
+    },
+    {
+      "pregunta": "¿Qué representan las tres partes que se prometen por el honor, según el significado del saludo?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Cumplir deberes, ayudar al prójimo y cumplir la Ley Scout",
+      "distractores": "Ganar insignias, acampar y cantar",
+      "fuente": "Bitácora - Saludo Scout (vínculo con la Promesa)"
+    },
+    {
+      "pregunta": "Verdadero o Falso: La Promesa se hace solo una vez en la vida scout y nunca más se recuerda.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Falso",
+      "distractores": "Verdadero",
+      "fuente": "Bitácora - Promesa Scout"
+    },
+    {
+      "pregunta": "¿Qué se realiza inmediatamente después de la Promesa ante la Tropa?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Iniciar los desafíos de la fase de progresión (Vigía)",
+      "distractores": "Recibir el rango de Expedicionario directamente",
+      "fuente": "Bitácora - Ruta de la Progresión"
+    },
+    {
+      "pregunta": "Después de la Promesa ante la Tropa, ¿ante quién se hace la promesa de patrulla?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Ante el guía, en compañía de todos los integrantes de la patrulla",
+      "distractores": "Ante el Jefe de Grupo en solitario",
+      "fuente": "Bitácora - La Patrulla Scout"
+    },
+    {
+      "pregunta": "¿Qué actitud debe tener el scout al comprometerse con su Promesa según la Bitácora?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Comprender el compromiso con su sociedad, país y familia",
+      "distractores": "Solo memorizar el texto sin comprenderlo",
+      "fuente": "Bitácora - previo a la investidura"
+    },
+    {
+      "pregunta": "¿Qué scout puede solicitar la ceremonia de investidura?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "El que se siente listo para asumir el nuevo estilo de vida scout",
+      "distractores": "Cualquiera sin importar su preparación",
+      "fuente": "Bitácora - previo a la investidura"
+    },
+    {
+      "pregunta": "La palabra de honor en la Promesa Scout se sostiene con:",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "El compromiso personal y la voluntad de cumplirla",
+      "distractores": "Solo la supervisión del dirigente",
+      "fuente": "Bitácora - Promesa Scout"
+    }
+  ]
+}

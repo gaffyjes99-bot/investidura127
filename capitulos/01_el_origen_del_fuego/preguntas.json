@@ -1,0 +1,75 @@
+{
+  "capitulo": 1,
+  "preguntas": [
+    {
+      "pregunta": "¿En qué año nació Baden Powell?",
+      "tipo": "Completar espacio",
+      "respuesta_correcta": "1857",
+      "distractores": "1860 | 1852 | 1870",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿Qué rango militar alcanzó B.P. a los 26 años?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Depende del dato local a confirmar por dirigente",
+      "distractores": null,
+      "fuente": "Bitácora - Historia del Fundador (espacio en blanco)"
+    },
+    {
+      "pregunta": "¿Cómo llamaron los nativos africanos a B.P. por su habilidad para acechar?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Lobo que nunca duerme",
+      "distractores": "El águila veloz | El tigre silencioso | El guerrero sabio",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿Cuántos días duró el sitio de Mafeking que B.P. defendió?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "217 días",
+      "distractores": "100 días | 365 días | 30 días",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿En qué isla realizó B.P. el primer campamento experimental en 1907?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Isla de Brownsea",
+      "distractores": "Isla de Man | Isla de Wight | Isla de Malta",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿Cómo se llamó el libro que B.P. publicó en 1908, ilustrado por él mismo?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Escultismo para Muchachos",
+      "distractores": "Ayudas para el Escultismo | Manual del Explorador | El Camino del Scout",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿En qué año fue proclamado B.P. Jefe Scout Mundial, durante el primer Jamboree en Londres?",
+      "tipo": "Completar espacio",
+      "respuesta_correcta": "Dato a completar según Bitácora",
+      "distractores": null,
+      "fuente": "Bitácora - Historia del Fundador (espacio en blanco)"
+    },
+    {
+      "pregunta": "Verdadero o Falso: B.P. era conocido por sus habilidades como actor y como portero de fútbol en su escuela.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Verdadero",
+      "distractores": "Falso",
+      "fuente": "Bitácora - Historia del Fundador"
+    },
+    {
+      "pregunta": "¿Cuál es el significado central de la Divisa Scout, según el legado de B.P.?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Hacer una buena acción diaria",
+      "distractores": "Ganar todas las competencias | Ser el mejor de la patrulla | Memorizar la Ley Scout",
+      "fuente": "Bitácora - Divisa Scout"
+    },
+    {
+      "pregunta": "Según el último mensaje de B.P., ¿cuál es la verdadera manera de obtener la felicidad?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Haciendo felices a los demás",
+      "distractores": "Teniendo éxito en la carrera | Dándose gusto a uno mismo | Acumulando riqueza",
+      "fuente": "Bitácora - Último mensaje de B.P."
+    }
+  ]
+}

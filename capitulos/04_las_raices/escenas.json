@@ -1,0 +1,31 @@
+{
+  "capitulo": 4,
+  "nombre": "Las Raíces",
+  "narrador": "Baloo",
+  "insignia": "🌳 Raíces Firmes",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Baloo: 'Todo árbol fuerte necesita raíces profundas. Las tuyas son tus principios, tus virtudes y tu fe. Vamos a conocerlas.'",
+      "dialogo_muestra": "Baloo: 'La Abnegación sig­nifica dar sin esperar nada a cambio. ¿Se te ocurre un momento en que ya lo hayas hecho?'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Árbol animado que crece raíz por raíz a medida que se explica cada principio y virtud; cada raíz se ilumina con su nombre.",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Mecánica 'clasificador de categorías': el scout arrastra 6 tarjetas (3 principios + 3 virtudes) a dos canastas correctas. Luego, karaoke de texto resaltado con audio narrado de la Oración Scout, sílaba por sílaba.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas: clasificación, definiciones y orden de la Oración, mínimo 80%.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

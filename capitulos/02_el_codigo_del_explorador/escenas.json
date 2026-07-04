@@ -1,0 +1,31 @@
+{
+  "capitulo": 2,
+  "nombre": "El Código del Explorador",
+  "narrador": "Akela",
+  "insignia": "⚖️ Guardián de la Ley",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Akela explica: 'La Ley no son reglas que te imponen, son compromisos que tú eliges cumplir. Cada artículo es una promesa a ti mismo y a tu hermandad.'",
+      "dialogo_muestra": "Akela: 'Dime, explorador: ¿cuál de estos 10 artículos te cuesta más cumplir? No hay respuesta incorrecta, solo honestidad.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "10 mini-viñetas animadas, una por artículo, mostrando una situación cotidiana de un scout que vive ese artículo (ej: artículo 8 'sonríe y canta en sus dificultades' → un scout que se cae en una caminata y se ríe, se levanta y sigue cantando).",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Mecánica reutilizable 'Arrastrar y soltar': el scout arrastra cada uno de los 10 artículos (texto exacto de la Bitácora) a su significado/viñeta correspondiente. Modo 2: dada una viñeta, identificar qué artículo ilustra.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas (una por artículo), formato arrastrar/emparejar y opción múltiple, mínimo 80%.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

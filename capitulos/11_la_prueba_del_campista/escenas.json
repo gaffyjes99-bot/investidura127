@@ -1,0 +1,31 @@
+{
+  "capitulo": 11,
+  "nombre": "La Prueba del Campista",
+  "narrador": "Baden Powell",
+  "insignia": "⛺ Bajo las Estrellas",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "B.P.: 'Ningún libro reemplaza dormir bajo las estrellas. Esto no se aprende aquí: se vive allá afuera. Yo solo llevo la cuenta contigo.'",
+      "dialogo_muestra": "B.P.: 'No dejes signos de que estuviste ahí, salvo en tu propio corazón y en tu bitácora.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Animación de un campamento nocturno con fogata, tiendas y estrellas; contador visual que se ilumina con cada noche registrada.",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Bitácora de campamento digital: el scout registra fecha y lugar de cada noche de campamento; el dirigente confirma con un código de 6 dígitos. Contador de meses de participación activa desde el registro de ingreso a la tropa.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "No es un quiz tradicional: la 'evaluación' es el cumplimiento real de los requisitos (2 noches validadas + 4 meses cumplidos). 5 preguntas de comprensión sobre campismo de bajo impacto y planificación de salidas.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

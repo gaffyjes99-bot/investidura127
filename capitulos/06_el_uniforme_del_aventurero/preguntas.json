@@ -1,0 +1,75 @@
+{
+  "capitulo": 6,
+  "preguntas": [
+    {
+      "pregunta": "¿Qué significa el color ROJO de la pañoleta del Grupo 127?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La fuerza del espíritu que nos fortalece para cumplir las metas",
+      "distractores": "La riqueza del alma y el corazón | El valor y el coraje | La pureza de intención",
+      "fuente": "Requisito del Grupo 127 (dato aportado por el usuario)"
+    },
+    {
+      "pregunta": "¿Qué significa el color AMARILLO de la pañoleta del Grupo 127?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La riqueza del alma y el corazón",
+      "distractores": "La fuerza del espíritu que nos fortalece para cumplir las metas | La alegría del servicio | El sol que guía el camino",
+      "fuente": "Requisito del Grupo 127 (dato aportado por el usuario)"
+    },
+    {
+      "pregunta": "¿Qué elemento identifica al scout de un grupo en particular y es también herramienta en la naturaleza?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La pañoleta",
+      "distractores": "El bordón | La camisa | El morral",
+      "fuente": "Bitácora - Uniforme"
+    },
+    {
+      "pregunta": "Según B.P., ¿qué demuestra un scout que no porta bien su uniforme?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Que no ha asimilado el verdadero espíritu del Escultismo",
+      "distractores": "Que pertenece a otra tropa",
+      "fuente": "Bitácora - Uniforme"
+    },
+    {
+      "pregunta": "¿A quién debes preguntarle el significado de los colores de la pañoleta de tu grupo?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "A tu jefe/dirigente",
+      "distractores": "A cualquier scout de otro grupo",
+      "fuente": "Bitácora - Pañoleta"
+    },
+    {
+      "pregunta": "Arrastra cada insignia al lugar correcto del uniforme (manga, pecho, cuello, gorro).",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "Configuración según uniforme oficial del Grupo 127",
+      "distractores": null,
+      "fuente": "Por definir con dirigente / uniforme oficial"
+    },
+    {
+      "pregunta": "Verdadero o Falso: El uso adecuado del uniforme es un acto de orgullo por pertenecer a la Gran Hermandad Scout.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Verdadero",
+      "distractores": "Falso",
+      "fuente": "Bitácora - Uniforme"
+    },
+    {
+      "pregunta": "¿Qué uso le daba Baden-Powell a la pañoleta, más allá de identificación?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Uso práctico en la naturaleza (por ejemplo, vendaje o protección)",
+      "distractores": "Ninguno, era solo decorativa",
+      "fuente": "Bitácora - Pañoleta (desafío de investigación)"
+    },
+    {
+      "pregunta": "¿Dónde se coloca la insignia de patrulla en el uniforme?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Según el estándar del Grupo 127 (a confirmar)",
+      "distractores": null,
+      "fuente": "Por definir con dirigente"
+    },
+    {
+      "pregunta": "La pañoleta se debe colorear siguiendo:",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Los colores oficiales del Grupo Scout 127",
+      "distractores": "Los colores que el scout prefiera",
+      "fuente": "Bitácora - Pañoleta"
+    }
+  ]
+}

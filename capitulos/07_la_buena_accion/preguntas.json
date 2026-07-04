@@ -1,0 +1,75 @@
+{
+  "capitulo": 7,
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es la Divisa Scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Hacer una buena acción diaria",
+      "distractores": "Ser siempre el mejor | Ganar toda competencia | Ayudar solo si te lo piden",
+      "fuente": "Bitácora - Divisa Scout"
+    },
+    {
+      "pregunta": "En la historia de la Buena Acción, ¿de qué ciudad era el Sr. Boyce?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Chicago",
+      "distractores": "Nueva York | Boston | Londres",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "¿Por qué el muchacho scout no aceptó la propina del Sr. Boyce?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Porque un scout no acepta nada por ayudar a alguien",
+      "distractores": "Porque no necesitaba el dinero",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "¿Qué hizo el Sr. Boyce después de conocer el Escultismo gracias al muchacho?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Llevó el movimiento scout a su país (Estados Unidos)",
+      "distractores": "Se hizo scout en Inglaterra y nunca regresó",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "¿Qué pasó con el muchacho que ayudó al Sr. Boyce?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Nadie volvió a saber de él, pero nunca se le olvidó",
+      "distractores": "Se hizo famoso y dio conferencias",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "Registra tu buena acción de esta semana en el diario (requiere validación de dirigente o padre).",
+      "tipo": "Actividad práctica validada",
+      "respuesta_correcta": "Registro con código de validación",
+      "distractores": null,
+      "fuente": "Mecánica del app - Diario de Buenas Acciones"
+    },
+    {
+      "pregunta": "¿En qué década ocurrió la historia de la Buena Acción con el Sr. Boyce?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "1900s (finales de otoño de 1909)",
+      "distractores": "1950s | 1800s | 1930s",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "¿Qué condición climática de Londres marca el inicio de la historia de la Buena Acción?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Una niebla espesa que detuvo el tráfico",
+      "distractores": "Una tormenta de nieve",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "¿Cuántos años llevaba fundado el movimiento scout cuando Boyce conoció a B.P.?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Dos años",
+      "distractores": "Diez años | Veinte años",
+      "fuente": "Bitácora - Historia de la Buena Acción"
+    },
+    {
+      "pregunta": "Verdadero o Falso: Tu firma y nombre scout son parte de tu identidad dentro de la Tropa.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Verdadero",
+      "distractores": "Falso",
+      "fuente": "Tabla de Progresión Personal - Requisito 13"
+    }
+  ]
+}
