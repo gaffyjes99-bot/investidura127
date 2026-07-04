@@ -18,7 +18,10 @@ claude
 **Nota OneDrive:** el `.gitignore` ya excluye builds y carpetas pesadas de Godot (`.godot/`, exports). Aun así, se recomienda excluir esta carpeta de la sincronización automática de OneDrive mientras se trabaja activamente en Fase 7 (Godot), para evitar conflictos de sincronización con archivos binarios de export.
 
 ## Estado del proyecto
-🟡 Fase 1 — Extracción de contenidos (matriz maestra)
+🟢 Fase 0 — Kickoff y arquitectura: **Completa** (repo en GitHub, estructura de carpetas)
+🟢 Validación técnica — Proyecto Godot mínimo exportado a Web y probado (incluye Safari/iPhone): **Completa**
+🟢 Fase 1 — Extracción de contenidos: **Completa** (matriz maestra + banco de 120 preguntas)
+⬜ Fase 2 — Guion pedagógico y de juego
 
 ## Documentación
 - `/docs/Plan_Completo_Libro_Interactivo_Investidura.md` — plan maestro completo (fases, gamificación, cronograma, equipo, asignación de modelos Claude)
