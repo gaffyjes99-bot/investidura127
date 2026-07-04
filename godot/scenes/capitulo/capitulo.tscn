@@ -1,0 +1,95 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/capitulo/capitulo.gd" id="1"]
+
+[node name="Capitulo" type="Control" script=ExtResource("1")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.09, 0.14, 0.22, 1)
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 60.0
+offset_left = 16.0
+offset_right = -16.0
+
+[node name="TituloLabel" type="Label" parent="Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.95, 0.78, 0.2, 1)
+text = "Capítulo"
+
+[node name="ProgresoLabel" type="Label" parent="Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.7, 0.9, 0.7, 1)
+text = "Escena 1 / 4"
+
+[node name="ContenidoArea" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.08
+anchor_right = 1.0
+anchor_bottom = 0.87
+
+[node name="NarracionPanel" type="VBoxContainer" parent="ContenidoArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 20.0
+offset_right = -40.0
+offset_bottom = -20.0
+theme_override_constants/separation = 20
+visible = false
+
+[node name="PersonajeLabel" type="Label" parent="ContenidoArea/NarracionPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.95, 0.78, 0.2, 1)
+text = "Narrador"
+
+[node name="DialogoLabel" type="RichTextLabel" parent="ContenidoArea/NarracionPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = false
+text = ""
+
+[node name="Footer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.88
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_right = -40.0
+alignment = 2
+theme_override_constants/separation = 20
+
+[node name="BotonMapa" type="Button" parent="Footer"]
+layout_mode = 2
+custom_minimum_size = Vector2(140, 52)
+theme_override_font_sizes/font_size = 18
+text = "← Mapa"
+
+[node name="BotonSiguiente" type="Button" parent="Footer"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 52)
+theme_override_font_sizes/font_size = 20
+text = "Siguiente →"

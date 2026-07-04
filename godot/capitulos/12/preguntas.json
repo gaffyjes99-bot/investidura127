@@ -1,0 +1,75 @@
+{
+  "capitulo": 12,
+  "preguntas": [
+    {
+      "pregunta": "Antes de solicitar tu investidura, ¿en qué dos aspectos debes destacarte, según la Bitácora?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Rendimiento académico y comportamiento ejemplar en casa",
+      "distractores": "Solo en actividades deportivas",
+      "fuente": "Bitácora - previo a la investidura"
+    },
+    {
+      "pregunta": "¿A quién debes buscar cuando te sientas listo para tu ceremonia de investidura?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "A tu dirigente, para solicitarle la ceremonia",
+      "distractores": "A cualquier scout mayor",
+      "fuente": "Bitácora - previo a la investidura"
+    },
+    {
+      "pregunta": "Repaso: ¿Cuál es el lema scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "¡Siempre Listo!",
+      "distractores": "Repite de Cap. 5",
+      "fuente": "Bitácora - Lema"
+    },
+    {
+      "pregunta": "Repaso: ¿Qué significa el color ROJO de la pañoleta del Grupo 127?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La fuerza del espíritu que nos fortalece para cumplir las metas",
+      "distractores": "Repite de Cap. 6",
+      "fuente": "Requisito del Grupo 127"
+    },
+    {
+      "pregunta": "Repaso: ¿Qué significa el color AMARILLO de la pañoleta del Grupo 127?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La riqueza del alma y el corazón",
+      "distractores": "Repite de Cap. 6",
+      "fuente": "Requisito del Grupo 127"
+    },
+    {
+      "pregunta": "Repaso: ¿Cuál es la Divisa Scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Hacer una buena acción diaria",
+      "distractores": "Repite de Cap. 7",
+      "fuente": "Bitácora - Divisa Scout"
+    },
+    {
+      "pregunta": "Repaso: Nombra los tres principios scouts.",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Deberes con la espiritualidad, con los demás/cosas/entorno, y consigo mismo",
+      "distractores": "Repite de Cap. 4",
+      "fuente": "Bitácora - Principios"
+    },
+    {
+      "pregunta": "Repaso: ¿Qué representa la Flor de Lis?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "La dirección hacia lo alto y el camino del deber",
+      "distractores": "Repite de Cap. 5",
+      "fuente": "Bitácora - Flor de Lis"
+    },
+    {
+      "pregunta": "Validación de comportamiento en el hogar (código de padres).",
+      "tipo": "Validación externa",
+      "respuesta_correcta": "Código ingresado por los padres",
+      "distractores": null,
+      "fuente": "Mecánica del app - Validación de hogar"
+    },
+    {
+      "pregunta": "Validación de rendimiento académico (código de dirigente/acudiente).",
+      "tipo": "Validación externa",
+      "respuesta_correcta": "Código ingresado por dirigente",
+      "distractores": null,
+      "fuente": "Mecánica del app - Validación académica"
+    }
+  ]
+}

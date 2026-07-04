@@ -1,0 +1,75 @@
+{
+  "capitulo": 9,
+  "preguntas": [
+    {
+      "pregunta": "¿En qué mano se porta siempre el bordón durante las formaciones?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "En la mano derecha",
+      "distractores": "En la mano izquierda | Indistintamente",
+      "fuente": "Bitácora - Uso del bordón"
+    },
+    {
+      "pregunta": "Describe cómo se realiza el saludo con bordón.",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Bordón cerca del cuerpo en mano derecha, seña scout con la mano izquierda cruzando el pecho",
+      "distractores": "Bordón levantado con ambas manos",
+      "fuente": "Bitácora - Saludo con bordón"
+    },
+    {
+      "pregunta": "En posición de 'siempre listo', ¿cómo deben estar las manos?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Empuñadas con los dedos hacia atrás, pegadas al cuerpo",
+      "distractores": "Sueltas a los lados",
+      "fuente": "Bitácora - Posiciones de formación"
+    },
+    {
+      "pregunta": "¿En qué ángulo deben estar los pies en la posición de formación, para dar estabilidad?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "45 grados con los talones juntos",
+      "distractores": "90 grados | Paralelos completamente",
+      "fuente": "Bitácora - Posiciones de formación"
+    },
+    {
+      "pregunta": "Observa la señal del dirigente y ubica a tu patrulla en la formación correcta (fila).",
+      "tipo": "Simulador visual",
+      "respuesta_correcta": "Formación en fila según señal",
+      "distractores": null,
+      "fuente": "Mecánica del app - Simulador de formaciones"
+    },
+    {
+      "pregunta": "Observa la señal del dirigente y ubica a tu patrulla en la formación correcta (herradura).",
+      "tipo": "Simulador visual",
+      "respuesta_correcta": "Formación en herradura según señal",
+      "distractores": null,
+      "fuente": "Mecánica del app - Simulador de formaciones"
+    },
+    {
+      "pregunta": "Observa la señal del dirigente y ubica a tu patrulla en la formación correcta (círculo).",
+      "tipo": "Simulador visual",
+      "respuesta_correcta": "Formación en círculo según señal",
+      "distractores": null,
+      "fuente": "Mecánica del app - Simulador de formaciones"
+    },
+    {
+      "pregunta": "Verdadero o Falso: El bordón solo tiene uso decorativo y no cumple función práctica en la Tropa.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Falso",
+      "distractores": "Verdadero",
+      "fuente": "Bitácora - Uso del bordón"
+    },
+    {
+      "pregunta": "¿Qué uso práctico puede tener el bordón, además de las formaciones?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Apoyo para caminar, medir distancias, o armar refugios",
+      "distractores": "Ninguno adicional",
+      "fuente": "Bitácora - Usos del bordón (desafíos de pionerismo)"
+    },
+    {
+      "pregunta": "¿Qué se debe respetar al recibir una señal de formación del dirigente?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Ejecutar la formación indicada con orden y rapidez",
+      "distractores": "Esperar a que otros se muevan primero",
+      "fuente": "Bitácora - Formaciones de Tropa"
+    }
+  ]
+}

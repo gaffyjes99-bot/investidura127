@@ -1,0 +1,31 @@
+{
+  "capitulo": 10,
+  "nombre": "Mi Tropa, Mi Familia",
+  "narrador": "Akela",
+  "insignia": "🐾 Espíritu de Patrulla",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Akela: 'Una tropa no es una lista de cargos, es una familia con roles. Y tu patrulla es tu hogar dentro de esa familia.'",
+      "dialogo_muestra": "Akela: '¿Ya elegiste tu patrulla? Jaguares, Lobos, Mapaches o Pandas... cada una tiene su propio grito. ¡Hazlo sonar!'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Animación del organigrama construyéndose pieza por pieza (Jefe de Grupo → Jefe de Tropa → Guías de Patrulla → Subguías → Scouts).",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Constructor de organigrama: arrastrar nombres reales de la tropa (a cargar por el dirigente) a su cargo correcto. Editor de ficha de patrulla: elegir/dibujar animal, escribir lema y grito, dibujar banderín (mini-editor simple de trazos y colores).",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas sobre estructura de patrulla y organigrama (algunas con datos reales de la tropa, a cargo del dirigente), mínimo 80%.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

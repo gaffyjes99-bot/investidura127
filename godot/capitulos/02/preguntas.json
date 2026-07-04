@@ -1,0 +1,75 @@
+{
+  "capitulo": 2,
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es el artículo 1 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout cifra su honor en ser digno de confianza.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 2 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es leal.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 3 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es útil y ayuda a los demás sin esperar recompensa.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 4 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 5 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es cortés y respeta las convicciones de los demás.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 6 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 7 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es obediente, responsable y ordenado.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 8 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout sonríe y canta en sus dificultades.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 9 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    },
+    {
+      "pregunta": "¿Cuál es el artículo 10 de la Ley Scout?",
+      "tipo": "Arrastrar/Emparejar",
+      "respuesta_correcta": "El Scout es limpio y sano, puro en pensamientos, palabras y acciones.",
+      "distractores": "Los otros 9 artículos como distractores",
+      "fuente": "Bitácora - Ley Scout"
+    }
+  ]
+}

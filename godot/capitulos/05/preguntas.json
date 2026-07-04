@@ -1,0 +1,75 @@
+{
+  "capitulo": 5,
+  "preguntas": [
+    {
+      "pregunta": "¿Cuál es el lema scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "¡Siempre Listo!",
+      "distractores": "Siempre Unidos | Adelante Siempre | Fuerza y Honor",
+      "fuente": "Bitácora - Lema"
+    },
+    {
+      "pregunta": "¿Qué representan los tres dedos (índice, medio, anular) en la seña scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Los principios y virtudes scout, y las tres partes de la Promesa",
+      "distractores": "Las tres patrullas de la tropa",
+      "fuente": "Bitácora - Saludo Scout"
+    },
+    {
+      "pregunta": "¿Qué significan el pulgar y el meñique unidos en el saludo scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Que el fuerte protege al débil",
+      "distractores": "Que el scout ya hizo su Promesa",
+      "fuente": "Bitácora - Saludo Scout"
+    },
+    {
+      "pregunta": "¿En qué ángulo se hace el saludo scout completo?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "45 grados",
+      "distractores": "90 grados | 30 grados | 180 grados",
+      "fuente": "Bitácora - Saludo Scout"
+    },
+    {
+      "pregunta": "¿En qué ceremonias se usa el saludo medio, a 90 grados?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "En ceremonias como la Promesa Scout",
+      "distractores": "En reuniones informales de patrulla",
+      "fuente": "Bitácora - Saludo Scout"
+    },
+    {
+      "pregunta": "Según una de las historias sobre el origen del saludo con la mano izquierda, ¿por qué se saluda así?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Porque los guerreros usaban el escudo en la mano izquierda; saludar así mostraba confianza y desprotección",
+      "distractores": "Porque la mano derecha estaba ocupada con el bordón",
+      "fuente": "Bitácora - Saludo de mano izquierda"
+    },
+    {
+      "pregunta": "¿Para qué se usa la Flor de Lis en mapas y brújulas?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Para señalar el norte",
+      "distractores": "Para señalar el sur | Para decorar el uniforme | Para representar a la patrulla",
+      "fuente": "Bitácora - Flor de Lis"
+    },
+    {
+      "pregunta": "¿Por qué se escogió la Flor de Lis como insignia de los Scouts?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Porque señala la dirección hacia lo alto y marca el camino del deber",
+      "distractores": "Porque era el escudo de armas de B.P.",
+      "fuente": "Bitácora - Flor de Lis"
+    },
+    {
+      "pregunta": "¿Qué se superpone a la Flor de Lis para distinguir cada nacionalidad Scout?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "El emblema de la nación",
+      "distractores": "El nombre del fundador | El escudo de la ciudad",
+      "fuente": "Bitácora - Flor de Lis"
+    },
+    {
+      "pregunta": "Verdadero o Falso: La Flor de Lis es la insignia scout reconocida en casi todos los países del mundo.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Verdadero",
+      "distractores": "Falso",
+      "fuente": "Bitácora - Flor de Lis"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "capitulo": 1,
+  "nombre": "El Origen del Fuego",
+  "narrador": "Baden Powell (joven, versión animada)",
+  "insignia": "🔥 Guardián de la Historia",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "B.P. adulto, sentado junto a una fogata, se dirige al jugador: 'Antes de ser Jefe Scout Mundial, fui un niño curioso, un actor de escuela, un soldado en África... Ven, te contaré cómo empezó todo.' Transición a flashback ilustrado.",
+      "dialogo_muestra": "B.P.: '¿Sabes por qué los guerreros africanos me llamaban Lobo que nunca duerme? Porque un explorador debe estar siempre alerta... y siempre listo.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Secuencia de 4 viñetas animadas (no video completo, animación por capas en Godot): (1) B.P. niño acampando con sus hermanos en Inglaterra, (2) B.P. joven en la escuela de Charterhouse, (3) el sitio de Mafeking (217 días), (4) el campamento experimental en la isla de Brownsea con 20 muchachos divididos en 4 patrullas.",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Novela visual con 2 decisiones ('¿Qué haría B.P.?': ante un peligro en Mafeking, elegir entre 2 opciones; la incorrecta muestra retroalimentación y permite reintentar) + actividad de completar la biografía con espacios en blanco (tomados literalmente de la Bitácora: año de nacimiento, escuela, apodo 'Lobo que nunca duerme', año de Brownsea, nombre del libro de 1908).",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas del banco (capitulos/01/preguntas.json), quiz de opción múltiple + completar espacio, mínimo 80% para aprobar.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

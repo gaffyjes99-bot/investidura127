@@ -1,0 +1,31 @@
+{
+  "capitulo": 3,
+  "nombre": "Mi Palabra de Honor",
+  "narrador": "Baden Powell",
+  "insignia": "🤝 Portador de la Promesa",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "B.P.: 'Esta promesa es muy difícil de cumplir, precisamente porque es muy seria. El Escultismo no es solo diversión: requiere bastante de ti. Pero sé que harás todo por cumplirla.'",
+      "dialogo_muestra": "B.P.: 'Recuerda: no prometes ganar, prometes intentar con todo tu esfuerzo. Eso es lo que te hace un scout.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Animación de una ceremonia de investidura real (silueta de scout ante la Tropa formada, pronunciando la Promesa) para dar contexto emocional antes de memorizar.",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Memorización progresiva (mecánica 'completar espacios' con dificultad creciente): 1) texto completo visible, 2) texto con 25% de palabras ocultas, 3) 50% ocultas, 4) 75% ocultas, 5) recitar completo. Opción de grabar audio propio para practicar (no se almacena, solo reproducción local).",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "Completar la Promesa de memoria (escrita), + 4 preguntas de comprensión sobre su significado, mínimo 80%. NOTA: el texto exacto debe confirmarse con el jefe pedagógico contra el documento oficial de la Asociación Scouts de Colombia antes de producción.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

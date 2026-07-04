@@ -1,0 +1,31 @@
+{
+  "capitulo": 6,
+  "nombre": "El Uniforme del Aventurero",
+  "narrador": "Wontolla",
+  "insignia": "🎽 Porte Impecable",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Wontolla: 'Tu uniforme no es solo tela: es orgullo. B.P. decía que quien no lo porta bien, no ha entendido el espíritu del Escultismo.'",
+      "dialogo_muestra": "Wontolla: 'Ese rojo que llevas en el cuello no es decoración. Es la fuerza de tu espíritu, visible para todos.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Avatar del scout girando 360° mostrando cada parte del uniforme; al tocar cada parte, se resalta y nombra.",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "'Vestir al scout': arrastrar cada insignia (patrulla, progresión, especialidad) a su ubicación correcta en el uniforme (a confirmar con estándar oficial del Grupo 127). Mini-juego de colorear la pañoleta: descubrir tocando cada franja (rojo/amarillo), ver la mini-animación de significado, y colorearla correctamente entre opciones distractoras.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas, incluidas las 2 preguntas fijas de los colores de la pañoleta (rojo = fuerza del espíritu; amarillo = riqueza del alma y el corazón), mínimo 80%.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}

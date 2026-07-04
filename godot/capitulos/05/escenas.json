@@ -1,0 +1,31 @@
+{
+  "capitulo": 5,
+  "nombre": "Los Símbolos de la Hermandad",
+  "narrador": "Jacala",
+  "insignia": "⚜️ Heraldo de la Flor de Lis",
+  "escenas": [
+    {
+      "tipo": "narracion",
+      "contenido": "Jacala: 'Todo pueblo tiene símbolos que lo unen. Los nuestros viajan por el mundo entero: donde haya un scout, hay una Flor de Lis.'",
+      "dialogo_muestra": "Jacala: 'Cuando saludas con la izquierda, saludas sin escudo, sin defensas. Es un gesto de confianza total en tu hermano scout.'",
+      "xp": 10
+    },
+    {
+      "tipo": "animacion",
+      "contenido": "Animación de un scout ejecutando el saludo completo (45°) y el saludo medio (90°, con y sin bordón); animación del saludo de mano izquierda con la historia de la tribu Ashanti (escudo abajo, mano desprotegida).",
+      "xp": 5
+    },
+    {
+      "tipo": "juego",
+      "contenido": "Flor de Lis interactiva: tocar cada parte del dibujo revela su significado (contenido a completar por el scout según desafío de la Bitácora, luego confirmado). Quiz visual: armar la flor arrastrando sus partes al lugar correcto. Espejo de cámara opcional (no se guarda imagen) para practicar el saludo, comparando ángulo con una guía animada superpuesta.",
+      "xp": 20
+    },
+    {
+      "tipo": "evaluacion",
+      "contenido": "10 preguntas: lema, significado de dedos en la seña, ángulos de saludo, origen del saludo izquierdo, función de la Flor de Lis, mínimo 80%.",
+      "xp": 30,
+      "xp_perfecto_bonus": 15,
+      "minimo_aprobar_pct": 80
+    }
+  ]
+}
