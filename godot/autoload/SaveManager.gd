@@ -14,7 +14,7 @@ func guardar() -> void:
 	}
 	var json := JSON.stringify(datos)
 	if OS.has_feature("web"):
-		JavaScriptBridge.eval("localStorage.setItem('%s', %s)" % [SAVE_KEY, JSON.stringify(json)])
+		JavaScriptBridge.eval("localStorage.setItem('%s', '%s')" % [SAVE_KEY, json.replace("'", "\\'")])
 	else:
 		var f := FileAccess.open("user://save.json", FileAccess.WRITE)
 		if f:
@@ -22,12 +22,12 @@ func guardar() -> void:
 			f.close()
 
 func cargar() -> bool:
-	var json_str := ""
+	var json_str: String = ""
 	if OS.has_feature("web"):
 		var raw = JavaScriptBridge.eval("localStorage.getItem('%s')" % SAVE_KEY)
 		if raw == null or str(raw) == "null":
 			return false
-		json_str = JSON.parse_string(str(raw))
+		json_str = str(raw)
 	else:
 		if not FileAccess.file_exists("user://save.json"):
 			return false

@@ -22,7 +22,8 @@ claude
 🟢 Validación técnica — Proyecto Godot mínimo exportado a Web y probado (incluye Safari/iPhone): **Completa**
 🟢 Fase 1 — Extracción de contenidos: **Completa** (matriz maestra + banco de 120 preguntas)
 🟢 Fase 2 — Guion pedagógico y de juego: **Completa** (guion.md, escenas.json, preguntas.json en cada capítulo + docs/Fase2_Guion_Pedagogico.md)
-⬜ Fase 3 — Storyboard
+🟢 Fase 3 — Storyboard: **Especificación completa** (docs/Fase3_Guia_de_Estilo.md + docs/Fase3_Storyboard_48_Escenas.md). Pendiente: boceto visual real a cargo del diseñador/ilustrador en Excalidraw.
+⬜ Fase 4 — Producción gráfica
 
 ## Documentación
 - `/docs/Plan_Completo_Libro_Interactivo_Investidura.md` — plan maestro completo (fases, gamificación, cronograma, equipo, asignación de modelos Claude)

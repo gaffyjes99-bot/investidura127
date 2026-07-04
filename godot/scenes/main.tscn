@@ -1,8 +1,15 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1"]
+[sub_resource type="GDScript" id="GDScript_1"]
+script/source = "extends Control
 
-[node name="Main" type="Control" script=ExtResource("1")]
+func _ready() -> void:
+	($CargandoLabel as Label).text = \"Script OK\"
+	print(\"main _ready ejecutado\")
+	get_tree().change_scene_to_file(\"res://scenes/onboarding/onboarding.tscn\")
+"
+
+[node name="Main" type="Control" script=SubResource("GDScript_1")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,6 +31,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_font_sizes/font_size = 28
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
-text = "Cargando expedición..."
+text = "Cargando expedicion..."
 horizontal_alignment = 1
 vertical_alignment = 1

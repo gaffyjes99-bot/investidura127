@@ -41,14 +41,14 @@ func _poblar_grid() -> void:
 		var boton := Button.new()
 		boton.custom_minimum_size = Vector2(180, 120)
 		var desbloqueado := GameState.capitulo_desbloqueado(cap["num"])
-		var completado := cap["num"] in GameState.capitulos_completados
+		var completado: bool = (cap["num"] as int) in GameState.capitulos_completados
 		boton.text = "%s\n%s\n%s" % [cap["emoji"], cap["num"], cap["nombre"]]
 		boton.disabled = not desbloqueado
 		if completado:
 			boton.modulate = Color(0.6, 1.0, 0.6, 1)
 		elif not desbloqueado:
 			boton.modulate = Color(0.4, 0.4, 0.4, 1)
-		var num := cap["num"]
+		var num: int = cap["num"] as int
 		boton.pressed.connect(func(): _ir_a_capitulo(num))
 		grid.add_child(boton)
 

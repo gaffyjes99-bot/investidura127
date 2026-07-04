@@ -64,7 +64,7 @@ func _mostrar_pregunta() -> void:
 		var btn := Button.new()
 		btn.text = opcion
 		btn.custom_minimum_size = Vector2(0, 52)
-		btn.theme_override_font_sizes = {"font_size": 18}
+		btn.add_theme_font_size_override("font_size", 18)
 		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var correcta: String = p["respuesta_correcta"]
 		btn.pressed.connect(func(): _responder(btn, opcion, correcta))
