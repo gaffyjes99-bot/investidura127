@@ -18,7 +18,44 @@
     {
       "tipo": "juego",
       "contenido": "Novela visual con 2 decisiones ('¿Qué haría B.P.?': ante un peligro en Mafeking, elegir entre 2 opciones; la incorrecta muestra retroalimentación y permite reintentar) + actividad de completar la biografía con espacios en blanco (tomados literalmente de la Bitácora: año de nacimiento, escuela, apodo 'Lobo que nunca duerme', año de Brownsea, nombre del libro de 1908).",
-      "xp": 20
+      "xp": 0,
+      "decisiones": [
+        {
+          "situacion": "Estás en Mafeking. La ciudad lleva meses sitiada y no hay suficientes soldados para vigilar y llevar mensajes a la vez. ¿Qué haría B.P.?",
+          "opciones": [
+            {
+              "texto": "Organizar a los muchachos del pueblo como mensajeros y vigías",
+              "correcta": true,
+              "retro": "¡Exacto! B.P. confió en los jóvenes: los cadetes de Mafeking llevaron mensajes y ayudaron a vigilar. Ahí descubrió que los muchachos pueden asumir grandes responsabilidades."
+            },
+            {
+              "texto": "Rendir la ciudad: sin más soldados no hay nada que hacer",
+              "correcta": false,
+              "retro": "B.P. nunca se rindió: Mafeking resistió 217 días. Piensa en cómo aprovechar a todas las personas disponibles..."
+            }
+          ]
+        },
+        {
+          "situacion": "El enemigo rodea Mafeking y debe creer que la ciudad está mucho más defendida de lo que realmente está. ¿Qué haría B.P.?",
+          "opciones": [
+            {
+              "texto": "Usar el ingenio: simular defensas y campos minados que no existen",
+              "correcta": true,
+              "retro": "¡Así fue! B.P. usó trucos e ingenio para aparentar más defensas de las que tenía. Para un explorador, el ingenio vale tanto como la fuerza."
+            },
+            {
+              "texto": "Atacar de frente con los pocos hombres disponibles",
+              "correcta": false,
+              "retro": "Un ataque frontal con tan pocos hombres habría sido un desastre. B.P. prefería observar, pensar y usar el ingenio. Intenta de nuevo."
+            }
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "Robert Baden-Powell nació en el año [1] y estudió en la escuela de [2], donde destacó como actor y portero de fútbol. En África, los nativos lo llamaron '[3]'. En [4] organizó el primer campamento experimental en la isla de Brownsea, y en 1908 publicó el libro '[5]'.",
+        "respuestas": ["1857", "Charterhouse", "Lobo que nunca duerme", "1907", "Escultismo para Muchachos"],
+        "distractores": ["1901", "Eton", "El tigre silencioso"]
+      }
     },
     {
       "tipo": "evaluacion",

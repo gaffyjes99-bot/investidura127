@@ -13,7 +13,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.09, 0.14, 0.22, 1)
+color = Color(0.07, 0.15, 0.09, 1)
 
 [node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -112,6 +112,48 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = ""
 horizontal_alignment = 1
+visible = false
+
+[node name="JuegoPanel" type="VBoxContainer" parent="ContenidoArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 20.0
+offset_right = -40.0
+offset_bottom = -20.0
+theme_override_constants/separation = 14
+visible = false
+
+[node name="JuegoTitulo" type="Label" parent="ContenidoArea/JuegoPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.95, 0.66, 0.23, 1)
+text = ""
+
+[node name="JuegoTexto" type="RichTextLabel" parent="ContenidoArea/JuegoPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+fit_content = false
+text = ""
+
+[node name="JuegoOpciones" type="VBoxContainer" parent="ContenidoArea/JuegoPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="JuegoBanco" type="HFlowContainer" parent="ContenidoArea/JuegoPanel"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="JuegoRetro" type="Label" parent="ContenidoArea/JuegoPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = ""
+autowrap_mode = 3
 visible = false
 
 [node name="Footer" type="HBoxContainer" parent="."]

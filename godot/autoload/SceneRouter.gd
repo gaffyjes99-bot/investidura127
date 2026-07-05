@@ -10,6 +10,15 @@ const ESCENAS := {
 
 const PATRULLAS := ["Jaguares", "Lobos", "Mapaches", "Pandas"]
 
+# Paleta oficial — docs/Fase3_Guia_de_Estilo.md
+const COL_VERDE     := Color("#2E7D32")  # verde bosque (primario)
+const COL_VERDE_OSC := Color("#1B4A1F")
+const COL_CAFE      := Color("#6D4C33")  # café tierra
+const COL_FOGATA    := Color("#F2A93B")  # amarillo fogata (logros/XP)
+const COL_ROJO      := Color("#C0392B")  # rojo pañoleta
+const COL_CREMA     := Color("#F4EDE0")  # crema hueso
+const COL_CAFE_OSC  := Color("#3B2A1E")  # texto sobre fondos claros
+
 const CAP_SPRITES := {
 	1:  "res://assets/sprites/bp_young_talking_v1.png",
 	2:  "res://assets/sprites/bp_young_v1.png",
@@ -57,7 +66,101 @@ var _mp_rango_lbl: Label = null
 # ── arranque ────────────────────────────────────────────────────────────────
 
 func _ready() -> void:
+	_construir_tema()
 	call_deferred("_ruta_inicial")
+
+# ── tema visual global ───────────────────────────────────────────────────────
+
+func _construir_tema() -> void:
+	var tema := Theme.new()
+	var fuente := load("res://assets/fonts/Baloo2-Regular.ttf") as FontFile
+	if fuente:
+		tema.default_font = fuente
+	tema.default_font_size = 18
+
+	var b_normal := StyleBoxFlat.new()
+	b_normal.bg_color = COL_VERDE
+	b_normal.set_corner_radius_all(14)
+	b_normal.content_margin_left = 14
+	b_normal.content_margin_right = 14
+	b_normal.content_margin_top = 8
+	b_normal.content_margin_bottom = 8
+	b_normal.border_width_bottom = 4
+	b_normal.border_color = COL_VERDE_OSC
+	var b_hover: StyleBoxFlat = b_normal.duplicate()
+	b_hover.bg_color = COL_VERDE.lightened(0.12)
+	var b_pressed: StyleBoxFlat = b_normal.duplicate()
+	b_pressed.bg_color = COL_VERDE_OSC
+	b_pressed.border_width_bottom = 0
+	var b_disabled: StyleBoxFlat = b_normal.duplicate()
+	b_disabled.bg_color = Color(0.22, 0.28, 0.23)
+	b_disabled.border_color = Color(0.15, 0.19, 0.16)
+	var b_focus := StyleBoxFlat.new()
+	b_focus.draw_center = false
+	b_focus.border_color = COL_FOGATA
+	b_focus.set_border_width_all(2)
+	b_focus.set_corner_radius_all(14)
+	tema.set_stylebox("normal",   "Button", b_normal)
+	tema.set_stylebox("hover",    "Button", b_hover)
+	tema.set_stylebox("pressed",  "Button", b_pressed)
+	tema.set_stylebox("disabled", "Button", b_disabled)
+	tema.set_stylebox("focus",    "Button", b_focus)
+	tema.set_color("font_color",          "Button", COL_CREMA)
+	tema.set_color("font_hover_color",    "Button", Color.WHITE)
+	tema.set_color("font_pressed_color",  "Button", COL_CREMA)
+	tema.set_color("font_disabled_color", "Button", Color(0.75, 0.73, 0.68, 0.6))
+
+	var le := StyleBoxFlat.new()
+	le.bg_color = COL_CREMA
+	le.set_corner_radius_all(12)
+	le.set_content_margin_all(10)
+	tema.set_stylebox("normal", "LineEdit", le)
+	var le_focus: StyleBoxFlat = le.duplicate()
+	le_focus.set_border_width_all(3)
+	le_focus.border_color = COL_FOGATA
+	tema.set_stylebox("focus", "LineEdit", le_focus)
+	tema.set_color("font_color",             "LineEdit", COL_CAFE_OSC)
+	tema.set_color("caret_color",            "LineEdit", COL_CAFE_OSC)
+	tema.set_color("font_placeholder_color", "LineEdit", Color(COL_CAFE_OSC, 0.45))
+
+	tema.set_color("font_color",    "Label",         COL_CREMA)
+	tema.set_color("default_color", "RichTextLabel", COL_CREMA)
+
+	get_tree().root.theme = tema
+
+# Estilo puntual para un botón (tarjetas de quiz, feedback verde/rojo, etc.)
+func _boton_estilo(btn: Button, bg: Color, fg: Color, borde: Color = Color.TRANSPARENT) -> void:
+	var base := StyleBoxFlat.new()
+	base.bg_color = bg
+	base.set_corner_radius_all(12)
+	base.content_margin_left = 14
+	base.content_margin_right = 14
+	base.content_margin_top = 8
+	base.content_margin_bottom = 8
+	if borde.a > 0.0:
+		base.set_border_width_all(3)
+		base.border_color = borde
+	var hover: StyleBoxFlat = base.duplicate()
+	hover.bg_color = bg.lightened(0.08)
+	var pressed: StyleBoxFlat = base.duplicate()
+	pressed.bg_color = bg.darkened(0.08)
+	btn.add_theme_stylebox_override("normal",   base)
+	btn.add_theme_stylebox_override("hover",    hover)
+	btn.add_theme_stylebox_override("pressed",  pressed)
+	btn.add_theme_stylebox_override("disabled", base.duplicate())
+	btn.add_theme_color_override("font_color",          fg)
+	btn.add_theme_color_override("font_hover_color",    fg)
+	btn.add_theme_color_override("font_pressed_color",  fg)
+	btn.add_theme_color_override("font_disabled_color", fg)
+
+# Pop de aparición (insignias, sprites) — pivote centrado tras el layout
+func _animar_pop(ctrl: Control) -> void:
+	ctrl.call_deferred("set_pivot_offset", ctrl.size / 2.0)
+	ctrl.scale = Vector2(0.2, 0.2)
+	ctrl.modulate.a = 0.0
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(ctrl, "scale", Vector2.ONE, 0.55).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(ctrl, "modulate:a", 1.0, 0.3)
 
 func _ruta_inicial() -> void:
 	print("SceneRouter: _ruta_inicial")
@@ -105,6 +208,10 @@ func _on_scene_ready(nombre: String) -> void:
 		"capitulo":   _init_capitulo(s)
 		"perfil":     _init_perfil(s)
 		_: pass
+	# Fade-in de la escena completa
+	if s is CanvasItem:
+		(s as CanvasItem).modulate.a = 0.0
+		create_tween().tween_property(s, "modulate:a", 1.0, 0.3)
 
 # API pública (para llamadas futuras desde otros AutoLoads)
 func ir_a(nombre: String) -> void:
@@ -139,8 +246,37 @@ func _init_onboarding(s: Node) -> void:
 
 	_ob_ni.text_changed.connect(_ob_on_nombre)
 	for i in _ob_btns.size():
-		(_ob_btns[i] as Button).pressed.connect(_ob_sel.bind(i))
+		var b := _ob_btns[i] as Button
+		b.pressed.connect(_ob_sel.bind(i))
+		# Escudo de la patrulla como icono del botón
+		var escudo_tex := load("res://assets/shields/shield_%s_v1.png" % PATRULLAS[i]) as Texture2D
+		if escudo_tex:
+			b.icon = escudo_tex
+			b.add_theme_constant_override("icon_max_width", 40)
+		_boton_estilo(b, COL_CREMA, COL_CAFE_OSC)
 	_ob_bi.pressed.connect(_ob_iniciar)
+
+	# Scouts de bienvenida en las esquinas inferiores
+	for datos in [["scout_boy_v1", true], ["scout_girl_v1", false]]:
+		var tex := load("res://assets/sprites/%s.png" % datos[0]) as Texture2D
+		if tex == null:
+			continue
+		var tr := TextureRect.new()
+		tr.texture = tex
+		tr.expand_mode = 3
+		tr.stretch_mode = 6
+		if datos[1]:
+			tr.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+			tr.offset_left = 16.0
+			tr.offset_right = 166.0
+		else:
+			tr.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+			tr.offset_left = -166.0
+			tr.offset_right = -16.0
+		tr.offset_top = -206.0
+		tr.offset_bottom = -16.0
+		s.add_child(tr)
+		_animar_pop(tr)
 	print("SceneRouter: onboarding listo")
 
 func _ob_on_nombre(_t: String) -> void:
@@ -152,7 +288,11 @@ func _ob_sel(idx: int) -> void:
 	print("SceneRouter: patrulla=", idx)
 	_patrulla_idx = idx
 	for j in _ob_btns.size():
-		(_ob_btns[j] as Button).modulate = Color(0.3, 1.0, 0.4) if j == idx else Color(1.0, 1.0, 1.0)
+		var b := _ob_btns[j] as Button
+		if j == idx:
+			_boton_estilo(b, COL_FOGATA, COL_CAFE_OSC)
+		else:
+			_boton_estilo(b, COL_CREMA, COL_CAFE_OSC)
 	_ob_bi.disabled = _ob_ni.text.strip_edges().length() < 2
 
 # ── mapa ─────────────────────────────────────────────────────────────────────
@@ -163,7 +303,8 @@ func _init_mapa(s: Node) -> void:
 	_mp_xp_lbl    = s.get_node("Header/XpLabel")      as Label
 	_mp_rango_lbl = s.get_node("Header/RangoLabel")   as Label
 	var perfil_btn := s.get_node("Header/PerfilBoton") as Button
-	var grid       := s.get_node("ScrollContainer/Grid") as GridContainer
+	var scroll     := s.get_node("ScrollContainer") as ScrollContainer
+	var senda      := s.get_node("ScrollContainer/Senda") as Control
 
 	nombre_lbl.text    = "%s - Patrulla %s" % [GameState.nombre_scout, GameState.patrulla]
 	_mp_xp_lbl.text    = "%d XP" % GameState.xp
@@ -183,28 +324,88 @@ func _init_mapa(s: Node) -> void:
 		header.add_child(escudo)
 		header.move_child(escudo, 0)
 
-	for cap in CAPITULOS:
-		var num: int  = cap["num"] as int
-		var btn       := Button.new()
-		btn.custom_minimum_size = Vector2(180, 120)
-		btn.add_theme_font_size_override("font_size", 16)
+	# ── Senda serpenteante ──
+	var ancho: float = get_tree().root.get_visible_rect().size.x - 24.0
+	var btn_w := 220.0
+	var btn_h := 90.0
+	var paso_y := 128.0
+	var x_frac := [0.16, 0.5, 0.84, 0.5]
+
+	var centros: Array[Vector2] = []
+	for i in CAPITULOS.size():
+		var cx: float = clamp(x_frac[i % 4] * ancho, btn_w / 2.0 + 10.0, ancho - btn_w / 2.0 - 10.0)
+		centros.append(Vector2(cx, 70.0 + i * paso_y))
+	senda.custom_minimum_size = Vector2(0, centros[centros.size() - 1].y + btn_h)
+
+	# Camino de tierra que conecta los capítulos
+	var linea := Line2D.new()
+	linea.width = 10.0
+	linea.default_color = Color(COL_CAFE, 0.9)
+	linea.joint_mode = Line2D.LINE_JOINT_ROUND
+	linea.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	linea.end_cap_mode = Line2D.LINE_CAP_ROUND
+	for c in centros:
+		linea.add_point(c)
+	senda.add_child(linea)
+
+	var y_actual := 0.0
+	for i in CAPITULOS.size():
+		var cap: Dictionary = CAPITULOS[i]
+		var num: int = cap["num"] as int
 		var desbloqueado := GameState.capitulo_desbloqueado(num)
 		var completado: bool = num in GameState.capitulos_completados
-		btn.text     = "Cap.%d\n%s" % [num, cap["nombre"]]
+		var actual := desbloqueado and not completado
+
+		var btn := Button.new()
+		btn.custom_minimum_size = Vector2(btn_w, btn_h)
+		btn.size = Vector2(btn_w, btn_h)
+		btn.position = centros[i] - Vector2(btn_w, btn_h) / 2.0
+		btn.add_theme_font_size_override("font_size", 15)
+		btn.text = "Cap.%d\n%s" % [num, cap["nombre"]]
 		btn.disabled = not desbloqueado
-		if completado:
-			btn.modulate = Color(0.6, 1.0, 0.6, 1)
-		elif not desbloqueado:
-			btn.modulate = Color(0.4, 0.4, 0.4, 1)
 		btn.pressed.connect(ir_a_capitulo.bind(num))
-		grid.add_child(btn)
+		if completado:
+			_boton_estilo(btn, COL_VERDE, COL_CREMA)
+		elif actual:
+			_boton_estilo(btn, COL_FOGATA, COL_CAFE_OSC)
+			y_actual = centros[i].y
+		else:
+			_boton_estilo(btn, Color(0.16, 0.13, 0.10), Color(0.62, 0.58, 0.52))
+		senda.add_child(btn)
+
+		if actual:
+			# Pulso del capítulo actual
+			btn.pivot_offset = Vector2(btn_w, btn_h) / 2.0
+			var tw := btn.create_tween().set_loops()
+			tw.tween_property(btn, "scale", Vector2(1.05, 1.05), 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tw.tween_property(btn, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+		if completado:
+			# Insignia ganada sobre la esquina del nodo
+			var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % num) as Texture2D
+			if badge_tex:
+				var tr := TextureRect.new()
+				tr.texture = badge_tex
+				tr.size = Vector2(46, 46)
+				tr.expand_mode = 3
+				tr.stretch_mode = 6
+				tr.position = btn.position + Vector2(btn_w - 32.0, -16.0)
+				senda.add_child(tr)
+
+	# Centrar el scroll en el capítulo actual
+	if y_actual > 0.0:
+		scroll.set_deferred("scroll_vertical", int(max(0.0, y_actual - 220.0)))
 
 	if not GameState.xp_changed.is_connected(_mp_on_xp):
 		GameState.xp_changed.connect(_mp_on_xp)
 	print("SceneRouter: mapa listo")
 
 func _mp_on_xp(nuevo_xp: int) -> void:
-	if _mp_xp_lbl:    _mp_xp_lbl.text    = "%d XP" % nuevo_xp
+	if _mp_xp_lbl:
+		_mp_xp_lbl.text = "%d XP" % nuevo_xp
+		# Destello dorado al ganar XP
+		_mp_xp_lbl.modulate = Color(1.6, 1.35, 0.6)
+		create_tween().tween_property(_mp_xp_lbl, "modulate", Color.WHITE, 0.7)
 	if _mp_rango_lbl: _mp_rango_lbl.text = GameState.rango
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -218,6 +419,22 @@ var _cap_escena_idx: int = 0
 var _cap_quiz_idx: int = 0
 var _cap_correctas: int = 0
 var _cap_estado: int = 0  # 0=jugando, 1=aprobado, 2=reprobado
+var _tw_texto: Tween = null
+
+# mini-juego (escena tipo "juego" con datos estructurados)
+var _jg_escena: Dictionary = {}
+var _jg_decision_idx: int = 0
+var _jg_bio_idx: int = 0
+
+# Texto con efecto máquina de escribir
+func _texto_typewriter(lbl: RichTextLabel, texto: String) -> void:
+	if _tw_texto and _tw_texto.is_valid():
+		_tw_texto.kill()
+	lbl.text = texto
+	lbl.visible_ratio = 0.0
+	var dur: float = clamp(texto.length() * 0.018, 0.4, 2.2)
+	_tw_texto = create_tween()
+	_tw_texto.tween_property(lbl, "visible_ratio", 1.0, dur)
 
 func _init_capitulo(s: Node) -> void:
 	_cap_s = s
@@ -261,10 +478,13 @@ func _cap_mostrar_escena(idx: int) -> void:
 	var quiz_panel   := s.get_node("ContenidoArea/QuizPanel") as Control
 	var btn_sig      := s.get_node("Footer/BotonSiguiente") as Button
 
+	var juego_panel := s.get_node("ContenidoArea/JuegoPanel") as Control
+
 	titulo_lbl.text = "Cap.%d — %s" % [_capitulo_activo, CAPITULOS[_capitulo_activo - 1]["nombre"]]
 	progreso_lbl.text = "Escena %d / %d" % [idx + 1, _cap_escenas.size()]
 	narr_panel.visible = false
 	quiz_panel.visible = false
+	juego_panel.visible = false
 
 	if idx >= _cap_escenas.size():
 		return
@@ -278,6 +498,11 @@ func _cap_mostrar_escena(idx: int) -> void:
 		_cap_correctas = 0
 		quiz_panel.visible = true
 		_cap_mostrar_pregunta()
+	elif tipo == "juego" and escena.has("decisiones"):
+		# Mini-juego interactivo: decisiones + completar biografía
+		btn_sig.visible = false
+		juego_panel.visible = true
+		_jg_iniciar(escena)
 	else:
 		btn_sig.text = "Siguiente ->"
 		btn_sig.visible = true
@@ -285,22 +510,27 @@ func _cap_mostrar_escena(idx: int) -> void:
 		var personaje_lbl := s.get_node("ContenidoArea/NarracionPanel/PersonajeLabel") as Label
 		var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/DialogoLabel") as RichTextLabel
 		var imagen_rect   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/ImagenRect") as TextureRect
+		var texto := ""
 		match tipo:
 			"narracion":
 				personaje_lbl.text = "Historia"
-				dialogo_lbl.text = escena.get("dialogo_muestra", escena.get("contenido", ""))
+				texto = escena.get("dialogo_muestra", escena.get("contenido", ""))
 			"animacion":
 				personaje_lbl.text = "Secuencia"
-				dialogo_lbl.text = escena.get("contenido", "")
+				texto = escena.get("contenido", "")
 			"juego":
 				personaje_lbl.text = "Actividad"
-				dialogo_lbl.text = escena.get("contenido", "")
+				texto = escena.get("contenido", "")
+		_texto_typewriter(dialogo_lbl, texto)
 		# Mostrar sprite del capítulo en narracion y animacion
+		imagen_rect.scale = Vector2.ONE
 		if tipo in ["narracion", "animacion"] and CAP_SPRITES.has(_capitulo_activo):
 			var tex := load(CAP_SPRITES[_capitulo_activo]) as Texture2D
 			if tex:
 				imagen_rect.texture = tex
 				imagen_rect.visible = true
+				imagen_rect.modulate.a = 0.0
+				create_tween().tween_property(imagen_rect, "modulate:a", 1.0, 0.4)
 			else:
 				imagen_rect.visible = false
 		else:
@@ -324,6 +554,145 @@ func _cap_siguiente() -> void:
 					return
 		_:
 			_cap_mostrar_escena(_cap_escena_idx + 1)
+
+# ── mini-juego: decisiones "¿Qué haría B.P.?" + completar biografía ─────────
+
+func _jg_nodos() -> Dictionary:
+	return {
+		"titulo":   _cap_s.get_node("ContenidoArea/JuegoPanel/JuegoTitulo") as Label,
+		"texto":    _cap_s.get_node("ContenidoArea/JuegoPanel/JuegoTexto") as RichTextLabel,
+		"opciones": _cap_s.get_node("ContenidoArea/JuegoPanel/JuegoOpciones") as VBoxContainer,
+		"banco":    _cap_s.get_node("ContenidoArea/JuegoPanel/JuegoBanco") as HFlowContainer,
+		"retro":    _cap_s.get_node("ContenidoArea/JuegoPanel/JuegoRetro") as Label,
+	}
+
+func _jg_limpiar(n: Dictionary) -> void:
+	for c in (n["opciones"] as Node).get_children():
+		c.queue_free()
+	for c in (n["banco"] as Node).get_children():
+		c.queue_free()
+	(n["retro"] as Label).visible = false
+
+func _jg_iniciar(escena: Dictionary) -> void:
+	_jg_escena = escena
+	_jg_decision_idx = 0
+	_jg_bio_idx = 0
+	_jg_mostrar_decision()
+
+func _jg_mostrar_decision() -> void:
+	var decisiones: Array = _jg_escena.get("decisiones", [])
+	if _jg_decision_idx >= decisiones.size():
+		_jg_mostrar_biografia()
+		return
+	var n := _jg_nodos()
+	_jg_limpiar(n)
+	(n["titulo"] as Label).text = "¿Qué haría B.P.? (%d/%d)" % [_jg_decision_idx + 1, decisiones.size()]
+	_texto_typewriter(n["texto"] as RichTextLabel, str(decisiones[_jg_decision_idx].get("situacion", "")))
+	for op in decisiones[_jg_decision_idx].get("opciones", []):
+		var btn := Button.new()
+		btn.text = str(op.get("texto", ""))
+		btn.custom_minimum_size = Vector2(0, 56)
+		btn.add_theme_font_size_override("font_size", 18)
+		_boton_estilo(btn, COL_CREMA, COL_CAFE_OSC)
+		btn.pressed.connect(_jg_responder.bind(op, btn))
+		(n["opciones"] as Node).add_child(btn)
+
+func _jg_responder(op: Dictionary, btn: Button) -> void:
+	var n := _jg_nodos()
+	var retro := n["retro"] as Label
+	retro.text = str(op.get("retro", ""))
+	retro.visible = true
+	if op.get("correcta", false):
+		_boton_estilo(btn, COL_VERDE, COL_CREMA)
+		retro.add_theme_color_override("font_color", Color(0.55, 0.95, 0.55))
+		for c in (n["opciones"] as Node).get_children():
+			(c as Button).disabled = true
+		# XP por decisión (Fase2: +10 c/u, solo la primera vez)
+		if GameState.marcar_escena_vista(_capitulo_activo, 100 + _jg_decision_idx):
+			GameState.dar_xp(10)
+		_jg_decision_idx += 1
+		get_tree().create_timer(2.4).timeout.connect(_jg_mostrar_decision, CONNECT_ONE_SHOT)
+	else:
+		# Incorrecta: retro + permite reintentar con la otra opción
+		_boton_estilo(btn, COL_ROJO, COL_CREMA)
+		btn.disabled = true
+		retro.add_theme_color_override("font_color", Color(1.0, 0.55, 0.5))
+
+func _jg_mostrar_biografia() -> void:
+	var bio: Dictionary = _jg_escena.get("biografia", {})
+	if bio.is_empty():
+		_jg_terminar()
+		return
+	var n := _jg_nodos()
+	_jg_limpiar(n)
+	(n["titulo"] as Label).text = "Completa la biografía de B.P."
+	_jg_bio_idx = 0
+	_jg_render_biografia(n)
+	var palabras: Array = []
+	for r in bio.get("respuestas", []):
+		palabras.append(str(r))
+	for d in bio.get("distractores", []):
+		palabras.append(str(d))
+	palabras.shuffle()
+	for p in palabras:
+		var btn := Button.new()
+		btn.text = str(p)
+		btn.custom_minimum_size = Vector2(0, 48)
+		btn.add_theme_font_size_override("font_size", 17)
+		_boton_estilo(btn, COL_CREMA, COL_CAFE_OSC)
+		btn.pressed.connect(_jg_palabra.bind(str(p), btn))
+		(n["banco"] as Node).add_child(btn)
+
+func _jg_render_biografia(n: Dictionary) -> void:
+	if _tw_texto and _tw_texto.is_valid():
+		_tw_texto.kill()
+	(n["texto"] as RichTextLabel).visible_ratio = 1.0
+	var bio: Dictionary = _jg_escena.get("biografia", {})
+	var texto: String = str(bio.get("plantilla", ""))
+	var respuestas: Array = bio.get("respuestas", [])
+	for i in respuestas.size():
+		var marca := "[%d]" % (i + 1)
+		if i < _jg_bio_idx:
+			texto = texto.replace(marca, "[color=#F2A93B][b]%s[/b][/color]" % str(respuestas[i]))
+		elif i == _jg_bio_idx:
+			texto = texto.replace(marca, "[color=#F2A93B][b]______[/b][/color]")
+		else:
+			texto = texto.replace(marca, "______")
+	(n["texto"] as RichTextLabel).text = texto
+
+func _jg_palabra(palabra: String, btn: Button) -> void:
+	var bio: Dictionary = _jg_escena.get("biografia", {})
+	var respuestas: Array = bio.get("respuestas", [])
+	var n := _jg_nodos()
+	var retro := n["retro"] as Label
+	if _jg_bio_idx < respuestas.size() and palabra == str(respuestas[_jg_bio_idx]):
+		_jg_bio_idx += 1
+		btn.visible = false
+		retro.visible = false
+		_jg_render_biografia(n)
+		if _jg_bio_idx >= respuestas.size():
+			# Biografía completada (Fase2: +20, solo la primera vez)
+			if GameState.marcar_escena_vista(_capitulo_activo, 200):
+				GameState.dar_xp(20)
+			retro.text = "¡Biografía completada! +20 XP"
+			retro.add_theme_color_override("font_color", COL_FOGATA)
+			retro.visible = true
+			_jg_terminar()
+	else:
+		retro.text = "Ese dato no va en el espacio resaltado. ¡Intenta con otro!"
+		retro.add_theme_color_override("font_color", Color(1.0, 0.55, 0.5))
+		retro.visible = true
+		_boton_estilo(btn, COL_ROJO, COL_CREMA)
+		get_tree().create_timer(0.6).timeout.connect(_jg_reset_palabra.bind(btn), CONNECT_ONE_SHOT)
+
+func _jg_reset_palabra(btn: Button) -> void:
+	if is_instance_valid(btn):
+		_boton_estilo(btn, COL_CREMA, COL_CAFE_OSC)
+
+func _jg_terminar() -> void:
+	var btn_sig := _cap_s.get_node("Footer/BotonSiguiente") as Button
+	btn_sig.text = "Siguiente ->"
+	btn_sig.visible = true
 
 func _cap_mostrar_pregunta() -> void:
 	if _cap_quiz_idx >= _cap_preguntas.size():
@@ -358,19 +727,24 @@ func _cap_mostrar_pregunta() -> void:
 		btn.text = str(opcion)
 		btn.custom_minimum_size = Vector2(0, 52)
 		btn.add_theme_font_size_override("font_size", 18)
-		btn.pressed.connect(_cap_responder.bind(str(opcion), correcta, resultado_lbl, opciones_box))
+		_boton_estilo(btn, COL_CREMA, COL_CAFE_OSC)
+		btn.pressed.connect(_cap_responder.bind(str(opcion), correcta, resultado_lbl, opciones_box, btn))
 		opciones_box.add_child(btn)
 
-func _cap_responder(opcion: String, correcta: String, resultado_lbl: Label, opciones_box: VBoxContainer) -> void:
+func _cap_responder(opcion: String, correcta: String, resultado_lbl: Label, opciones_box: VBoxContainer, btn: Button) -> void:
 	for child in opciones_box.get_children():
-		(child as Button).disabled = true
+		var c := child as Button
+		c.disabled = true
+		if c.text == correcta:
+			_boton_estilo(c, COL_VERDE, COL_CREMA)
 	if opcion == correcta:
 		_cap_correctas += 1
-		resultado_lbl.text = "Correcto!"
-		resultado_lbl.add_theme_color_override("font_color", Color(0.3, 1.0, 0.4))
+		resultado_lbl.text = "¡Correcto!"
+		resultado_lbl.add_theme_color_override("font_color", Color(0.55, 0.95, 0.55))
 	else:
+		_boton_estilo(btn, COL_ROJO, COL_CREMA)
 		resultado_lbl.text = "Incorrecto. Era: " + correcta
-		resultado_lbl.add_theme_color_override("font_color", Color(1.0, 0.4, 0.4))
+		resultado_lbl.add_theme_color_override("font_color", Color(1.0, 0.55, 0.5))
 	resultado_lbl.visible = true
 	get_tree().create_timer(1.5).timeout.connect(_cap_avanzar_quiz, CONNECT_ONE_SHOT)
 
@@ -412,17 +786,18 @@ func _cap_quiz_fin() -> void:
 		GameState.dar_xp(xp_ganado)
 		SaveManager.guardar()
 		btn_sig.text = "Volver al Mapa"
-		personaje_lbl.text = "Capitulo completado!"
-		dialogo_lbl.text = "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capitulo y ganado [color=yellow]%d XP[/color]!" % [_cap_correctas, total, pct, xp_ganado]
+		personaje_lbl.text = "¡Capítulo completado!"
+		_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capítulo y ganado [color=#F2A93B]%d XP[/color]. ¡Ganaste la insignia del capítulo!" % [_cap_correctas, total, pct, xp_ganado])
 		var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % _capitulo_activo) as Texture2D
 		if badge_tex and imagen_rect:
 			imagen_rect.texture = badge_tex
 			imagen_rect.visible = true
+			_animar_pop(imagen_rect)
 	else:
 		_cap_estado = 2
 		btn_sig.text = "Reintentar"
 		personaje_lbl.text = "Sigue intentando"
-		dialogo_lbl.text = "[b]%d/%d correctas (%.0f%%)[/b]\n\nNecesitas al menos %.0f%%. Puedes intentarlo de nuevo." % [_cap_correctas, total, pct, min_pct]
+		_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nNecesitas al menos %.0f%%. Puedes intentarlo de nuevo." % [_cap_correctas, total, pct, min_pct])
 
 # ── perfil ───────────────────────────────────────────────────────────────────
 
@@ -453,6 +828,7 @@ func _init_perfil(s: Node) -> void:
 				tr.stretch_mode = 6
 				tr.tooltip_text = "Cap.%d" % n
 				grid_ins.add_child(tr)
+				_animar_pop(tr)
 		vbox.add_child(grid_ins)
 		vbox.move_child(grid_ins, vbox.get_children().find(s.get_node("VBox/InsigniasLabel")) + 1)
 
