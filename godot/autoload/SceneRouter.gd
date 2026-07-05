@@ -171,6 +171,18 @@ func _init_mapa(s: Node) -> void:
 
 	perfil_btn.pressed.connect(func(): _ir_a("perfil"))
 
+	# Escudo de patrulla en el header
+	var header := s.get_node("Header") as HBoxContainer
+	var shield_tex := load("res://assets/shields/shield_%s_v1.png" % GameState.patrulla) as Texture2D
+	if shield_tex:
+		var escudo := TextureRect.new()
+		escudo.texture = shield_tex
+		escudo.custom_minimum_size = Vector2(52, 52)
+		escudo.expand_mode = 3
+		escudo.stretch_mode = 6
+		header.add_child(escudo)
+		header.move_child(escudo, 0)
+
 	for cap in CAPITULOS:
 		var num: int  = cap["num"] as int
 		var btn       := Button.new()
@@ -373,7 +385,8 @@ func _cap_quiz_fin() -> void:
 	var btn_sig       := s.get_node("Footer/BotonSiguiente") as Button
 	var progreso_lbl  := s.get_node("Header/ProgresoLabel") as Label
 	var personaje_lbl := s.get_node("ContenidoArea/NarracionPanel/PersonajeLabel") as Label
-	var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/DialogoLabel") as RichTextLabel
+	var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/DialogoLabel") as RichTextLabel
+	var imagen_rect   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/ImagenRect") as TextureRect
 
 	quiz_panel.visible = false
 	narr_panel.visible = true
@@ -401,6 +414,10 @@ func _cap_quiz_fin() -> void:
 		btn_sig.text = "Volver al Mapa"
 		personaje_lbl.text = "Capitulo completado!"
 		dialogo_lbl.text = "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capitulo y ganado [color=yellow]%d XP[/color]!" % [_cap_correctas, total, pct, xp_ganado]
+		var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % _capitulo_activo) as Texture2D
+		if badge_tex and imagen_rect:
+			imagen_rect.texture = badge_tex
+			imagen_rect.visible = true
 	else:
 		_cap_estado = 2
 		btn_sig.text = "Reintentar"
@@ -418,22 +435,26 @@ func _init_perfil(s: Node) -> void:
 	(s.get_node("VBox/XpLabel")        as Label).text = "XP total: %d" % GameState.xp
 	(s.get_node("VBox/InsigniasLabel") as Label).text = "Capitulos completados: %d / 12" % GameState.capitulos_completados.size()
 
-	# Lista de capítulos completados
+	# Grid de insignias ganadas
 	var vbox := s.get_node("VBox") as VBoxContainer
 	if GameState.capitulos_completados.size() > 0:
-		var detalle := RichTextLabel.new()
-		detalle.bbcode_enabled = true
-		detalle.fit_content = true
-		detalle.add_theme_font_size_override("normal_font_size", 16)
-		var lineas := "[color=aaffaa]"
+		var grid_ins := GridContainer.new()
+		grid_ins.columns = 6
+		grid_ins.add_theme_constant_override("h_separation", 8)
+		grid_ins.add_theme_constant_override("v_separation", 8)
 		for num in GameState.capitulos_completados:
-			var idx: int = (num as int) - 1
-			if idx >= 0 and idx < CAPITULOS.size():
-				lineas += "  Cap.%d — %s\n" % [num, CAPITULOS[idx]["nombre"]]
-		lineas += "[/color]"
-		detalle.text = lineas
-		vbox.add_child(detalle)
-		vbox.move_child(detalle, vbox.get_children().find(s.get_node("VBox/InsigniasLabel")) + 1)
+			var n := num as int
+			var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % n) as Texture2D
+			if badge_tex:
+				var tr := TextureRect.new()
+				tr.texture = badge_tex
+				tr.custom_minimum_size = Vector2(60, 60)
+				tr.expand_mode = 3
+				tr.stretch_mode = 6
+				tr.tooltip_text = "Cap.%d" % n
+				grid_ins.add_child(tr)
+		vbox.add_child(grid_ins)
+		vbox.move_child(grid_ins, vbox.get_children().find(s.get_node("VBox/InsigniasLabel")) + 1)
 
 	_pf_borrar_confirmando = false
 	var btn_mapa   := s.get_node("VBox/BotonMapa")   as Button
