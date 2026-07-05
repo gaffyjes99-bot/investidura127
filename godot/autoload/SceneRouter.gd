@@ -10,6 +10,21 @@ const ESCENAS := {
 
 const PATRULLAS := ["Jaguares", "Lobos", "Mapaches", "Pandas"]
 
+const CAP_SPRITES := {
+	1:  "res://assets/sprites/bp_young_talking_v1.png",
+	2:  "res://assets/sprites/bp_young_v1.png",
+	3:  "res://assets/sprites/scout_boy_talking_v1.png",
+	4:  "res://assets/sprites/scout_girl_v1.png",
+	5:  "res://assets/sprites/akela_talking_v1.png",
+	6:  "res://assets/sprites/scout_boy_v1.png",
+	7:  "res://assets/sprites/scout_girl_celebrate_v1.png",
+	8:  "res://assets/sprites/baloo_talking_v1.png",
+	9:  "res://assets/sprites/kaa_v1.png",
+	10: "res://assets/sprites/wontolla_talking_v1.png",
+	11: "res://assets/sprites/jacala_v1.png",
+	12: "res://assets/sprites/kotick_celebrate_v1.png",
+}
+
 const CAPITULOS := [
 	{"num": 1,  "nombre": "El Origen del Fuego"},
 	{"num": 2,  "nombre": "El Codigo del Explorador"},
@@ -256,7 +271,8 @@ func _cap_mostrar_escena(idx: int) -> void:
 		btn_sig.visible = true
 		narr_panel.visible = true
 		var personaje_lbl := s.get_node("ContenidoArea/NarracionPanel/PersonajeLabel") as Label
-		var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/DialogoLabel") as RichTextLabel
+		var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/DialogoLabel") as RichTextLabel
+		var imagen_rect   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/ImagenRect") as TextureRect
 		match tipo:
 			"narracion":
 				personaje_lbl.text = "Historia"
@@ -267,6 +283,16 @@ func _cap_mostrar_escena(idx: int) -> void:
 			"juego":
 				personaje_lbl.text = "Actividad"
 				dialogo_lbl.text = escena.get("contenido", "")
+		# Mostrar sprite del capítulo en narracion y animacion
+		if tipo in ["narracion", "animacion"] and CAP_SPRITES.has(_capitulo_activo):
+			var tex := load(CAP_SPRITES[_capitulo_activo]) as Texture2D
+			if tex:
+				imagen_rect.texture = tex
+				imagen_rect.visible = true
+			else:
+				imagen_rect.visible = false
+		else:
+			imagen_rect.visible = false
 		var primera_vez := GameState.marcar_escena_vista(_capitulo_activo, idx)
 		if primera_vez:
 			var xp: int = escena.get("xp", 0) as int

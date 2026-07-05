@@ -52,7 +52,7 @@ offset_left = 40.0
 offset_top = 20.0
 offset_right = -40.0
 offset_bottom = -20.0
-theme_override_constants/separation = 20
+theme_override_constants/separation = 16
 visible = false
 
 [node name="PersonajeLabel" type="Label" parent="ContenidoArea/NarracionPanel"]
@@ -61,13 +61,27 @@ theme_override_font_sizes/font_size = 20
 theme_override_colors/font_color = Color(0.95, 0.78, 0.2, 1)
 text = "Narrador"
 
-[node name="DialogoLabel" type="RichTextLabel" parent="ContenidoArea/NarracionPanel"]
+[node name="ContentRow" type="HBoxContainer" parent="ContenidoArea/NarracionPanel"]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="DialogoLabel" type="RichTextLabel" parent="ContenidoArea/NarracionPanel/ContentRow"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 fit_content = false
 text = ""
+
+[node name="ImagenRect" type="TextureRect" parent="ContenidoArea/NarracionPanel/ContentRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(220, 0)
+size_flags_vertical = 3
+expand_mode = 3
+stretch_mode = 6
+visible = false
 
 [node name="QuizPanel" type="VBoxContainer" parent="ContenidoArea"]
 layout_mode = 1
