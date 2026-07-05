@@ -1,15 +1,6 @@
 [gd_scene format=3]
 
-[sub_resource type="GDScript" id="GDScript_1"]
-script/source = "extends Control
-
-func _ready() -> void:
-	($CargandoLabel as Label).text = \"Script OK\"
-	print(\"main _ready ejecutado\")
-	get_tree().change_scene_to_file(\"res://scenes/onboarding/onboarding.tscn\")
-"
-
-[node name="Main" type="Control" script=SubResource("GDScript_1")]
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -45,8 +45,14 @@ func cargar() -> bool:
 	GameState.patrulla = datos.get("patrulla", "")
 	GameState.xp = datos.get("xp", 0)
 	GameState.rango = datos.get("rango", "Pietierno")
-	GameState.capitulos_completados = datos.get("capitulos_completados", [])
-	GameState.insignias = datos.get("insignias", [])
+	var caps: Array[int] = []
+	for c in datos.get("capitulos_completados", []):
+		caps.append(c as int)
+	GameState.capitulos_completados = caps
+	var insig: Array[int] = []
+	for i in datos.get("insignias", []):
+		insig.append(i as int)
+	GameState.insignias = insig
 	GameState.escenas_vistas = datos.get("escenas_vistas", {})
 	return true
 
