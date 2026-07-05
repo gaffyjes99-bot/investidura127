@@ -88,6 +88,7 @@ func _on_scene_ready(nombre: String) -> void:
 		"onboarding": _init_onboarding(s)
 		"mapa":       _init_mapa(s)
 		"capitulo":   _init_capitulo(s)
+		"perfil":     _init_perfil(s)
 		_: pass
 
 # API pública (para llamadas futuras desde otros AutoLoads)
@@ -379,6 +380,58 @@ func _cap_quiz_fin() -> void:
 		btn_sig.text = "Reintentar"
 		personaje_lbl.text = "Sigue intentando"
 		dialogo_lbl.text = "[b]%d/%d correctas (%.0f%%)[/b]\n\nNecesitas al menos %.0f%%. Puedes intentarlo de nuevo." % [_cap_correctas, total, pct, min_pct]
+
+# ── perfil ───────────────────────────────────────────────────────────────────
+
+var _pf_borrar_confirmando: bool = false
+
+func _init_perfil(s: Node) -> void:
+	(s.get_node("VBox/NombreLabel")    as Label).text = "Scout: %s" % GameState.nombre_scout
+	(s.get_node("VBox/PatrullaLabel")  as Label).text = "Patrulla: %s" % GameState.patrulla
+	(s.get_node("VBox/RangoLabel")     as Label).text = "Rango: %s" % GameState.rango
+	(s.get_node("VBox/XpLabel")        as Label).text = "XP total: %d" % GameState.xp
+	(s.get_node("VBox/InsigniasLabel") as Label).text = "Capitulos completados: %d / 12" % GameState.capitulos_completados.size()
+
+	# Lista de capítulos completados
+	var vbox := s.get_node("VBox") as VBoxContainer
+	if GameState.capitulos_completados.size() > 0:
+		var detalle := RichTextLabel.new()
+		detalle.bbcode_enabled = true
+		detalle.fit_content = true
+		detalle.add_theme_font_size_override("normal_font_size", 16)
+		var lineas := "[color=aaffaa]"
+		for num in GameState.capitulos_completados:
+			var idx: int = (num as int) - 1
+			if idx >= 0 and idx < CAPITULOS.size():
+				lineas += "  Cap.%d — %s\n" % [num, CAPITULOS[idx]["nombre"]]
+		lineas += "[/color]"
+		detalle.text = lineas
+		vbox.add_child(detalle)
+		vbox.move_child(detalle, vbox.get_children().find(s.get_node("VBox/InsigniasLabel")) + 1)
+
+	_pf_borrar_confirmando = false
+	var btn_mapa   := s.get_node("VBox/BotonMapa")   as Button
+	var btn_borrar := s.get_node("VBox/BotonBorrar") as Button
+	btn_mapa.text = "<- Volver al Mapa"
+	btn_mapa.pressed.connect(func(): _ir_a("mapa"))
+	btn_borrar.pressed.connect(_pf_borrar.bind(btn_borrar))
+	print("SceneRouter: perfil listo")
+
+func _pf_borrar(btn: Button) -> void:
+	if not _pf_borrar_confirmando:
+		_pf_borrar_confirmando = true
+		btn.text = "Presiona de nuevo para confirmar"
+		btn.add_theme_color_override("font_color", Color(1.0, 0.4, 0.4))
+	else:
+		SaveManager.borrar()
+		GameState.nombre_scout = ""
+		GameState.patrulla     = ""
+		GameState.xp           = 0
+		GameState.rango        = "Pietierno"
+		GameState.capitulos_completados.clear()
+		GameState.insignias.clear()
+		GameState.escenas_vistas.clear()
+		_ir_a("onboarding")
 
 # ─────────────────────────────────────────────────────────────────────────────
 
