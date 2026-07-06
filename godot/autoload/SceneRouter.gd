@@ -961,6 +961,8 @@ func _cap_quiz_fin() -> void:
 		_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capítulo y ganado [color=#F2A93B]%d XP[/color]. ¡Ganaste la insignia del capítulo!" % [_cap_correctas, total, pct, xp_ganado])
 		var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % _capitulo_activo) as Texture2D
 		if badge_tex and imagen_rect:
+			imagen_rect.expand_mode = 0
+			imagen_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			imagen_rect.texture = badge_tex
 			imagen_rect.visible = true
 			_animar_pop(imagen_rect)
