@@ -22,12 +22,25 @@ claude
 🟢 Validación técnica — Proyecto Godot mínimo exportado a Web y probado (incluye Safari/iPhone): **Completa**
 🟢 Fase 1 — Extracción de contenidos: **Completa** (matriz maestra + banco de 120 preguntas)
 🟢 Fase 2 — Guion pedagógico y de juego: **Completa** (guion.md, escenas.json, preguntas.json en cada capítulo + docs/Fase2_Guion_Pedagogico.md)
-🟢 Fase 3 — Storyboard: **Especificación completa** (docs/Fase3_Guia_de_Estilo.md + docs/Fase3_Storyboard_48_Escenas.md). Pendiente: boceto visual real a cargo del diseñador/ilustrador en Excalidraw.
-⬜ Fase 4 — Producción gráfica
+🟢 Fase 3 — Storyboard: **Especificación completa** (docs/Fase3_Guia_de_Estilo.md + docs/Fase3_Storyboard_48_Escenas.md)
+🟡 Fase 4 — Producción gráfica: **En curso, ajustada a equipo de 1 persona** — arte generado con IA local (Stable Diffusion/Fooocus), prompts listos en docs/Fase4_Prompts_Generacion_Arte.md
+⬜ Fase 5 en adelante
+
+## Stack & Arquitectura Técnica
+- **Frontend:** Godot Engine 4 → export HTML5 → GitHub Pages (costo: $0)
+- **Backend de sincronización:** Firestore (Google, proyecto existente `fichas-actividad-scout` del Grupo 127, reutilizado sin costo adicional)
+  - Nueva colección: `libro_interactivo_progreso` (coexiste con colecciones existentes `scouts`, `progresion_scouts`, etc.)
+- **Identificación del usuario:** nombre scout + patrulla elegidos por el usuario en el app, **sin email**. Se vincula automáticamente con el scoutId en la colección `scouts` existente.
+- **Privacidad:** progreso guardado localmente en el dispositivo + sincronizado automáticamente a Firestore. Sin datos personales sensibles (progreso educativo únicamente). Sujeto a Terms of Service de Google / Privacy de Firestore.
+- **Panel dirigente:** nueva sección en la app React existente (`scouts-app`), accesible solo para jefes autenticados, que muestra progreso del Libro Interactivo y permite validaciones.
+
+## Nota sobre el equipo
+El proyecto se ejecuta con **una sola persona**. El cronograma y roles del Plan Maestro original (§6) asumían un equipo de 5-6 voluntarios; se ajustó para producir arte con IA en vez de ilustración manual, lo que reduce significativamente el tiempo de Fases 3-6.
 
 ## Documentación
 - `/docs/Plan_Completo_Libro_Interactivo_Investidura.md` — plan maestro completo (fases, gamificación, cronograma, equipo, asignación de modelos Claude)
 - `/docs/Matriz_Maestra_Contenidos.xlsx` — matriz de los 12 capítulos vs. requisitos de investidura
+- `/docs/Firebase_Especificacion_Tecnica.md` — cómo funciona la sincronización de progreso en tiempo real (Fase 7)
 
 ## Estructura
 ```
