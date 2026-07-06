@@ -399,19 +399,16 @@ func _init_mapa(s: Node) -> void:
 			# Insignia ganada sobre la esquina del nodo
 			var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % num) as Texture2D
 			if badge_tex:
-				var clip := Control.new()
-				clip.clip_contents = true
-				clip.position = btn.position + Vector2(btn_w - 32.0, -16.0)
-				senda.add_child(clip)
-				clip.size = Vector2(46, 46)
 				var tr := TextureRect.new()
 				tr.texture = badge_tex
 				tr.expand_mode = 0
-				tr.stretch_mode = 6
-				clip.add_child(tr)
+				tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+				tr.custom_minimum_size = Vector2(46, 46)
+				tr.position = btn.position + Vector2(btn_w - 32.0, -16.0)
+				senda.add_child(tr)
 				tr.size = Vector2(46, 46)
 				if num == _ultimo_cap_completado:
-					_animar_pop(clip)
+					_animar_pop(tr)
 					_ultimo_cap_completado = 0
 
 	# Centrar el scroll en el capítulo actual

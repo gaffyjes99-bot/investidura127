@@ -79,7 +79,7 @@ text = ""
 layout_mode = 2
 custom_minimum_size = Vector2(220, 0)
 size_flags_vertical = 3
-expand_mode = 3
+expand_mode = 0
 stretch_mode = 6
 visible = false
 
