@@ -406,10 +406,10 @@ func _init_mapa(s: Node) -> void:
 				clip.size = Vector2(46, 46)
 				var tr := TextureRect.new()
 				tr.texture = badge_tex
-				tr.set_anchors_preset(Control.PRESET_FULL_RECT)
 				tr.expand_mode = 0
 				tr.stretch_mode = 6
 				clip.add_child(tr)
+				tr.size = Vector2(46, 46)
 				if num == _ultimo_cap_completado:
 					_animar_pop(clip)
 					_ultimo_cap_completado = 0
