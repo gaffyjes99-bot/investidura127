@@ -299,6 +299,21 @@ func _ob_sel(idx: int) -> void:
 
 func _init_mapa(s: Node) -> void:
 	print("SceneRouter: _init_mapa s=", s)
+	# Fondo ilustrado + velo oscuro para mantener legible la senda
+	var fondo_tex := load("res://assets/backgrounds/Fondo_Mapa_Senda1.png") as Texture2D
+	if fondo_tex:
+		var fondo := TextureRect.new()
+		fondo.texture = fondo_tex
+		fondo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		fondo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		fondo.set_anchors_preset(Control.PRESET_FULL_RECT)
+		s.add_child(fondo)
+		s.move_child(fondo, 1)
+		var velo := ColorRect.new()
+		velo.color = Color(0.04, 0.10, 0.06, 0.55)
+		velo.set_anchors_preset(Control.PRESET_FULL_RECT)
+		s.add_child(velo)
+		s.move_child(velo, 2)
 	var nombre_lbl := s.get_node("Header/NombreLabel") as Label
 	_mp_xp_lbl    = s.get_node("Header/XpLabel")      as Label
 	_mp_rango_lbl = s.get_node("Header/RangoLabel")   as Label
@@ -426,6 +441,12 @@ var _jg_escena: Dictionary = {}
 var _jg_decision_idx: int = 0
 var _jg_bio_idx: int = 0
 
+# Ken Burns animation mode
+var _anim_vinetas: Array = []
+var _anim_vineta_idx: int = 0
+var _anim_tw: Tween = null
+var _anim_icono_tw: Tween = null
+
 # Texto con efecto máquina de escribir
 func _texto_typewriter(lbl: RichTextLabel, texto: String) -> void:
 	if _tw_texto and _tw_texto.is_valid():
@@ -471,20 +492,23 @@ func _init_capitulo(s: Node) -> void:
 
 func _cap_mostrar_escena(idx: int) -> void:
 	_cap_escena_idx = idx
+	_anim_vinetas = []  # limpiar estado de animación al cambiar escena
 	var s := _cap_s
 	var titulo_lbl   := s.get_node("Header/TituloLabel") as Label
 	var progreso_lbl := s.get_node("Header/ProgresoLabel") as Label
 	var narr_panel   := s.get_node("ContenidoArea/NarracionPanel") as Control
 	var quiz_panel   := s.get_node("ContenidoArea/QuizPanel") as Control
 	var btn_sig      := s.get_node("Footer/BotonSiguiente") as Button
-
-	var juego_panel := s.get_node("ContenidoArea/JuegoPanel") as Control
+	var juego_panel  := s.get_node("ContenidoArea/JuegoPanel") as Control
+	var anim_panel   := s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
 
 	titulo_lbl.text = "Cap.%d — %s" % [_capitulo_activo, CAPITULOS[_capitulo_activo - 1]["nombre"]]
 	progreso_lbl.text = "Escena %d / %d" % [idx + 1, _cap_escenas.size()]
 	narr_panel.visible = false
 	quiz_panel.visible = false
 	juego_panel.visible = false
+	if anim_panel:
+		anim_panel.visible = false
 
 	if idx >= _cap_escenas.size():
 		return
@@ -503,6 +527,10 @@ func _cap_mostrar_escena(idx: int) -> void:
 		btn_sig.visible = false
 		juego_panel.visible = true
 		_jg_iniciar(escena)
+	elif tipo == "animacion" and escena.get("tecnica", "") == "ken_burns" and anim_panel != null:
+		btn_sig.visible = false
+		anim_panel.visible = true
+		_anim_iniciar(escena)
 	else:
 		btn_sig.text = "Siguiente ->"
 		btn_sig.visible = true
@@ -546,6 +574,14 @@ func _cap_mostrar_escena(idx: int) -> void:
 				GameState.dar_xp(xp)
 
 func _cap_siguiente() -> void:
+	# Intercept Ken Burns animation viñeta navigation
+	if _anim_vinetas.size() > 0:
+		_anim_vineta_idx += 1
+		if _anim_vineta_idx < _anim_vinetas.size():
+			_anim_mostrar_vineta()
+		else:
+			_anim_terminar()
+		return
 	match _cap_estado:
 		1:
 			_cap_estado = 0
@@ -558,6 +594,126 @@ func _cap_siguiente() -> void:
 					return
 		_:
 			_cap_mostrar_escena(_cap_escena_idx + 1)
+
+# ── Ken Burns: secuencia de viñetas con paneo/zoom ──────────────────────────
+
+func _anim_iniciar(escena: Dictionary) -> void:
+	_anim_vinetas = escena.get("vinetas", [])
+	_anim_vineta_idx = 0
+	if _anim_vinetas.is_empty():
+		_cap_mostrar_escena(_cap_escena_idx + 1)
+		return
+	_anim_mostrar_vineta()
+
+func _anim_mostrar_vineta() -> void:
+	var vineta: Dictionary = _anim_vinetas[_anim_vineta_idx]
+	var s := _cap_s
+	var anim_panel  := s.get_node("ContenidoArea/AnimacionPanel") as Control
+	var fondo       := anim_panel.get_node("FondoKenBurns")  as TextureRect
+	var titulo_lbl  := anim_panel.get_node("InfoBox/TituloVineta") as Label
+	var desc_lbl    := anim_panel.get_node("InfoBox/DescVineta")   as RichTextLabel
+	var contador_lbl := anim_panel.get_node("ContadorVineta")      as Label
+	var icono_lbl   := anim_panel.get_node("IconoVineta")          as Label
+	var btn_sig     := s.get_node("Footer/BotonSiguiente")         as Button
+
+	# Texto
+	titulo_lbl.text = vineta.get("titulo", "")
+	_texto_typewriter(desc_lbl, vineta.get("descripcion", ""))
+	icono_lbl.text = vineta.get("icono", "")
+
+	# Contador de puntos (●/○)
+	var n := _anim_vinetas.size()
+	var puntos := ""
+	for i in n:
+		puntos += ("● " if i == _anim_vineta_idx else "○ ")
+	contador_lbl.text = puntos.strip_edges()
+
+	# Sprite como ilustración de fondo
+	if CAP_SPRITES.has(_capitulo_activo):
+		var tex := load(CAP_SPRITES[_capitulo_activo]) as Texture2D
+		if tex:
+			fondo.texture = tex
+
+	# Tinte diferente por viñeta para distinguirlas visualmente
+	var tintes: Dictionary = {
+		"warm":   Color(1.0,  0.97, 0.85),
+		"cool":   Color(0.88, 0.93, 1.0),
+		"fire":   Color(1.0,  0.88, 0.78),
+		"nature": Color(0.88, 1.0,  0.88),
+	}
+	var tinte: Color = tintes.get(vineta.get("tinte", "warm"), Color.WHITE)
+	fondo.modulate = tinte
+	fondo.modulate.a = 0.0
+	fondo.scale = Vector2.ONE
+	fondo.position = Vector2.ZERO
+
+	if _anim_tw and _anim_tw.is_valid():
+		_anim_tw.kill()
+	if _anim_icono_tw and _anim_icono_tw.is_valid():
+		_anim_icono_tw.kill()
+
+	var es_ultima: bool = (_anim_vineta_idx >= _anim_vinetas.size() - 1)
+	btn_sig.text = "Siguiente ->" if es_ultima else ("Viñeta %d →" % (_anim_vineta_idx + 2))
+	btn_sig.visible = true
+
+	# Defer para que el layout compute el tamaño antes de animar
+	call_deferred("_anim_start_kb", vineta.get("movimiento", "zoom_in"))
+
+func _anim_start_kb(movimiento: String) -> void:
+	if _cap_s == null or not is_instance_valid(_cap_s):
+		return
+	var anim_panel := _cap_s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
+	if anim_panel == null:
+		return
+	var fondo     := anim_panel.get_node("FondoKenBurns") as TextureRect
+	var icono_lbl := anim_panel.get_node("IconoVineta")   as Label
+
+	fondo.pivot_offset = fondo.size / 2.0
+
+	_anim_tw = create_tween().set_parallel(true)
+	_anim_tw.tween_property(fondo, "modulate:a", 1.0, 0.5)
+
+	match movimiento:
+		"zoom_in":
+			fondo.scale = Vector2.ONE
+			fondo.position = Vector2.ZERO
+			_anim_tw.tween_property(fondo, "scale", Vector2(1.18, 1.18), 4.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		"pan_horizontal":
+			fondo.scale = Vector2(1.06, 1.06)
+			fondo.position = Vector2(-20, 0)
+			_anim_tw.tween_property(fondo, "position", Vector2(20, 0), 5.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		"zoom_horizonte":
+			fondo.scale = Vector2.ONE
+			fondo.position = Vector2.ZERO
+			_anim_tw.tween_property(fondo, "scale",    Vector2(1.14, 1.14), 4.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			_anim_tw.tween_property(fondo, "position", Vector2(0, -14),     4.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		"zoom_out":
+			fondo.scale = Vector2(1.18, 1.18)
+			fondo.position = Vector2.ZERO
+			_anim_tw.tween_property(fondo, "scale", Vector2.ONE, 5.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_:
+			fondo.scale = Vector2.ONE
+
+	# Elemento aislado: icono que pulsa en loop
+	_anim_icono_tw = icono_lbl.create_tween().set_loops()
+	_anim_icono_tw.tween_property(icono_lbl, "modulate:a", 0.45, 0.9)
+	_anim_icono_tw.tween_property(icono_lbl, "modulate:a", 1.0,  0.9)
+
+func _anim_terminar() -> void:
+	if _anim_tw and _anim_tw.is_valid():
+		_anim_tw.kill()
+	if _anim_icono_tw and _anim_icono_tw.is_valid():
+		_anim_icono_tw.kill()
+	var vinetas_tmp := _anim_vinetas
+	_anim_vinetas = []
+	_anim_vineta_idx = 0
+	# XP por ver la animación completa
+	var primera_vez := GameState.marcar_escena_vista(_capitulo_activo, _cap_escena_idx)
+	if primera_vez:
+		var xp: int = _cap_escenas[_cap_escena_idx].get("xp", 0) as int
+		if xp > 0:
+			GameState.dar_xp(xp)
+	_cap_mostrar_escena(_cap_escena_idx + 1)
 
 # ── mini-juego: decisiones "¿Qué haría B.P.?" + completar biografía ─────────
 

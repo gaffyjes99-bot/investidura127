@@ -13,8 +13,39 @@
     },
     {
       "tipo": "animacion",
+      "tecnica": "ken_burns",
       "contenido": "Secuencia de 4 viñetas animadas (no video completo, animación por capas en Godot): (1) B.P. niño acampando con sus hermanos en Inglaterra, (2) B.P. joven en la escuela de Charterhouse, (3) el sitio de Mafeking (217 días), (4) el campamento experimental en la isla de Brownsea con 20 muchachos divididos en 4 patrullas.",
-      "xp": 5
+      "xp": 5,
+      "vinetas": [
+        {
+          "titulo": "Los primeros pasos — Inglaterra",
+          "descripcion": "Robert de niño acampa con sus hermanos en la campiña inglesa. Sin saberlo, aprende las habilidades que un día enseñará al mundo.",
+          "icono": "💨",
+          "movimiento": "zoom_in",
+          "tinte": "warm"
+        },
+        {
+          "titulo": "Charterhouse, 1876",
+          "descripcion": "El joven Robert Stephenson Smyth destaca en Charterhouse: actor, deportista, portero de fútbol. Ojos atentos, mente despierta.",
+          "icono": "🍂",
+          "movimiento": "pan_horizontal",
+          "tinte": "cool"
+        },
+        {
+          "titulo": "El Sitio de Mafeking — 217 días",
+          "descripcion": "B.P. observa el horizonte desde la fortificación. El 'Lobo que nunca duerme' no bajará la guardia. La ciudad resistirá.",
+          "icono": "🚩",
+          "movimiento": "zoom_horizonte",
+          "tinte": "fire"
+        },
+        {
+          "titulo": "Isla de Brownsea, 1907",
+          "descripcion": "Primer campamento experimental: 20 muchachos, 4 patrullas, una fogata central. El Escultismo nace aquí.",
+          "icono": "🔥",
+          "movimiento": "zoom_out",
+          "tinte": "nature"
+        }
+      ]
     },
     {
       "tipo": "juego",
