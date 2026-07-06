@@ -372,3 +372,16 @@ Examen aprobado +100 | Examen perfecto +50 bonus | Validación de hogar +50 | Va
 🏅 Candidato a Investidura
 
 ---
+
+---
+
+## ⚠️ Nota técnica añadida tras validación en Claude Code
+
+Durante el desarrollo en Godot se detectó que la Escena 2 (Animación) del **Capítulo 1** pedía animación de personajes en acción histórica compleja (multitudes, batalla), fuera del alcance de un desarrollador solo en Godot 2D. Se corrigió reemplazándola por la **técnica Ken Burns** (paneo/zoom sobre ilustración estática + máximo 1-2 elementos aislados con loop simple de partículas o sprite de pocos frames). Ver `capitulos/01_el_origen_del_fuego/escenas.json` actualizado.
+
+**Revisar preventivamente con la misma lógica antes de que Claude Code llegue a estos capítulos**, porque tienen descripciones de animación potencialmente complejas:
+- **Cap. 7 (La Buena Acción):** la "animación narrativa completa" de la niebla de Londres y el encuentro con el Sr. Boyce — convertir a ilustraciones estáticas + Ken Burns, sin animar caminata de personajes por la calle.
+- **Cap. 9 (Formaciones y Bordón):** la animación "top-down de una tropa ejecutando formaciones" — en vez de animar cuerpos completos moviéndose, usar íconos/fichas simples (círculos o siluetas) que se deslizan a su posición final (esto sí es viable con Tween simple, ya es abstracto y no requiere personajes animados).
+- **Cap. 12 (La Gran Ceremonia):** la animación final de la ceremonia (pito → formación → bandera → Promesa → pañoleta → puente de tropa) es la más ambiciosa del proyecto — igualmente conviene resolverla como una secuencia de ilustraciones estáticas encadenadas con Ken Burns y transiciones (fundido/deslizamiento), no como animación de personaje completa. Dado que es la escena "joya" del producto, vale la pena revisarla con más detalle cuando se llegue a esa fase.
+
+**Regla general del proyecto:** ninguna escena requiere animación de personaje completo tipo video ni escenas de multitud animada. Todo se resuelve con ilustración estática + movimiento de cámara (Ken Burns) + máximo 1-2 elementos aislados en loop (partículas o sprites de pocos frames).

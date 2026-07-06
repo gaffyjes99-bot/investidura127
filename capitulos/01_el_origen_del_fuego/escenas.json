@@ -12,7 +12,34 @@
     },
     {
       "tipo": "animacion",
-      "contenido": "Secuencia de 4 viñetas animadas (no video completo, animación por capas en Godot): (1) B.P. niño acampando con sus hermanos en Inglaterra, (2) B.P. joven en la escuela de Charterhouse, (3) el sitio de Mafeking (217 días), (4) el campamento experimental en la isla de Brownsea con 20 muchachos divididos en 4 patrullas.",
+      "tecnica": "ken_burns",
+      "nota_tecnica": "Reemplaza animación de personajes/acción por paneo y zoom lento (Tween/AnimationPlayer) sobre 4 ilustraciones estáticas. Sin animación de cuerpo completo ni multitudes.",
+      "vinnetas": [
+        {
+          "id": 1,
+          "descripcion_ilustracion_estatica": "B.P. niño con sus hermanos frente a una carpa",
+          "movimiento_camara": "zoom de plano general a primer plano del rostro",
+          "elemento_animado_aislado": "humo de fogata con Particles2D"
+        },
+        {
+          "id": 2,
+          "descripcion_ilustracion_estatica": "B.P. joven frente al edificio de la escuela de Charterhouse",
+          "movimiento_camara": "paneo horizontal lento",
+          "elemento_animado_aislado": "hojas cayendo con Particles2D"
+        },
+        {
+          "id": 3,
+          "descripcion_ilustracion_estatica": "Silueta de B.P. observando el horizonte desde una fortificación (sin batalla ni multitudes visibles)",
+          "movimiento_camara": "zoom lento hacia el horizonte",
+          "elemento_animado_aislado": "bandera ondeando, sprite de 2-3 frames en loop"
+        },
+        {
+          "id": 4,
+          "descripcion_ilustracion_estatica": "Campamento de Brownsea con carpas y fogata central; los 20 muchachos ya dibujados como siluetas sentadas fijas en la ilustración",
+          "movimiento_camara": "zoom out revelando el campamento completo",
+          "elemento_animado_aislado": "fogata con partículas de fuego, 2-3 frames en loop"
+        }
+      ],
       "xp": 5
     },
     {
