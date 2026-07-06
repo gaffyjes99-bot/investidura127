@@ -13,8 +13,25 @@
     },
     {
       "tipo": "animacion",
+      "tecnica": "ken_burns",
       "contenido": "Animación de una ceremonia de investidura real (silueta de scout ante la Tropa formada, pronunciando la Promesa) para dar contexto emocional antes de memorizar.",
-      "xp": 5
+      "xp": 5,
+      "vinetas": [
+        {
+          "titulo": "Lo que estás a punto de prometer",
+          "descripcion": "B.P. decía: 'Esta promesa es muy difícil de cumplir, precisamente porque es muy seria.' No es un juramento vacío: cada palabra que pronuncies compromete tu honor. Léela despacio.",
+          "icono": "📜",
+          "movimiento": "zoom_in",
+          "tinte": "warm"
+        },
+        {
+          "titulo": "La Ceremonia — tu palabra ante la Tropa",
+          "descripcion": "Ante la Tropa formada, con tu mano alzada y la seña scout, pronunciarás la Promesa. En ese instante, tu palabra te une a millones de scouts en más de 170 países. Ese momento no se repite.",
+          "icono": "⭐",
+          "movimiento": "zoom_out",
+          "tinte": "cool"
+        }
+      ]
     },
     {
       "tipo": "juego",

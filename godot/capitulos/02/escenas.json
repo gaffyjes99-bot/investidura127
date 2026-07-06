@@ -13,8 +13,39 @@
     },
     {
       "tipo": "animacion",
+      "tecnica": "ken_burns",
       "contenido": "10 mini-viñetas animadas, una por artículo, mostrando una situación cotidiana de un scout que vive ese artículo (ej: artículo 8 'sonríe y canta en sus dificultades' → un scout que se cae en una caminata y se ríe, se levanta y sigue cantando).",
-      "xp": 5
+      "xp": 5,
+      "vinetas": [
+        {
+          "titulo": "Artículos 1–3: Honor, Lealtad y Servicio",
+          "descripcion": "El explorador es digno de confianza, leal y útil. Cumple su palabra aunque le cueste, es fiel a quienes dependen de él y ayuda a los demás sin esperar nada a cambio.",
+          "icono": "🤝",
+          "movimiento": "zoom_in",
+          "tinte": "warm"
+        },
+        {
+          "titulo": "Artículos 4–6: Amigo, Cortés y Protector",
+          "descripcion": "Es amigo de todos y hermano de cualquier scout sin distinción. Respeta las convicciones de los demás y cuida la naturaleza como obra de Dios.",
+          "icono": "🌍",
+          "movimiento": "pan_horizontal",
+          "tinte": "nature"
+        },
+        {
+          "titulo": "Artículos 7–8: Obediente y Alegre",
+          "descripcion": "El scout obedece con responsabilidad y orden. Y ante las dificultades, no se queja: sonríe y canta. Un explorador que pierde el ánimo pierde la mitad de la batalla.",
+          "icono": "😊",
+          "movimiento": "zoom_horizonte",
+          "tinte": "warm"
+        },
+        {
+          "titulo": "Artículos 9–10: Económico y Puro",
+          "descripcion": "Es trabajador y cuida el bien ajeno. Y lo más profundo: todo lo que piensa, dice y hace es limpio e íntegro. La Ley no prohíbe: describe cómo ES un scout, cada día.",
+          "icono": "🌿",
+          "movimiento": "zoom_out",
+          "tinte": "cool"
+        }
+      ]
     },
     {
       "tipo": "juego",

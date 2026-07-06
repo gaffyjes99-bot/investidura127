@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Avatar del scout girando 360° mostrando cada parte del uniforme; al tocar cada parte, se resalta y nombra.",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "El Uniforme Completo", "descripcion": "Cada parte tiene su lugar y su significado. Camisa, pantalón, insignias de progresión y de patrulla: cada elemento habla de quién eres como scout. Portarlo bien es un acto de orgullo.", "icono": "👕", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "Porte y Bordón", "descripcion": "B.P. decía: quien no porta bien su uniforme no ha entendido el espíritu del Escultismo. El bordón en la mano derecha completa la imagen del explorador. Postura firme, cabeza en alto.", "icono": "🥾", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "La Pañoleta del Grupo 127", "descripcion": "Rojo: la fuerza del espíritu que te da valor para cumplir tus metas. Amarillo: la riqueza del alma y el corazón. Úsala con orgullo — y recuerda que también es una herramienta de campo.", "icono": "🧣", "movimiento": "zoom_out", "tinte": "fire" }
+      ]
     },
     {
       "tipo": "juego",

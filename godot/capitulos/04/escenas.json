@@ -13,8 +13,32 @@
     },
     {
       "tipo": "animacion",
+      "tecnica": "ken_burns",
       "contenido": "Árbol animado que crece raíz por raíz a medida que se explica cada principio y virtud; cada raíz se ilumina con su nombre.",
-      "xp": 5
+      "xp": 5,
+      "vinetas": [
+        {
+          "titulo": "Las Raíces — Los 3 Principios",
+          "descripcion": "Todo árbol fuerte necesita raíces profundas. Las tuyas son tus Principios: tus deberes con Dios y tu fe, con los demás y el entorno, y contigo mismo. Sin raíces, el árbol cae.",
+          "icono": "🌱",
+          "movimiento": "zoom_in",
+          "tinte": "nature"
+        },
+        {
+          "titulo": "El Tronco — Las 3 Virtudes",
+          "descripcion": "De raíces sólidas nace un tronco recto: Lealtad (basada en la verdad), Pureza (en pensamientos, palabras y obras) y Abnegación (dar sin esperar nada a cambio). El tronco sostiene todo lo demás.",
+          "icono": "🌳",
+          "movimiento": "pan_horizontal",
+          "tinte": "warm"
+        },
+        {
+          "titulo": "Las Ramas — La Oración Scout",
+          "descripcion": "Las ramas dan fruto. La Oración Scout —adaptada por el padre Jacques Sevin de una oración de San Ignacio de Loyola— pide ser generoso, servir, dar sin medida y trabajar sin buscar recompensa.",
+          "icono": "🙏",
+          "movimiento": "zoom_out",
+          "tinte": "cool"
+        }
+      ]
     },
     {
       "tipo": "juego",

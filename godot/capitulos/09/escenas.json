@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Animación top-down (vista de pájaro) de una tropa ejecutando fila, herradura y círculo al recibir la señal del dirigente; animación del saludo con bordón y posiciones de 'siempre listo' y 'descanso'.",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "El Bordón — Tu Tercer Brazo", "descripcion": "Siempre en la mano derecha. Apoyo en el camino, regla de campo, material de pionerismo. B.P. recomendaba marcarlo con medidas. No es decoración: es una herramienta real del explorador.", "icono": "🪶", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "Fila y Herradura", "descripcion": "La fila para marchar. La herradura para que el dirigente vea a todos y sea visto. Cada formación tiene su propósito: una tropa que se forma bien demuestra disciplina y respeto.", "icono": "📐", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "El Círculo — Todos Iguales", "descripcion": "Sin cabeza ni cola: en el círculo todos son iguales. Úsalo para deliberar, celebrar o cerrar una actividad. La señal del dirigente indica cuándo y cómo formarse. Responde con orden y rapidez.", "icono": "⭕", "movimiento": "zoom_out", "tinte": "nature" }
+      ]
     },
     {
       "tipo": "juego",

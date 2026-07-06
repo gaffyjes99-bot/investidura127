@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Animación narrativa de la historia completa: la niebla de Londres, el Sr. Boyce perdido, el muchacho scout que lo guía y rechaza la propina, la visita a las oficinas de los Boy Scouts, el encuentro con B.P.",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "Londres, 1909 — La niebla", "descripcion": "Una niebla espesa detiene el tráfico en Londres. El señor William D. Boyce, editor de Chicago, está perdido. Un muchacho scout aparece entre la niebla y se ofrece a guiarlo.", "icono": "🌫️", "movimiento": "zoom_in", "tinte": "cool" },
+        { "titulo": "La propina rechazada", "descripcion": "'No puedo aceptar nada: soy scout.' Con esas palabras, el muchacho rechazó la propina de Boyce. Un scout no acepta recompensa por ayudar — ese es el secreto de la Buena Acción.", "icono": "🤚", "movimiento": "pan_horizontal", "tinte": "warm" },
+        { "titulo": "Un gesto que cruzó el océano", "descripcion": "Impresionado, Boyce visitó las oficinas de los Boy Scouts y conoció el Escultismo. En 1910 fundó los Boy Scouts of America. Del muchacho nadie supo más: hoy se le llama el Scout Desconocido.", "icono": "🌎", "movimiento": "zoom_out", "tinte": "nature" }
+      ]
     },
     {
       "tipo": "juego",

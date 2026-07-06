@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Animación del organigrama construyéndose pieza por pieza (Jefe de Grupo → Jefe de Tropa → Guías de Patrulla → Subguías → Scouts).",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "Tu Patrulla — Tu Hogar Scout", "descripcion": "6 a 8 integrantes. Un animal real de la región como símbolo. Un grito que los identifica. Un banderín que los representa. El sistema de patrullas fue el gran invento de B.P. en Brownsea.", "icono": "🐾", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "El Organigrama de la Tropa", "descripcion": "Jefe de Grupo → Jefe de Tropa → Guías de Patrulla → Subguías → Scouts. Cada escalón tiene responsabilidades claras. Conocer la estructura es conocer tu lugar y tu rol dentro de la familia.", "icono": "📊", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "Las Patrullas del Grupo 127", "descripcion": "Jaguares, Lobos, Mapaches y Pandas. Tras tu Promesa ante la Tropa, harás la promesa de patrulla ante tu Guía. Ese es tu segundo compromiso: con los compañeros que te rodean cada semana.", "icono": "🏕️", "movimiento": "zoom_out", "tinte": "nature" }
+      ]
     },
     {
       "tipo": "juego",

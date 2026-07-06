@@ -14,7 +14,14 @@
     {
       "tipo": "animacion",
       "contenido": "Mapa de senda completo iluminándose capítulo por capítulo como recapitulación visual antes del examen.",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "La Senda que Recorriste", "descripcion": "12 capítulos. 12 insignias. B.P., Akela, Baloo, Kaa, Jacala, Wontolla, Kotick — todos te acompañaron. Cada escena fue un paso en La Senda. Llegaste hasta aquí porque quisiste.", "icono": "🗺️", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "Los Requisitos del Corazón", "descripcion": "Buen rendimiento académico. Comportamiento ejemplar en casa. Ninguna pantalla los evalúa: los certifican tu familia y tu dirigente. Son los más importantes de todos los requisitos.", "icono": "🏠", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "La Gran Ceremonia te Espera", "descripcion": "Llamado de pito → formación → bandera → tu Promesa → entrega de la pañoleta → puente de tropa → Investidura. Cada paso lo aprenderás con tu dirigente. Lo que sigue se vive, no se lee.", "icono": "🏅", "movimiento": "zoom_horizonte", "tinte": "fire" },
+        { "titulo": "Bienvenido a la Hermandad Mundial", "descripcion": "Más de 170 países. Millones de scouts. Desde ese día, haces parte de la familia más grande del mundo. Lo que sigue ya no se aprende en una pantalla: se vive ante tu Tropa.", "icono": "🌍", "movimiento": "zoom_out", "tinte": "nature" }
+      ]
     },
     {
       "tipo": "juego",

@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Animación de un scout ejecutando el saludo completo (45°) y el saludo medio (90°, con y sin bordón); animación del saludo de mano izquierda con la historia de la tribu Ashanti (escudo abajo, mano desprotegida).",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "La Seña y el Lema", "descripcion": "Tres dedos hacia arriba: los tres principios y las tres partes de la Promesa. El pulgar sobre el meñique: el fuerte protege al débil. '¡Siempre Listo!' — en todo lugar y momento.", "icono": "✋", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "El Saludo Scout: 45° y 90°", "descripcion": "45° para superiores y la bandera; 90° para compañeros y en la ceremonia de la Promesa. Con bordón: seña scout con la mano izquierda cruzando el pecho.", "icono": "🫡", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "Mano Izquierda — Historia Ashanti", "descripcion": "Los guerreros Ashanti llevaban el escudo en la mano izquierda. Saludar con ella significaba quedar desprotegido: total confianza en el otro. B.P. lo adoptó como saludo entre hermanos scouts.", "icono": "🤝", "movimiento": "zoom_out", "tinte": "warm" }
+      ]
     },
     {
       "tipo": "juego",

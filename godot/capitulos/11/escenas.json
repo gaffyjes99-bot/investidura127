@@ -14,7 +14,13 @@
     {
       "tipo": "animacion",
       "contenido": "Animación de un campamento nocturno con fogata, tiendas y estrellas; contador visual que se ilumina con cada noche registrada.",
-      "xp": 5
+      "xp": 5,
+      "tecnica": "ken_burns",
+      "vinetas": [
+        { "titulo": "Bajo las Estrellas", "descripcion": "Ningún libro ni pantalla reemplaza dormir bajo las estrellas. El cielo abierto, el sonido del bosque, la fogata: esas experiencias forman el carácter de un explorador que no se forma en ningún salón.", "icono": "⭐", "movimiento": "zoom_in", "tinte": "cool" },
+        { "titulo": "Campismo de Bajo Impacto", "descripcion": "B.P. lo ordenó: 'No dejes signos de que has estado alguna vez en el lugar.' Sin basura, sin fogatas mal apagadas, sin daño a la vegetación. El bosque es de todos — cuídalo.", "icono": "🌲", "movimiento": "pan_horizontal", "tinte": "nature" },
+        { "titulo": "Tus 2 Noches Cuentan", "descripcion": "2 noches de campamento validadas por tu dirigente + 4 meses de participación activa en la Tropa. Anótalas en tu bitácora. Cada noche registrada es un paso hacia tu investidura.", "icono": "📓", "movimiento": "zoom_out", "tinte": "warm" }
+      ]
     },
     {
       "tipo": "juego",
