@@ -24,8 +24,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Simulador táctico: se muestra la señal animada del dirigente y el scout debe arrastrar los íconos de patrulla a la formación correcta en un tablero top-down. Galería interactiva de usos del bordón (apoyo, medición, pionerismo).",
-      "xp": 20
+      "contenido": "Situaciones de formación y bordón. Luego completa las posiciones clave con sus nombres.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "El dirigente quiere dar instrucciones y necesita ver a todos los scouts de frente al mismo tiempo. ¿Qué formación usa?",
+          "opciones": [
+            {"texto": "Herradura — todos los scouts forman una U abierta hacia el dirigente.", "correcta": true, "retro": "¡Correcto! La herradura permite que el dirigente vea a todos y todos lo vean a él. Es la formación ideal para instrucciones."},
+            {"texto": "Círculo — todos en un anillo sin cabeza ni cola.", "correcta": false, "retro": "El círculo es para deliberar o celebrar en igualdad. Para dar instrucciones desde una posición de liderazgo se usa la herradura."},
+            {"texto": "Fila — todos en una línea recta detrás del dirigente.", "correcta": false, "retro": "La fila es para marchar o desplazarse. Para dar instrucciones donde el dirigente vea a todos se usa la herradura."}
+          ]
+        },
+        {
+          "situacion": "B.P. recomendaba marcar el bordón con medidas. ¿Cuáles son sus tres usos principales según la tradición scout?",
+          "opciones": [
+            {"texto": "Apoyo para caminar, medir distancias en campo, armar refugios (pionerismo).", "correcta": true, "retro": "¡Exacto! El bordón no es decoración: es una herramienta real de campo. B.P. lo describía como el 'tercer brazo' del explorador."},
+            {"texto": "Defenderse de animales, señalar el camino a la patrulla, portar la bandera de patrulla.", "correcta": false, "retro": "No exactamente. Los usos tradicionales del bordón son: apoyo, medición de distancias y pionerismo (armar refugios y estructuras)."},
+            {"texto": "Solo tiene valor simbólico como parte del uniforme completo.", "correcta": false, "retro": "Para nada. B.P. era muy práctico. El bordón tiene tres usos reales: apoyo al caminar, medición y pionerismo."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "El bordón se porta siempre en la mano [1]. Al saludar con bordón: bordón cerca del cuerpo en la mano derecha y la [2] scout con la mano izquierda. Posición 'Siempre listo': manos [3] pegadas al cuerpo, pies a [4] grados con talones juntos.",
+        "respuestas": ["derecha", "seña", "empuñadas", "45"],
+        "distractores": ["izquierda", "señal", "abiertas", "90", "juntas", "30"]
+      }
     },
     {
       "tipo": "evaluacion",

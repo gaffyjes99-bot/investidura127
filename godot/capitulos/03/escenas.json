@@ -35,8 +35,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Memorización progresiva (mecánica 'completar espacios' con dificultad creciente): 1) texto completo visible, 2) texto con 25% de palabras ocultas, 3) 50% ocultas, 4) 75% ocultas, 5) recitar completo. Opción de grabar audio propio para practicar (no se almacena, solo reproducción local).",
-      "xp": 20
+      "contenido": "Reflexiona sobre el significado de la Promesa. Luego complétala con las palabras clave.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "B.P. decía: 'Esta promesa es muy difícil de cumplir, precisamente porque es muy seria.' ¿Qué significa prometer 'por mi honor'?",
+          "opciones": [
+            {"texto": "Que tu palabra es un compromiso personal que no puedes romper sin faltarte a ti mismo.", "correcta": true, "retro": "¡Así es! El honor es tu reputación ante ti mismo. Fallar la promesa no solo decepciona a otros: te traiciona a ti."},
+            {"texto": "Que si no cumples, pierdes la insignia y te pueden sacar del grupo.", "correcta": false, "retro": "No. La Promesa no es un contrato con consecuencias legales: es un compromiso de honor. Su fuerza viene de adentro, no de afuera."},
+            {"texto": "Que solo tienes que intentarlo en las reuniones de la tropa.", "correcta": false, "retro": "No. La Promesa se vive en todas partes — en casa, en el colegio, en el barrio — no solo en reuniones."}
+          ]
+        },
+        {
+          "situacion": "¿Cuándo y ante quién pronuncias la Promesa Scout?",
+          "opciones": [
+            {"texto": "En la ceremonia de investidura, ante toda la Tropa formada, con la seña scout.", "correcta": true, "retro": "¡Correcto! Es un momento solemne: ante tu Tropa, con tu mano alzada y la seña de tres dedos."},
+            {"texto": "En privado ante tu dirigente, cuando este lo considere apropiado.", "correcta": false, "retro": "No. La Promesa se hace públicamente ante la Tropa, no en privado. Ese testimonio colectivo es parte esencial de la ceremonia."},
+            {"texto": "La repites cada reunión como ritual de apertura.", "correcta": false, "retro": "No exactamente. La Promesa formal se hace una sola vez en la investidura. Puede recordarse, pero no se 'repite' como la promeza de bandera."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "Por mi honor y con la gracia de [1], prometo hacer todo cuanto de mí [2] para: cumplir mis [3] para con Dios y con la [4], ayudar al [5] en toda circunstancia y cumplir fielmente la [6] Scout.",
+        "respuestas": ["Dios", "dependa", "deberes", "patria", "prójimo", "Ley"],
+        "distractores": ["honor", "pueda", "promesas", "nación", "compañero", "Promesa", "fe"]
+      }
     },
     {
       "tipo": "evaluacion",

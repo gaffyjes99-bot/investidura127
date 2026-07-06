@@ -406,6 +406,9 @@ func _init_mapa(s: Node) -> void:
 				tr.stretch_mode = 6
 				tr.position = btn.position + Vector2(btn_w - 32.0, -16.0)
 				senda.add_child(tr)
+				if num == _ultimo_cap_completado:
+					_animar_pop(tr)
+					_ultimo_cap_completado = 0
 
 	# Centrar el scroll en el capítulo actual
 	if y_actual > 0.0:
@@ -440,6 +443,9 @@ var _tw_texto: Tween = null
 var _jg_escena: Dictionary = {}
 var _jg_decision_idx: int = 0
 var _jg_bio_idx: int = 0
+
+# Pop de insignia: se setea al completar capítulo, se consume en _init_mapa
+var _ultimo_cap_completado: int = 0
 
 # Ken Burns animation mode
 var _anim_vinetas: Array = []
@@ -943,6 +949,7 @@ func _cap_quiz_fin() -> void:
 		_cap_estado = 1
 		var xp_ganado := xp_base + (xp_bonus if pct >= 100.0 else 0)
 		GameState.completar_capitulo(_capitulo_activo)
+		_ultimo_cap_completado = _capitulo_activo
 		GameState.dar_xp(xp_ganado)
 		SaveManager.guardar()
 		btn_sig.text = "Volver al Mapa"

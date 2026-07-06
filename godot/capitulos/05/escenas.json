@@ -24,8 +24,39 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Flor de Lis interactiva: tocar cada parte del dibujo revela su significado (contenido a completar por el scout según desafío de la Bitácora, luego confirmado). Quiz visual: armar la flor arrastrando sus partes al lugar correcto. Espejo de cámara opcional (no se guarda imagen) para practicar el saludo, comparando ángulo con una guía animada superpuesta.",
-      "xp": 20
+      "contenido": "Situaciones de saludo y seña scout: elige correctamente. Luego completa los datos clave de la Flor de Lis.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "Estás en formación y tu Jefe de Tropa da la orden de saludar. ¿A qué ángulo llevas la mano?",
+          "opciones": [
+            {"texto": "45 grados — saludo formal para superiores y la bandera.", "correcta": true, "retro": "¡Correcto! El saludo a 45° es para superiores, la bandera y el himno. El de 90° se usa entre compañeros y en la Promesa."},
+            {"texto": "90 grados — la mano completamente horizontal al hombro.", "correcta": false, "retro": "El saludo a 90° es entre scouts de igual rango o en la ceremonia de la Promesa. Para el Jefe de Tropa se usa 45°."},
+            {"texto": "Mano izquierda al corazón — señal de respeto.", "correcta": false, "retro": "La mano al corazón no es el saludo scout estándar. La seña se hace con la mano derecha (o izquierda al saludar entre scouts)."}
+          ]
+        },
+        {
+          "situacion": "Tu compañero nuevo te pregunta por qué el saludo scout se da con la mano izquierda entre hermanos scouts. ¿Qué le explicas?",
+          "opciones": [
+            {"texto": "Los guerreros Ashanti llevaban el escudo en la mano izquierda. Saludar sin el escudo era un gesto de total confianza en el otro.", "correcta": true, "retro": "¡Perfecto! B.P. adoptó esta tradición africana: dar la mano izquierda es quedar 'desprotegido', un gesto de confianza total."},
+            {"texto": "Porque la mano derecha se usa para el bordón y siempre debe estar libre.", "correcta": false, "retro": "No exactamente. El bordón va en la mano derecha, pero la razón del saludo izquierdo es la historia de los guerreros Ashanti."},
+            {"texto": "Porque es más difícil y por eso demuestra mayor respeto.", "correcta": false, "retro": "No. La razón es histórica y simbólica: la tribu Ashanti saludaba con la mano del escudo como señal de confianza total."}
+          ]
+        },
+        {
+          "situacion": "¿Qué simboliza la Flor de Lis como insignia scout?",
+          "opciones": [
+            {"texto": "Señala la dirección hacia lo alto y marca el camino del deber, igual que el norte en los mapas.", "correcta": true, "retro": "¡Exacto! En brújulas y mapas la flor de lis siempre apunta al norte. En el escultismo señala el camino del deber y la superación."},
+            {"texto": "Representa las tres virtudes: Lealtad, Pureza y Abnegación.", "correcta": false, "retro": "Las tres virtudes las representan los dedos del saludo, no la Flor de Lis. Esta simboliza el norte y el camino del deber."},
+            {"texto": "Es el emblema de Francia, país donde nació el Escultismo.", "correcta": false, "retro": "No. El Escultismo nació en Inglaterra, no en Francia. La Flor de Lis se usaba en mapas medievales para señalar el norte."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "Los [1] dedos de la seña representan los principios y las tres partes de la Promesa. El pulgar sobre el meñique recuerda que el [2] protege al [3]. El saludo a [4]° es para superiores y la bandera; el de [5]° entre compañeros y en la Promesa.",
+        "respuestas": ["tres", "fuerte", "débil", "45", "90"],
+        "distractores": ["dos", "mayor", "pequeño", "30", "60", "cuatro"]
+      }
     },
     {
       "tipo": "evaluacion",

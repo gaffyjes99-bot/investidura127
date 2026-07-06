@@ -24,8 +24,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Bitácora de campamento digital: el scout registra fecha y lugar de cada noche de campamento; el dirigente confirma con un código de 6 dígitos. Contador de meses de participación activa desde el registro de ingreso a la tropa.",
-      "xp": 20
+      "contenido": "Situaciones de campismo de bajo impacto. Luego completa los requisitos del campista.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "Al terminar el campamento, ¿qué debe quedar en el lugar donde acamparon?",
+          "opciones": [
+            {"texto": "El lugar exactamente como lo encontraron — sin basura, sin fogatas mal apagadas, sin daño a la vegetación.", "correcta": true, "retro": "¡Perfecto! B.P. lo ordenó: 'No dejes signos de que has estado alguna vez en el lugar.' Eso es campismo de bajo impacto."},
+            {"texto": "Solo los residuos biodegradables — el plástico y el metal sí se pueden dejar.", "correcta": false, "retro": "No. Todo sale: plástico, metal, orgánico, cenizas. La regla es simple: si lo trajiste, te lo llevas."},
+            {"texto": "Una fogata apagada es aceptable — se deshace sola con el tiempo.", "correcta": false, "retro": "No. Una fogata mal apagada puede reencenderse y causar incendios. Y deja marcas en el suelo. Todo debe eliminarse."}
+          ]
+        },
+        {
+          "situacion": "¿Cuántas noches de campamento necesitas y quién las valida para tu investidura?",
+          "opciones": [
+            {"texto": "2 noches validadas por tu dirigente, registradas en la bitácora.", "correcta": true, "retro": "¡Correcto! No basta con acampar: el dirigente debe validarlas oficialmente. Sin esa firma, no cuentan para la investidura."},
+            {"texto": "1 noche larga vale por dos — si el dirigente lo aprueba.", "correcta": false, "retro": "No. Son 2 noches separadas. Una noche doble no es equivalente. Cada salida cuenta por sí misma."},
+            {"texto": "3 noches, sin necesidad de validación si llevas fotos del campamento.", "correcta": false, "retro": "No. Son 2 noches y la validación del dirigente es obligatoria — las fotos no reemplazan la confirmación oficial."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "Para la investidura necesitas [1] noches de campamento validadas por tu [2] y [3] meses de participación activa en la Tropa. B.P. lo resumió: '[4] dejes signos de que has estado alguna vez en el [5].'",
+        "respuestas": ["2", "dirigente", "4", "No", "lugar"],
+        "distractores": ["3", "guía", "6", "Nunca", "sitio", "1"]
+      }
     },
     {
       "tipo": "evaluacion",

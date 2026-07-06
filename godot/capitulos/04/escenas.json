@@ -42,8 +42,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Mecánica 'clasificador de categorías': el scout arrastra 6 tarjetas (3 principios + 3 virtudes) a dos canastas correctas. Luego, karaoke de texto resaltado con audio narrado de la Oración Scout, sílaba por sílaba.",
-      "xp": 20
+      "contenido": "Clasifica principios y virtudes. Luego completa la Oración Scout con sus palabras clave.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "Baloo te pregunta: 'La Lealtad, la Pureza y la Abnegación son las tres virtudes scout. ¿Cuál de estas describe mejor la Abnegación?'",
+          "opciones": [
+            {"texto": "Dar sin esperar nada a cambio: sacrificar bienes, voluntad y afectos por el bien del prójimo.", "correcta": true, "retro": "¡Perfecto! La Abnegación es el don total: dar tiempo, comodidad o recursos sin calcular la recompensa."},
+            {"texto": "Ser puro en pensamientos, palabras y acciones.", "correcta": false, "retro": "Eso define la Pureza, otra de las tres virtudes. La Abnegación es la entrega desinteresada al prójimo."},
+            {"texto": "Basarse en la verdad y la sinceridad en todo momento.", "correcta": false, "retro": "Eso describe la Lealtad. La Abnegación es el sacrificio espontáneo por los demás, sin esperar recompensa."}
+          ]
+        },
+        {
+          "situacion": "¿Quién adaptó la Oración Scout y de dónde la tomó?",
+          "opciones": [
+            {"texto": "El padre Jacques Sevin la adaptó de una oración de San Ignacio de Loyola.", "correcta": true, "retro": "¡Correcto! El padre Sevin, cofundador del escultismo católico, tomó la oración ignaciana y la adaptó para los scouts."},
+            {"texto": "B.P. la escribió personalmente basándose en su fe anglicana.", "correcta": false, "retro": "No. Fue el padre Jacques Sevin quien la adaptó. B.P. era anglicano pero la Oración Scout tiene raíces jesuitas."},
+            {"texto": "Es una oración tradicional del movimiento scout sin autor conocido.", "correcta": false, "retro": "No, sí tiene autor. El padre Jacques Sevin la adaptó de una oración de San Ignacio de Loyola para el escultismo católico."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "Señor, enséñame a ser [1], a servirte como lo mereces, a dar sin [2], a combatir sin miedo a que me [3], a trabajar sin descanso y a no buscar más recompensa que saber que hago tu santa [4].",
+        "respuestas": ["generoso", "medida", "hieran", "voluntad"],
+        "distractores": ["valiente", "esperar", "fallen", "gracia", "puro", "límites"]
+      }
     },
     {
       "tipo": "evaluacion",

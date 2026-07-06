@@ -24,8 +24,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "'Vestir al scout': arrastrar cada insignia (patrulla, progresión, especialidad) a su ubicación correcta en el uniforme (a confirmar con estándar oficial del Grupo 127). Mini-juego de colorear la pañoleta: descubrir tocando cada franja (rojo/amarillo), ver la mini-animación de significado, y colorearla correctamente entre opciones distractoras.",
-      "xp": 20
+      "contenido": "Situaciones de porte e identidad del uniforme. Luego completa los significados de la pañoleta del Grupo 127.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "Wontolla dice: 'B.P. veía el uniforme como algo más que tela.' ¿Cuál de estas frases expresa mejor ese espíritu?",
+          "opciones": [
+            {"texto": "El uniforme es un acto de orgullo: demuestra que has asimilado el espíritu del Escultismo.", "correcta": true, "retro": "¡Correcto! B.P. decía que quien no porta bien el uniforme no ha entendido el verdadero espíritu scout. Es orgullo, no solo ropa."},
+            {"texto": "El uniforme es obligatorio para entrar al campamento — sin él, no participas.", "correcta": false, "retro": "No. El uniforme no es una barrera de entrada sino un símbolo de pertenencia. Su valor es simbólico, no administrativo."},
+            {"texto": "El uniforme evita que se distingan niveles económicos entre los scouts.", "correcta": false, "retro": "Eso es un efecto práctico real, pero no es lo central. B.P. lo veía como expresión del espíritu scout: orgullo y pertenencia."}
+          ]
+        },
+        {
+          "situacion": "Tu pañoleta se enreda y se ensucia en el campamento. Además de lavarla, ¿qué uso práctico de campo mencionaba B.P.?",
+          "opciones": [
+            {"texto": "Vendaje de emergencia, protección solar en el cuello y herramienta de señalización.", "correcta": true, "retro": "¡Exacto! B.P. enseñaba la pañoleta como herramienta real: vendaje, protección, señal. No es solo decorativa."},
+            {"texto": "Sirve como mapa de orientación cuando se dobla en triángulo.", "correcta": false, "retro": "No exactamente. La pañoleta no es un mapa. Sus usos prácticos son como vendaje, protección y señalización."},
+            {"texto": "Solo tiene uso simbólico — su valor es de identidad, no práctico.", "correcta": false, "retro": "No. B.P. era muy práctico: la pañoleta tiene usos reales como vendaje de emergencia y protección."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "La pañoleta del Grupo 127 tiene dos colores con significado: el [1] representa la fuerza del espíritu que nos fortalece para cumplir las [2]; el [3] representa la riqueza del [4] y el corazón.",
+        "respuestas": ["rojo", "metas", "amarillo", "alma"],
+        "distractores": ["verde", "promesas", "azul", "honor", "blanco", "virtudes"]
+      }
     },
     {
       "tipo": "evaluacion",

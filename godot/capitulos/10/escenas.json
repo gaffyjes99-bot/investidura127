@@ -24,8 +24,31 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Constructor de organigrama: arrastrar nombres reales de la tropa (a cargar por el dirigente) a su cargo correcto. Editor de ficha de patrulla: elegir/dibujar animal, escribir lema y grito, dibujar banderín (mini-editor simple de trazos y colores).",
-      "xp": 20
+      "contenido": "Situaciones de patrulla y tropa. Luego construye el organigrama de memoria.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "Tu patrulla tiene 9 integrantes. ¿Cumple con el tamaño recomendado por B.P.?",
+          "opciones": [
+            {"texto": "No — B.P. recomendaba entre 6 y 8 integrantes. Con 9 conviene dividirse.", "correcta": true, "retro": "¡Correcto! Grupos pequeños funcionan mejor: cada integrante tiene rol claro y el guía puede coordinar a todos sin perderse."},
+            {"texto": "Sí — cuantos más sean, más fuerte la patrulla.", "correcta": false, "retro": "No. B.P. aprendió en Brownsea que grupos muy grandes son difíciles de coordinar. 6-8 es el rango ideal de trabajo en equipo."},
+            {"texto": "Depende del animal símbolo que hayan elegido.", "correcta": false, "retro": "No. El tamaño no depende del símbolo. B.P. estableció 6-8 integrantes como el rango efectivo para la dinámica de patrulla."}
+          ]
+        },
+        {
+          "situacion": "Tras tu Promesa ante la Tropa, ¿ante quién harás la promesa de patrulla y en compañía de quiénes?",
+          "opciones": [
+            {"texto": "Ante tu Guía de Patrulla, en compañía de todos los integrantes de tu patrulla.", "correcta": true, "retro": "¡Exacto! Es tu segundo compromiso: primero con la Tropa entera, luego con tu patrulla que es tu hogar más cercano dentro del grupo."},
+            {"texto": "Ante el Jefe de Grupo, en una ceremonia privada sin testigos.", "correcta": false, "retro": "No. La promesa de patrulla se hace ante tu Guía y tus compañeros de patrulla, no en privado ni ante el Jefe de Grupo."},
+            {"texto": "Ante los padres de tu patrulla, en la reunión de inicio de año.", "correcta": false, "retro": "No. La promesa de patrulla es un acto scout: se hace ante tu Guía de Patrulla y tus compañeros scouts."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "El organigrama de la Tropa es: Jefe de [1] → Jefe de [2] → [3] de Patrulla → [4] → [5]. El sistema de patrullas fue el gran invento de B.P. desde el campamento de [6].",
+        "respuestas": ["Grupo", "Tropa", "Guías", "Subguías", "Scouts", "Brownsea"],
+        "distractores": ["Sección", "Patrulla", "Jefes", "Asistentes", "Exploradores", "Mafeking"]
+      }
     },
     {
       "tipo": "evaluacion",

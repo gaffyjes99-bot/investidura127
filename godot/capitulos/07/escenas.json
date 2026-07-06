@@ -24,8 +24,39 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Diario de Buenas Acciones: el scout redacta o dicta una buena acción real de su semana; queda pendiente de validación por un padre o dirigente (código), otorga XP solo tras validar (máx. 1 por semana para evitar farmeo). Además, firma su nombre scout digitalmente en su perfil.",
-      "xp": 20
+      "contenido": "Revive la historia del Scout Desconocido. Luego completa los datos clave de la historia.",
+      "xp": 20,
+      "decisiones": [
+        {
+          "situacion": "El señor Boyce agradeció al muchacho scout y quiso darle dinero. ¿Qué hizo el scout?",
+          "opciones": [
+            {"texto": "Rechazó la propina: 'No puedo aceptar nada, soy scout.'", "correcta": true, "retro": "¡Exacto! Un scout no acepta recompensa por ayudar. Ese gesto de negarse fue lo que impresionó a Boyce y cambió la historia."},
+            {"texto": "Aceptó agradecido y lo donó a la tropa.", "correcta": false, "retro": "No. El scout rechazó cualquier pago. La Divisa dice 'sin esperar recompensa' — aceptarla habría traicionado ese principio."},
+            {"texto": "Pidió que en vez de dinero, Boyce visitara las oficinas de los scouts.", "correcta": false, "retro": "No. El scout simplemente rechazó la propina sin pedir nada. Fue Boyce quien por iniciativa propia visitó las oficinas scouts."}
+          ]
+        },
+        {
+          "situacion": "¿En qué año y ciudad ocurrió la historia del Scout Desconocido y qué consecuencia tuvo?",
+          "opciones": [
+            {"texto": "1909 en Londres — Boyce fundó los Boy Scouts of America en 1910.", "correcta": true, "retro": "¡Perfecto! Una niebla londinense en 1909, un gesto sin nombre, y el Escultismo llegó a millones de estadounidenses al año siguiente."},
+            {"texto": "1907 en la isla de Brownsea — B.P. fundó el primer campamento scout.", "correcta": false, "retro": "Brownsea fue el primer campamento de B.P. en 1907, pero la historia del Scout Desconocido ocurrió en Londres en 1909."},
+            {"texto": "1910 en Chicago — el mismo año en que Boyce ya había fundado los Boy Scouts.", "correcta": false, "retro": "No. La historia ocurrió en Londres en 1909. Fue gracias a ese encuentro que Boyce fundó los BSA en 1910."}
+          ]
+        },
+        {
+          "situacion": "Kaa te pregunta: ¿por qué la Buena Acción 'pierde su magia' si esperas algo a cambio?",
+          "opciones": [
+            {"texto": "Porque entonces ya no es un acto desinteresado: se convierte en una transacción, no en un don.", "correcta": true, "retro": "¡Así es! La Buena Acción es un don, no un trueque. Su valor viene precisamente de que no esperas nada: eso la hace poderosa."},
+            {"texto": "Porque el reglamento scout prohíbe cobrar por ayudar a otros.", "correcta": false, "retro": "No es solo un reglamento: es el espíritu mismo de la Divisa. Un scout ayuda porque quiere, no porque le prohíban cobrar."},
+            {"texto": "Porque los demás perderían el respeto por el scout si lo ven cobrar.", "correcta": false, "retro": "Eso podría pasar, pero la razón más profunda es que dejaría de ser una acción de honor para convertirse en un negocio."}
+          ]
+        }
+      ],
+      "biografia": {
+        "plantilla": "A finales de [1], una niebla espesa detuvo el tráfico en [2]. El señor William D. Boyce, de [3], estaba perdido. Un muchacho scout lo guió y rechazó la [4] que le ofrecieron. Boyce visitó las oficinas de los [5] y en [6] fundó los Boy Scouts of America.",
+        "respuestas": ["1909", "Londres", "Chicago", "propina", "scouts", "1910"],
+        "distractores": ["1907", "París", "Nueva York", "recompensa", "exploradores", "1912"]
+      }
     },
     {
       "tipo": "evaluacion",
