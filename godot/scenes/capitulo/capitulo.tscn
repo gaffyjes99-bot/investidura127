@@ -170,7 +170,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 expand_mode = 3
-stretch_mode = 6
+stretch_mode = 2
 
 [node name="VeloBase" type="ColorRect" parent="ContenidoArea/AnimacionPanel"]
 layout_mode = 1
