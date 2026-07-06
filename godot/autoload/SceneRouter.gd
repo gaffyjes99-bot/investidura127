@@ -401,8 +401,9 @@ func _init_mapa(s: Node) -> void:
 			if badge_tex:
 				var tr := TextureRect.new()
 				tr.texture = badge_tex
+				tr.custom_minimum_size = Vector2(46, 46)
 				tr.size = Vector2(46, 46)
-				tr.expand_mode = 3
+				tr.expand_mode = 0
 				tr.stretch_mode = 6
 				tr.position = btn.position + Vector2(btn_w - 32.0, -16.0)
 				senda.add_child(tr)
