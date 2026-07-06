@@ -401,7 +401,7 @@ func _init_mapa(s: Node) -> void:
 			if badge_tex:
 				var tr := TextureRect.new()
 				tr.texture = badge_tex
-				tr.expand_mode = 0
+				tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				tr.custom_minimum_size = Vector2(46, 46)
 				tr.position = btn.position + Vector2(btn_w - 32.0, -16.0)
@@ -958,7 +958,7 @@ func _cap_quiz_fin() -> void:
 		_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capítulo y ganado [color=#F2A93B]%d XP[/color]. ¡Ganaste la insignia del capítulo!" % [_cap_correctas, total, pct, xp_ganado])
 		var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % _capitulo_activo) as Texture2D
 		if badge_tex and imagen_rect:
-			imagen_rect.expand_mode = 0
+			imagen_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			imagen_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			imagen_rect.texture = badge_tex
 			imagen_rect.visible = true
@@ -994,7 +994,7 @@ func _init_perfil(s: Node) -> void:
 				var tr := TextureRect.new()
 				tr.texture = badge_tex
 				tr.custom_minimum_size = Vector2(60, 60)
-				tr.expand_mode = 3
+				tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 				tr.stretch_mode = 6
 				tr.tooltip_text = "Cap.%d" % n
 				grid_ins.add_child(tr)
