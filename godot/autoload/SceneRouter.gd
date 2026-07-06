@@ -515,6 +515,10 @@ func _cap_mostrar_escena(idx: int) -> void:
 			"narracion":
 				personaje_lbl.text = "Historia"
 				texto = escena.get("dialogo_muestra", escena.get("contenido", ""))
+				# Material de estudio ampliado (base: Bitácora)
+				var estudio: String = escena.get("texto_estudio", "")
+				if estudio != "":
+					texto += "\n\n" + estudio
 			"animacion":
 				personaje_lbl.text = "Secuencia"
 				texto = escena.get("contenido", "")
