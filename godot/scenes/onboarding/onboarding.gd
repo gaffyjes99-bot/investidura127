@@ -12,6 +12,7 @@ const PATRULLAS := ["Jaguares", "Lobos", "Mapaches", "Pandas"]
 
 var _patrulla_idx: int = -1
 var _syncing: bool = false
+var _scout_selection_dialog: Control = null
 
 func _ready() -> void:
 	print("onboarding _ready START")
@@ -22,6 +23,13 @@ func _ready() -> void:
 	boton_iniciar.pressed.connect(_on_iniciar)
 	nombre_input.text_changed.connect(_on_nombre_cambiado)
 	error_label.visible = false
+
+	# Crear diálogo de selección de scouts
+	_scout_selection_dialog = preload("res://scenes/onboarding/scout_selection_dialog.tscn").instantiate()
+	add_child(_scout_selection_dialog)
+	_scout_selection_dialog.scout_selected.connect(_on_dialog_scout_selected)
+	_scout_selection_dialog.canceled.connect(_on_dialog_canceled)
+	_scout_selection_dialog.visible = false
 
 	# Conectar señales de Firebase (sincronización con Firestore)
 	if FirebaseSync:
@@ -80,15 +88,15 @@ func _on_scout_not_found(error_message: String) -> void:
 	boton_iniciar.disabled = false
 
 func _on_multiple_matches(matches: Array[Dictionary]) -> void:
-	# Mostrar lista de coincidencias para que el usuario elija
-	error_label.text = "Se encontraron múltiples scouts similares"
-	error_label.modulate.a = 0.7  # warning
-	error_label.visible = true
-
-	# TODO: Mostrar diálogo con opciones
-	_show_error("Se encontraron múltiples scouts. Intenta con el nombre completo.")
+	# Mostrar diálogo para que el usuario seleccione
+	print("Se encontraron %d scouts similares" % matches.size())
+	error_label.visible = false
 	_syncing = false
 	boton_iniciar.disabled = false
+
+	# Mostrar diálogo con opciones
+	if _scout_selection_dialog:
+		_scout_selection_dialog.show_matches(matches)
 
 func _on_progress_loaded(data: Dictionary) -> void:
 	print("✓ Progreso cargado desde Firestore")
@@ -167,6 +175,22 @@ func _get_array_field(fields: Dictionary, field_name: String, default: Array = [
 		var arr = fields[field_name]["arrayValue"].get("values", [])
 		return arr if arr is Array else default
 	return default
+
+func _on_dialog_scout_selected(scout_id: String, name: String, patrol: String) -> void:
+	"""Manejador cuando el usuario selecciona un scout del diálogo."""
+	print("Usuario seleccionó: %s (ID: %s)" % [name, scout_id])
+	error_label.text = "Descargando progreso..."
+	error_label.visible = true
+
+	# Descargar progreso desde Firestore
+	FirebaseSync.get_scout_progress("127", scout_id)
+
+func _on_dialog_canceled() -> void:
+	"""Manejador cuando el usuario cancela la selección."""
+	print("Usuario canceló la selección")
+	_syncing = false
+	boton_iniciar.disabled = false
+	error_label.visible = false
 
 func _show_error(message: String) -> void:
 	error_label.text = message
