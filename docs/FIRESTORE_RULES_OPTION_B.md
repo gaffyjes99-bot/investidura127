@@ -43,8 +43,8 @@ service cloud.firestore {
 
     // Scouts — MODIFICADO: lectura pública para app Godot
     match /scouts/{docId} {
-      allow read: if true;                    // ← Público (app Godot busca scouts)
-      allow write: if request.auth != null;   // ← Privado (solo admins escriben)
+      allow read: if true;
+      allow write: if request.auth != null;
     }
 
     // Progresión de scouts
@@ -73,8 +73,8 @@ service cloud.firestore {
 
     // Libro Interactivo — Progreso del scout
     match /libro_interactivo_progreso/{document=**} {
-      allow read: if true;                    // Lectura pública
-      allow write: if request.auth == null;   // Escritura solo desde app Godot
+      allow read: if true;
+      allow write: if request.auth == null;
       allow create: if request.resource.data.keys().hasAll(['grupoId', 'scoutId', 'nombre']);
       allow update: if true;
       allow delete: if false;

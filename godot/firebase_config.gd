@@ -10,7 +10,7 @@ extends Node
 class_name FirebaseConfig
 
 # TODO: Reemplazar con valores reales del proyecto fichas-actividad-scout
-const API_KEY = "AIzaSyD_placeholder_replace_me_with_real_key"
+const API_KEY = "AIzaSyBPFCRvhezdhz27OzPbZJijlOVKLnzKNo4"
 const PROJECT_ID = "fichas-actividad-scout"
 const AUTH_DOMAIN = "fichas-actividad-scout.firebaseapp.com"
 
