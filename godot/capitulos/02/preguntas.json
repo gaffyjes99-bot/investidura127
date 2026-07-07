@@ -5,7 +5,14 @@
       "pregunta": "¿Cuál es el artículo 1 de la Ley Scout?",
       "tipo": "Arrastrar/Emparejar",
       "respuesta_correcta": "El Scout cifra su honor en ser digno de confianza.",
-      "distractores": "El Scout es leal. | El Scout es útil y ayuda a los demás sin esperar recompensa. | El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social. | El Scout es cortés y respeta las convicciones de los demás. | El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso. | El Scout es obediente, responsable y ordenado. | El Scout sonríe y canta en sus dificultades. | El Scout es económico, trabajador y cuidadoso del bien ajeno. | El Scout es limpio y sano, puro en pensamientos, palabras y acciones.",
+      "distractores": [
+        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
+        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
+        "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
+        "El Scout sonríe y canta en sus dificultades.",
+        "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
+        "El Scout es limpio y sano, puro en pensamientos, palabras y acciones."
+      ],
       "fuente": "Bitácora - Ley Scout"
     },
     {
@@ -15,9 +22,6 @@
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
         "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
-        "El Scout es cortés y respeta las convicciones de los demás.",
-        "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout es obediente, responsable y ordenado.",
         "El Scout sonríe y canta en sus dificultades.",
         "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
@@ -35,9 +39,6 @@
         "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
         "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
-        "El Scout es obediente, responsable y ordenado.",
-        "El Scout sonríe y canta en sus dificultades.",
-        "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
         "El Scout es limpio y sano, puro en pensamientos, palabras y acciones."
       ],
       "fuente": "Bitácora - Ley Scout"
@@ -48,9 +49,6 @@
       "respuesta_correcta": "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
-        "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout es obediente, responsable y ordenado.",
         "El Scout sonríe y canta en sus dificultades.",
@@ -66,9 +64,6 @@
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
         "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
-        "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout es obediente, responsable y ordenado.",
         "El Scout sonríe y canta en sus dificultades.",
         "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
@@ -82,9 +77,6 @@
       "respuesta_correcta": "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
-        "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
         "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout es obediente, responsable y ordenado.",
         "El Scout sonríe y canta en sus dificultades.",
@@ -99,9 +91,6 @@
       "respuesta_correcta": "El Scout es obediente, responsable y ordenado.",
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
-        "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
         "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout sonríe y canta en sus dificultades.",
@@ -117,9 +106,6 @@
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
         "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
-        "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout es obediente, responsable y ordenado.",
         "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
@@ -133,9 +119,7 @@
       "respuesta_correcta": "El Scout es económico, trabajador y cuidadoso del bien ajeno.",
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
-        "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
-        "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
+       "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
         "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
         "El Scout es obediente, responsable y ordenado.",
@@ -150,8 +134,6 @@
       "respuesta_correcta": "El Scout es limpio y sano, puro en pensamientos, palabras y acciones.",
       "distractores": [
         "El Scout cifra su honor en ser digno de confianza.",
-        "El Scout es leal.",
-        "El Scout es útil y ayuda a los demás sin esperar recompensa.",
         "El Scout es amigo de todos y hermano de cualquier Scout sin distinción de credo, raza, nacionalidad o clase social.",
         "El Scout es cortés y respeta las convicciones de los demás.",
         "El Scout ve en la naturaleza la obra de Dios y procura su conservación y progreso.",
