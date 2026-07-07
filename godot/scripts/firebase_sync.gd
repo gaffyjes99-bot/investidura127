@@ -40,22 +40,29 @@ func _fetch_async(method: String, url: String, body: String = "") -> Dictionary:
 	var js_code = """
 	(async () => {
 		try {
+			console.log('[FirebaseSync JS] Fetch %s: %s', '%s'.substring(0, 80) + '...', '%s');
 			const resp = await fetch('%s'%s);
 			const text = await resp.text();
 			window.lastFetchResult = {status: 'ok', code: resp.status, body: text};
+			console.log('[FirebaseSync JS] ✅ Response %d, %d bytes', resp.status, text.length);
 		} catch(e) {
+			console.log('[FirebaseSync JS] ❌ Error: ' + e.message);
 			window.lastFetchResult = {status: 'error', error: e.message};
 		}
 	})();
-	""" % [url, options]
+	""" % [method, url, body, url]
 
 	JavaScriptBridge.eval(js_code)
-	await get_tree().create_timer(0.8).timeout
+	# Aumentar timeout de 0.8s a 3s para Firestore
+	await get_tree().create_timer(3.0).timeout
 
 	if not JavaScriptBridge.get_interface("window").has("lastFetchResult"):
+		print("[FirebaseSync] ❌ Timeout esperando respuesta de fetch")
 		return {"error": "Fetch timeout"}
 
-	return JavaScriptBridge.get_interface("window").lastFetchResult
+	var result = JavaScriptBridge.get_interface("window").lastFetchResult
+	print("[FirebaseSync] 📦 Resultado fetch: status=%s, code=%s" % [result.get("status"), result.get("code")])
+	return result
 
 # ============================================================================
 # BÚSQUEDA FUZZY DE SCOUTS
