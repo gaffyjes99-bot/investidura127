@@ -27,3 +27,6 @@ assets/video/*_raw.*
 .DS_Store
 Thumbs.db
 *.tmp
+
+export/web/*
+export/android/*
