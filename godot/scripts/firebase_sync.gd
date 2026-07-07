@@ -31,17 +31,16 @@ var _http_post
 var _sync_timer
 
 func _ready() -> void:
-	_http_get = ClassDB.instantiate("HttpRequest")
-	add_child(_http_get)
-	_http_get.request_completed.connect(_on_http_request_completed.bind(_http_get))
-
-	_http_patch = ClassDB.instantiate("HttpRequest")
-	add_child(_http_patch)
-	_http_patch.request_completed.connect(_on_http_request_completed.bind(_http_patch))
-
-	_http_post = ClassDB.instantiate("HttpRequest")
-	add_child(_http_post)
-	_http_post.request_completed.connect(_on_http_request_completed.bind(_http_post))
+	print("[FirebaseSync] Inicializando Firebase Sync...")
+	# HttpRequest no está disponible en web export
+	# Usaremos fetch via JavaScript cuando sea necesario
+	# Por ahora, solo inicializar timer
+	_sync_timer = Timer.new()
+	add_child(_sync_timer)
+	_sync_timer.timeout.connect(_on_sync_timer_timeout)
+	_sync_timer.wait_time = FirebaseConfig.SYNC_INTERVAL_SECONDS
+	_sync_timer.start()
+	print("[FirebaseSync] Ready")
 
 	# Timer para sincronización periódica
 	_sync_timer = Timer.new()
@@ -57,8 +56,7 @@ func _ready() -> void:
 func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 	"""
 	Busca scout en colección 'scouts' con búsqueda fuzzy local (80% similitud).
-	NOTA: Esta implementación descarga todos los scouts (menos seguro que Cloud Function).
-	Emite: scout_found, scout_not_found, multiple_matches
+	Usa fetch API en web para descargar scouts.
 	"""
 	if nombre_input.is_empty() or patrulla.is_empty():
 		print("[FirebaseSync] ERROR: Nombre o patrulla vacíos")
@@ -69,17 +67,31 @@ func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 	print("[FirebaseSync] 🔍 Búsqueda fuzzy iniciada: '%s' en patrulla '%s'" % [nombre_input, patrulla])
 	print("[FirebaseSync] 📡 GET endpoint: %s" % endpoint)
 
-	_http_get.request(
-		endpoint,
-		PackedStringArray(),
-		0
-	)
-	# Guardamos contexto de búsqueda para procesar respuesta
-	_http_get.set_meta("search_context", {
-		"nombre_input": nombre_input.to_lower().strip_edges(),
-		"patrulla": patrulla,
-		"operation": "find_scout"
-	})
+	# Usar fetch API en web
+	var js_code = """
+	fetch('%s')
+		.then(r => r.json())
+		.then(data => {
+			window.firebaseSearchResult = {
+				status: 'ok',
+				data: data,
+				nombre_input: '%s',
+				patrulla: '%s'
+			};
+		})
+		.catch(e => {
+			window.firebaseSearchResult = {
+				status: 'error',
+				error: e.message,
+				nombre_input: '%s',
+				patrulla: '%s'
+			};
+		});
+	""" % [endpoint, nombre_input, patrulla, nombre_input, patrulla]
+
+	JavaScriptBridge.eval(js_code)
+	await get_tree().create_timer(0.5).timeout
+	_process_fetch_result("find_scout", nombre_input, patrulla)
 
 func _process_find_scout_response(response_body: String, nombre_input: String, patrulla: String) -> void:
 	"""Procesa respuesta GET de scouts y aplica búsqueda fuzzy local."""
