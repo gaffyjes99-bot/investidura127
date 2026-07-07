@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dp56e3vx2vcbbb3"]
 
-[ext_resource type="Script" path="res://scenes/onboarding/scout_selection_dialog.gd" uid="uid://cvjjlkxgfvnw9"]
+[ext_resource type="Script" path="res://scenes/onboarding/scout_selection_dialog.gd" id="1" uid="uid://cvjjlkxgfvnw9"]
 
 [node name="ScoutSelectionDialog" type="Control"]
 layout_mode = 3
