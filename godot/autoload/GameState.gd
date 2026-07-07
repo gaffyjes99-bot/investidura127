@@ -15,6 +15,7 @@ const RANGOS := [
 
 var nombre_scout: String = ""
 var patrulla: String = ""         # Jaguares | Lobos | Mapaches | Pandas
+var scout_id: String = ""         # ID del scout en Firestore (validado en login)
 var xp: int = 0
 var rango: String = "Pietierno"
 var capitulos_completados: Array[int] = []

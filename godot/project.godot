@@ -22,6 +22,8 @@ config/icon="res://icon.svg"
 GameState="*res://autoload/GameState.gd"
 SaveManager="*res://autoload/SaveManager.gd"
 SceneRouter="*res://autoload/SceneRouter.gd"
+FirebaseConfig="*res://firebase_config.gd"
+FirebaseSync="*res://scripts/firebase_sync.gd"
 
 [display]
 

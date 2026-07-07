@@ -6,6 +6,7 @@ func guardar() -> void:
 	var datos := {
 		"nombre_scout": GameState.nombre_scout,
 		"patrulla": GameState.patrulla,
+		"scout_id": GameState.scout_id,
 		"xp": GameState.xp,
 		"rango": GameState.rango,
 		"capitulos_completados": GameState.capitulos_completados,
@@ -20,6 +21,9 @@ func guardar() -> void:
 		if f:
 			f.store_string(json)
 			f.close()
+
+	# Sincronizar con Firestore (si scout está autenticado)
+	_sync_to_firestore()
 
 func cargar() -> bool:
 	var json_str: String = ""
@@ -43,6 +47,7 @@ func cargar() -> bool:
 
 	GameState.nombre_scout = datos.get("nombre_scout", "")
 	GameState.patrulla = datos.get("patrulla", "")
+	GameState.scout_id = datos.get("scout_id", "")
 	GameState.xp = datos.get("xp", 0)
 	GameState.rango = datos.get("rango", "Pietierno")
 	var caps: Array[int] = []
@@ -62,3 +67,26 @@ func borrar() -> void:
 	else:
 		if FileAccess.file_exists("user://save.json"):
 			DirAccess.remove_absolute("user://save.json")
+
+func _sync_to_firestore() -> void:
+	"""Sincroniza cambios locales a Firestore después de guardar."""
+	# Solo sincronizar si el scout está autenticado (tiene scout_id)
+	if GameState.scout_id.is_empty():
+		return
+
+	if not FirebaseSync:
+		print("[SaveManager] FirebaseSync no disponible")
+		return
+
+	# Preparar datos para Firestore
+	var updates = {
+		"xp_total": GameState.xp,
+		"rango": GameState.rango,
+		"capitulos_completados": GameState.capitulos_completados,
+		"insignias_desbloqueadas": GameState.insignias,
+		"ultima_actualizacion": Time.get_ticks_msec()
+	}
+
+	# Enviar a Firestore
+	FirebaseSync.push_scout_data(updates)
+	print("[SaveManager] Progreso sincronizado con Firestore")

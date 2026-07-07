@@ -104,10 +104,27 @@ func _on_evaluacion_terminada(aprobado: bool, porcentaje: float) -> void:
 	if aprobado:
 		GameState.completar_capitulo(_num)
 		SaveManager.guardar()
+		# Sincronizar con Firestore (SaveManager lo hace automáticamente)
+		_sync_chapter_completed()
 		boton_siguiente.text = "¡Capítulo completado! →"
 	else:
 		boton_siguiente.text = "Reintentar evaluación"
 	boton_siguiente.disabled = false
+
+func _sync_chapter_completed() -> void:
+	"""Sincroniza capítulo completado con Firestore."""
+	if GameState.scout_id.is_empty() or not FirebaseSync:
+		return
+
+	var updates = {
+		"capitulos_completados": GameState.capitulos_completados,
+		"xp_total": GameState.xp,
+		"rango": GameState.rango,
+		"ultima_actualizacion": Time.get_ticks_msec()
+	}
+
+	FirebaseSync.push_scout_data(updates)
+	print("[Capitulo] Capítulo %d completado sincronizado con Firestore" % _num)
 
 func _capitulo_terminado() -> void:
 	boton_siguiente.text = "Volver al Mapa"

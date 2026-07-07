@@ -108,10 +108,13 @@ func _terminar() -> void:
 	for hijo in opciones_vbox.get_children():
 		hijo.queue_free()
 
+	var xp_ganado := 0
 	if aprobado:
 		GameState.dar_xp(XP_APROBAR)
+		xp_ganado = XP_APROBAR
 		if _correctas == _preguntas.size():
 			GameState.dar_xp(XP_PERFECTO_BONUS)
+			xp_ganado += XP_PERFECTO_BONUS
 		progreso_label.text = "✅ Aprobado: %d / %d (%.0f%%)" % [_correctas, _preguntas.size(), pct * 100]
 		feedback_label.text = "¡Excelente trabajo, %s!" % GameState.nombre_scout
 		feedback_label.add_theme_color_override("font_color", Color(0.3, 1.0, 0.3, 1))
@@ -122,6 +125,29 @@ func _terminar() -> void:
 		feedback_label.add_theme_color_override("font_color", Color(1.0, 0.7, 0.3, 1))
 		pregunta_label.text = "[b]Resultado[/b]\n\nObtuviste %d de %d. Necesitas 80%% para avanzar." % [_correctas, _preguntas.size()]
 
+	# Sincronizar progreso con Firestore
+	_sync_quiz_result(aprobado, pct, xp_ganado)
+
 	feedback_label.visible = true
 	boton_continuar.visible = false
 	emit_signal("evaluacion_terminada", aprobado, pct)
+
+func _sync_quiz_result(aprobado: bool, porcentaje: float, xp_ganado: int) -> void:
+	"""Sincroniza resultado del quiz con Firestore."""
+	# Guardar localmente primero
+	SaveManager.guardar()
+
+	# Si no hay scout_id, no sincronizar
+	if GameState.scout_id.is_empty() or not FirebaseSync:
+		return
+
+	# Preparar datos del quiz para Firestore
+	var updates = {
+		"xp_total": GameState.xp,
+		"rango": GameState.rango,
+		"ultima_actualizacion": Time.get_ticks_msec()
+	}
+
+	# Enviar a Firestore
+	FirebaseSync.push_scout_data(updates)
+	print("[Quiz] Resultado sincronizado: aprobado=%s, score=%.0f%%, XP=%d" % [aprobado, porcentaje * 100, xp_ganado])
