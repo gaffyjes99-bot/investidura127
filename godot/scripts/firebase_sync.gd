@@ -123,7 +123,7 @@ func _process_find_scout_response(response_body: String, nombre_input: String, p
 		if doc_patrulla.to_lower() != patrulla.to_lower():
 			continue
 
-		var similarity = _levenshtein_similarity(nombre_input.to_lower(), doc_nombre.to_lower())
+		var similarity = _calculate_match_score(nombre_input.to_lower(), doc_nombre.to_lower())
 		print("[FirebaseSync]   🔎 '%s' vs '%s' = %.0f%%" % [nombre_input, doc_nombre, similarity * 100])
 
 		if similarity >= FirebaseConfig.MIN_SIMILARITY_THRESHOLD:
@@ -250,6 +250,43 @@ func _on_sync_timer_timeout() -> void:
 # ============================================================================
 # UTILIDADES
 # ============================================================================
+
+func _calculate_match_score(input: String, full_name: String) -> float:
+	"""Calcula puntuación de coincidencia: busca por palabras clave primero, luego Levenshtein."""
+	var input_words = input.split(" ")
+	var name_words = full_name.split(" ")
+
+	# Si alguna palabra exacta coincide, retornar 1.0 (100%)
+	for iw in input_words:
+		for nw in name_words:
+			if iw == nw:
+				print("[FirebaseSync]   ✓ Coincidencia exacta de palabra: '%s' en '%s'" % [iw, full_name])
+				return 1.0
+
+	# Si el input contiene parte del full_name o viceversa
+	if full_name.contains(input):
+		print("[FirebaseSync]   ✓ Contiene substring: '%s' en '%s'" % [input, full_name])
+		return 0.95
+
+	if input.contains(full_name):
+		return 0.95
+
+	# Si cada palabra del input coincide parcialmente con alguna palabra del nombre
+	var word_score = 0.0
+	for iw in input_words:
+		var best_similarity = 0.0
+		for nw in name_words:
+			var sim = _levenshtein_similarity(iw, nw)
+			best_similarity = maxf(best_similarity, sim)
+		word_score += best_similarity
+
+	if input_words.size() > 0:
+		var avg_score = word_score / float(input_words.size())
+		print("[FirebaseSync]   ✓ Coincidencia de palabras: %.0f%%" % [avg_score * 100])
+		return avg_score
+
+	# Fallback: similitud Levenshtein del string completo
+	return _levenshtein_similarity(input, full_name)
 
 func _levenshtein_similarity(s1: String, s2: String) -> float:
 	var distance = _levenshtein_distance(s1, s2)
