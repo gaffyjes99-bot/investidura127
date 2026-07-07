@@ -912,8 +912,17 @@ func _cap_mostrar_pregunta() -> void:
 	var opciones: Array = []
 	var correcta: String = str(q.get("respuesta_correcta", ""))
 	opciones.append(correcta)
-	for d in q.get("distractores", []):
-		opciones.append(str(d))
+	var _dist = q.get("distractores", [])
+	if _dist is Array:
+		for d in _dist:
+			var dt := str(d).strip_edges()
+			if dt.length() > 0:
+				opciones.append(dt)
+	else:
+		for d in str(_dist).split("|"):
+			var dt := d.strip_edges()
+			if dt.length() > 0:
+				opciones.append(dt)
 	opciones.shuffle()
 
 	for opcion in opciones:
