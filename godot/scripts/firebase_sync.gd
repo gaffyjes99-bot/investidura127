@@ -58,31 +58,37 @@ func _ready() -> void:
 
 func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 	"""
-	Busca scout en colección 'scouts' con búsqueda fuzzy (80% similitud).
-	Descarga todos los scouts de la patrulla y compara por nombre.
+	Busca scout usando Cloud Function (backend seguro).
+	La búsqueda fuzzy se hace en servidor, protegiendo datos personales.
 	Emite: scout_found, scout_not_found, multiple_matches
 	"""
 	if nombre_input.is_empty() or patrulla.is_empty():
 		emit_signal("scout_not_found", "Nombre y patrulla requeridos")
 		return
 
-	var endpoint = FirebaseConfig.get_scouts_endpoint()
-	_http_get.request(
-		endpoint,
-		PackedStringArray(),
-		HttpClient.METHOD_GET
-	)
-	# Guardamos contexto de búsqueda para procesar respuesta
-	_http_get.get_meta("search_context", {
-		"nombre_input": nombre_input.to_lower().strip_edges(),
-		"patrulla": patrulla,
-		"operation": "find_scout"
+	# Endpoint del Cloud Function
+	var cloud_function_url = "https://us-central1-fichas-actividad-scout.cloudfunctions.net/findScout"
+
+	# Preparar body con nombre y patrulla
+	var body = JSON.stringify({
+		"nombre": nombre_input.strip_edges(),
+		"patrulla": patrulla
 	})
 
-func _process_find_scout_response(response_body: String, nombre_input: String, patrulla: String) -> void:
-	"""Procesa respuesta GET de scouts y aplica búsqueda fuzzy."""
+	var headers = PackedStringArray(["Content-Type: application/json"])
+
+	_http_post.request(
+		cloud_function_url,
+		headers,
+		HttpClient.METHOD_POST,
+		body
+	)
+	_http_post.set_meta("operation", "find_scout_cloud")
+
+func _process_find_scout_cloud_response(response_body: String) -> void:
+	"""Procesa respuesta del Cloud Function findScout."""
 	if response_body.is_empty():
-		emit_signal("scout_not_found", "Error: respuesta vacía de servidor")
+		emit_signal("scout_not_found", "Error: respuesta vacía del servidor")
 		return
 
 	var json = JSON.new()
@@ -91,48 +97,28 @@ func _process_find_scout_response(response_body: String, nombre_input: String, p
 		return
 
 	var data = json.data
-	if not data.has("documents"):
-		emit_signal("scout_not_found", "No se encontraron scouts en esa patrulla")
+
+	# Verificar si hay error
+	if data.has("error"):
+		var error_code = data.get("code", "UNKNOWN")
+		var error_msg = data.get("error", "Error desconocido")
+
+		match error_code:
+			"MULTIPLE_MATCHES":
+				# Múltiples coincidencias
+				var matches = data.get("matches", []) as Array
+				emit_signal("multiple_matches", matches)
+			_:
+				# Otros errores (SCOUT_NOT_FOUND, PATRULLA_NOT_FOUND, etc.)
+				emit_signal("scout_not_found", error_msg)
 		return
 
-	# Filtrar por patrulla y buscar por similitud de nombre
-	var matches: Array[Dictionary] = []
-	var documents = data["documents"] if data["documents"] is Array else []
+	# Éxito: scout encontrado
+	_current_scout_id = data.get("scoutId", "")
+	var nombre = data.get("nombre", "")
+	var patrulla = data.get("patrulla", "")
 
-	for doc in documents:
-		if not doc.has("fields"):
-			continue
-
-		var fields = doc["fields"]
-		var doc_patrulla = _get_field_value(fields, "patrulla", "")
-		var doc_nombre = _get_field_value(fields, "nombre", "")
-
-		# Filtro exacto por patrulla
-		if doc_patrulla.to_lower() != patrulla.to_lower():
-			continue
-
-		# Búsqueda fuzzy por nombre
-		var similarity = _levenshtein_similarity(nombre_input.to_lower(), doc_nombre.to_lower())
-		if similarity >= FirebaseConfig.MIN_SIMILARITY_THRESHOLD:
-			matches.append({
-				"scout_id": _extract_doc_id(doc),
-				"nombre": doc_nombre,
-				"patrulla": doc_patrulla,
-				"similarity": similarity
-			})
-
-	# Ordenar por similitud (descendente)
-	matches.sort_custom(func(a, b): return a["similarity"] > b["similarity"])
-
-	if matches.is_empty():
-		emit_signal("scout_not_found", "Scout no encontrado en patrulla '%s'" % patrulla)
-	elif matches.size() == 1:
-		var match = matches[0]
-		_current_scout_id = match["scout_id"]
-		emit_signal("scout_found", match["scout_id"], match["nombre"], match["patrulla"])
-	else:
-		# Múltiples coincidencias — dejar que usuario elija
-		emit_signal("multiple_matches", matches)
+	emit_signal("scout_found", _current_scout_id, nombre, patrulla)
 
 # ============================================================================
 # DESCARGA/CREA PROGRESO DEL SCOUT
@@ -289,9 +275,8 @@ func _on_http_request_completed(result: int, response_code: int, headers: Packed
 
 	# Procesar según operación
 	match operation:
-		"find_scout":
-			var context = http_node.get_meta("search_context", {})
-			_process_find_scout_response(response_body, context["nombre_input"], context["patrulla"])
+		"find_scout_cloud":
+			_process_find_scout_cloud_response(response_body)
 		"get_progress":
 			var scout_id = http_node.get_meta("scout_id", "")
 			var grupo_id = http_node.get_meta("grupo_id", "")
