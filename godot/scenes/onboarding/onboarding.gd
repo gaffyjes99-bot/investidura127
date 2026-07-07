@@ -54,12 +54,19 @@ func _sel(idx: int) -> void:
 	_check()
 
 func _check() -> void:
-	var ok := nombre_input.text.strip_edges().length() >= 2 and _patrulla_idx >= 0
+	var nombre_len = nombre_input.text.strip_edges().length()
+	var ok := nombre_len >= 2 and _patrulla_idx >= 0
 	boton_iniciar.disabled = not ok or _syncing
+	print("[Onboarding] _check() -> nombre_len=%d, _patrulla_idx=%d, ok=%s, disabled=%s" % [nombre_len, _patrulla_idx, ok, boton_iniciar.disabled])
 
 func _on_iniciar() -> void:
+	print("[Onboarding] ⚡ _on_iniciar() called")
 	var nombre := nombre_input.text.strip_edges()
+	print("[Onboarding] nombre_input.text='%s' (stripped: '%s', len=%d)" % [nombre_input.text, nombre, nombre.length()])
+	print("[Onboarding] _patrulla_idx=%d" % _patrulla_idx)
+
 	if nombre.length() < 2 or _patrulla_idx < 0:
+		print("[Onboarding] ❌ Validación fallida: nombre o patrulla incompleta")
 		_show_error("Completa nombre y patrulla")
 		return
 
@@ -71,7 +78,7 @@ func _on_iniciar() -> void:
 
 	# Búsqueda fuzzy en Firestore (colección scouts)
 	var patrulla = PATRULLAS[_patrulla_idx]
-	print("Iniciando búsqueda: nombre='%s', patrulla='%s'" % [nombre, patrulla])
+	print("[Onboarding] 🔍 Iniciando búsqueda: nombre='%s', patrulla='%s'" % [nombre, patrulla])
 	FirebaseSync.find_scout_in_firestore(nombre, patrulla)
 
 func _on_scout_found(scout_id: String, name: String, patrol: String) -> void:
