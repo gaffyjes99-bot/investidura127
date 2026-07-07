@@ -63,10 +63,14 @@ func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 	Emite: scout_found, scout_not_found, multiple_matches
 	"""
 	if nombre_input.is_empty() or patrulla.is_empty():
+		print("[FirebaseSync] ERROR: Nombre o patrulla vacíos")
 		emit_signal("scout_not_found", "Nombre y patrulla requeridos")
 		return
 
 	var endpoint = FirebaseConfig.get_scouts_endpoint()
+	print("[FirebaseSync] 🔍 Búsqueda fuzzy iniciada: '%s' en patrulla '%s'" % [nombre_input, patrulla])
+	print("[FirebaseSync] 📡 GET endpoint: %s" % endpoint)
+
 	_http_get.request(
 		endpoint,
 		PackedStringArray(),
@@ -81,23 +85,29 @@ func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 
 func _process_find_scout_response(response_body: String, nombre_input: String, patrulla: String) -> void:
 	"""Procesa respuesta GET de scouts y aplica búsqueda fuzzy local."""
+	print("[FirebaseSync] 📥 Respuesta recibida, procesando...")
+
 	if response_body.is_empty():
+		print("[FirebaseSync] ❌ Respuesta vacía")
 		emit_signal("scout_not_found", "Error: respuesta vacía de servidor")
 		return
 
 	var json = JSON.new()
 	if json.parse(response_body) != OK:
+		print("[FirebaseSync] ❌ JSON inválido en respuesta")
 		emit_signal("scout_not_found", "Error: respuesta JSON inválida")
 		return
 
 	var data = json.data
 	if not data.has("documents"):
+		print("[FirebaseSync] ❌ No hay documentos en respuesta")
 		emit_signal("scout_not_found", "No se encontraron scouts en esa patrulla")
 		return
 
 	# Filtrar por patrulla y buscar por similitud de nombre
 	var matches: Array[Dictionary] = []
 	var documents = data["documents"] if data["documents"] is Array else []
+	print("[FirebaseSync] 📊 Total scouts descargados: %d" % documents.size())
 
 	for doc in documents:
 		if not doc.has("fields"):
@@ -113,6 +123,8 @@ func _process_find_scout_response(response_body: String, nombre_input: String, p
 
 		# Búsqueda fuzzy por nombre (Levenshtein 80%)
 		var similarity = _levenshtein_similarity(nombre_input.to_lower(), doc_nombre.to_lower())
+		print("[FirebaseSync]   🔎 '%s' vs '%s' = %.0f%% similitud" % [nombre_input, doc_nombre, similarity * 100])
+
 		if similarity >= FirebaseConfig.MIN_SIMILARITY_THRESHOLD:
 			matches.append({
 				"scout_id": doc.get("name", "").split("/")[-1],  # Extract ID from path
@@ -120,18 +132,24 @@ func _process_find_scout_response(response_body: String, nombre_input: String, p
 				"patrulla": doc_patrulla,
 				"similarity": similarity
 			})
+			print("[FirebaseSync]   ✅ COINCIDENCIA: %s" % doc_nombre)
 
 	# Ordenar por similitud (descendente)
 	matches.sort_custom(func(a, b): return a["similarity"] > b["similarity"])
 
+	print("[FirebaseSync] 🎯 Resultado: %d coincidencia(s)" % matches.size())
+
 	if matches.is_empty():
+		print("[FirebaseSync] ❌ Scout no encontrado")
 		emit_signal("scout_not_found", "Scout no encontrado en patrulla '%s'" % patrulla)
 	elif matches.size() == 1:
 		var match = matches[0]
 		_current_scout_id = match["scout_id"]
+		print("[FirebaseSync] ✅ Scout encontrado: %s (ID: %s)" % [match["nombre"], match["scout_id"]])
 		emit_signal("scout_found", match["scout_id"], match["nombre"], match["patrulla"])
 	else:
 		# Múltiples coincidencias — dejar que usuario elija
+		print("[FirebaseSync] ⚠️ Múltiples coincidencias, mostrando diálogo")
 		emit_signal("multiple_matches", matches)
 
 # ============================================================================
@@ -149,6 +167,9 @@ func get_scout_progress(grupo_id: String, scout_id: String) -> void:
 	var doc_id = "%s_%s" % [grupo_id, scout_id]
 	var endpoint = FirebaseConfig.get_progreso_endpoint(doc_id)
 
+	print("[FirebaseSync] 📥 Descargando progreso de scout ID: %s" % scout_id)
+	print("[FirebaseSync] 📡 GET: %s" % endpoint)
+
 	_http_get.request(
 		endpoint,
 		PackedStringArray(),
@@ -160,13 +181,17 @@ func get_scout_progress(grupo_id: String, scout_id: String) -> void:
 
 func _process_get_progress_response(response_body: String, scout_id: String, grupo_id: String) -> void:
 	"""Procesa respuesta de progreso. Si no existe, crea documento."""
+	print("[FirebaseSync] 📥 Procesando respuesta de progreso...")
+
 	if response_body.is_empty():
 		# Probablemente no existe el documento
+		print("[FirebaseSync] 📝 Respuesta vacía, creando documento nuevo")
 		_create_default_progress(scout_id, grupo_id)
 		return
 
 	var json = JSON.new()
 	if json.parse(response_body) != OK:
+		print("[FirebaseSync] ⚠️ JSON inválido, creando documento nuevo")
 		_create_default_progress(scout_id, grupo_id)
 		return
 
@@ -175,12 +200,15 @@ func _process_get_progress_response(response_body: String, scout_id: String, gru
 	# Verificar si es error 404 (not found)
 	if data.has("error"):
 		if data["error"].get("code", 0) == 404:
+			print("[FirebaseSync] 📝 Documento no existe (404), creando nuevo")
 			_create_default_progress(scout_id, grupo_id)
 		else:
+			print("[FirebaseSync] ❌ Error: %s" % data["error"].get("message", ""))
 			emit_signal("sync_error", "Error al descargar progreso: %s" % data["error"].get("message", ""))
 		return
 
 	# Éxito — cargar datos en memoria
+	print("[FirebaseSync] ✅ Progreso cargado desde Firestore")
 	_local_progress = data
 	emit_signal("progress_loaded", _local_progress)
 
@@ -194,6 +222,9 @@ func _create_default_progress(scout_id: String, grupo_id: String) -> void:
 		"%s/%s" % [FirebaseConfig.FIRESTORE_PROGRESO_COLLECTION, doc_id],
 		FirebaseConfig.API_KEY
 	]
+
+	print("[FirebaseSync] 📝 Creando documento de progreso nuevo para scout: %s" % scout_id)
+	print("[FirebaseSync] 📡 POST: %s" % endpoint)
 
 	var default_data = FirebaseConfig.get_default_progress_data(scout_id, "", "")
 
@@ -276,11 +307,15 @@ func _on_http_request_completed(result: int, response_code: int, headers: Packed
 	var response_body = body.get_string_from_utf8()
 	var operation = http_node.get_meta("operation", "")
 
+	print("[FirebaseSync] 🌐 HTTP %s: código %d, resultado %d" % [operation, response_code, result])
+
 	if result != HTTPRequest.RESULT_SUCCESS:
+		print("[FirebaseSync] ❌ Error de conexión: %d" % result)
 		_handle_http_error(result, operation)
 		return
 
 	if response_code >= 400:
+		print("[FirebaseSync] ❌ Error del servidor: HTTP %d" % response_code)
 		_handle_http_error_code(response_code, response_body, operation)
 		return
 
