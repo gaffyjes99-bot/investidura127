@@ -15,12 +15,18 @@ var _syncing: bool = false
 var _scout_selection_dialog: Control = null
 
 func _ready() -> void:
-	print("onboarding _ready START")
+	print("[Onboarding] _ready() START - initializing onboarding scene")
+
+	# Debug: verify nodes are found
+	print("[Onboarding] Node refs: btn_jaguares=%s, boton_iniciar=%s, nombre_input=%s" % [btn_jaguares, boton_iniciar, nombre_input])
+
 	btn_jaguares.pressed.connect(func(): _sel(0))
 	btn_lobos.pressed.connect(func(): _sel(1))
 	btn_mapaches.pressed.connect(func(): _sel(2))
 	btn_pandas.pressed.connect(func(): _sel(3))
 	boton_iniciar.pressed.connect(_on_iniciar)
+	print("[Onboarding] ✅ Button signal connected: boton_iniciar.pressed -> _on_iniciar()")
+
 	nombre_input.text_changed.connect(_on_nombre_cambiado)
 	error_label.visible = false
 
