@@ -55,25 +55,63 @@
         {
           "situacion": "Tu amigo dice una mentira pequeña para no meterse en problemas. ¿Qué artículo de la Ley está rompiendo?",
           "opciones": [
-            {"texto": "Artículo 1 — El Scout cifra su honor en ser digno de confianza.", "correcta": true, "retro": "¡Correcto! La Ley Scout pone el honor y la confianza en primer lugar, por encima de la conveniencia."},
-            {"texto": "Artículo 7 — El Scout es obediente, responsable y ordenado.", "correcta": false, "retro": "No exactamente. El artículo 7 habla de obediencia y orden. El que se rompe con la mentira es el 1: ser digno de confianza."},
-            {"texto": "Artículo 10 — El Scout es limpio y sano, puro en pensamientos.", "correcta": false, "retro": "Cercano, pero el artículo 10 habla de pureza moral. La confianza y la palabra dada son el artículo 1."}
+            {
+              "texto": "Artículo 1 — El Scout cifra su honor en ser digno de confianza.",
+              "correcta": true,
+              "retro": "¡Correcto! La Ley Scout pone el honor y la confianza en primer lugar, por encima de la conveniencia."
+            },
+            {
+              "texto": "Artículo 7 — El Scout es obediente, responsable y ordenado.",
+              "correcta": false,
+              "retro": "No exactamente. El artículo 7 habla de obediencia y orden. El que se rompe con la mentira es el 1: ser digno de confianza."
+            },
+            {
+              "texto": "Artículo 10 — El Scout es limpio y sano, puro en pensamientos.",
+              "correcta": false,
+              "retro": "Cercano, pero el artículo 10 habla de pureza moral. La confianza y la palabra dada son el artículo 1."
+            }
           ]
         },
         {
           "situacion": "Durante una excursión tu patrulla encuentra basura tirada junto a un arroyo. ¿Qué artículo de la Ley te llama a actuar?",
           "opciones": [
-            {"texto": "Artículo 6 — El Scout ve en la naturaleza la obra de Dios y procura su conservación.", "correcta": true, "retro": "¡Exacto! El artículo 6 es claro: el scout cuida y conserva la naturaleza como deber."},
-            {"texto": "Artículo 3 — El Scout es útil y ayuda a los demás sin esperar recompensa.", "correcta": false, "retro": "El artículo 3 habla de ayudar a otras personas, no de cuidar el medioambiente. Para eso está el artículo 6."},
-            {"texto": "Artículo 9 — El Scout es económico y cuidadoso del bien ajeno.", "correcta": false, "retro": "El artículo 9 habla del bien ajeno de las personas. Cuidar la naturaleza corresponde al artículo 6."}
+            {
+              "texto": "Artículo 6 — El Scout ve en la naturaleza la obra de Dios y procura su conservación.",
+              "correcta": true,
+              "retro": "¡Exacto! El artículo 6 es claro: el scout cuida y conserva la naturaleza como deber."
+            },
+            {
+              "texto": "Artículo 3 — El Scout es útil y ayuda a los demás sin esperar recompensa.",
+              "correcta": false,
+              "retro": "El artículo 3 habla de ayudar a otras personas, no de cuidar el medioambiente. Para eso está el artículo 6."
+            },
+            {
+              "texto": "Artículo 9 — El Scout es económico y cuidadoso del bien ajeno.",
+              "correcta": false,
+              "retro": "El artículo 9 habla del bien ajeno de las personas. Cuidar la naturaleza corresponde al artículo 6."
+            }
           ]
         }
       ],
       "biografia": {
         "plantilla": "1. El Scout cifra su honor en ser digno de [1]. 4. El Scout es [2] de todos y hermano de cualquier Scout sin distinción. 8. El Scout [3] y canta en sus dificultades. 10. El Scout es limpio y sano, [4] en pensamientos, palabras y acciones.",
-        "respuestas": ["confianza", "amigo", "sonríe", "puro"],
-        "distractores": ["honor", "hermano", "canta", "ordenado", "fiel", "ríe"]
-      }
+        "respuestas": [
+          "confianza",
+          "amigo",
+          "sonríe",
+          "puro"
+        ],
+        "distractores": [
+          "honor",
+          "hermano",
+          "canta",
+          "ordenado",
+          "fiel",
+          "ríe"
+        ],
+        "titulo": "Completa los artículos de la Ley Scout"
+      },
+      "titulo_decision": "¿Qué artículo de la Ley aplica?"
     },
     {
       "tipo": "evaluacion",

@@ -759,9 +759,13 @@ func _jg_nodos() -> Dictionary:
 	}
 
 func _jg_limpiar(n: Dictionary) -> void:
-	for c in (n["opciones"] as Node).get_children():
+	var op_node := n["opciones"] as Node
+	for c in op_node.get_children():
+		op_node.remove_child(c)
 		c.queue_free()
-	for c in (n["banco"] as Node).get_children():
+	var banco_node := n["banco"] as Node
+	for c in banco_node.get_children():
+		banco_node.remove_child(c)
 		c.queue_free()
 	(n["retro"] as Label).visible = false
 
@@ -778,7 +782,7 @@ func _jg_mostrar_decision() -> void:
 		return
 	var n := _jg_nodos()
 	_jg_limpiar(n)
-	(n["titulo"] as Label).text = "¿Qué haría B.P.? (%d/%d)" % [_jg_decision_idx + 1, decisiones.size()]
+	(n["titulo"] as Label).text = "%s (%d/%d)" % [str(_jg_escena.get("titulo_decision", "¿Qué harías?")), _jg_decision_idx + 1, decisiones.size()]
 	_texto_typewriter(n["texto"] as RichTextLabel, str(decisiones[_jg_decision_idx].get("situacion", "")))
 	for op in decisiones[_jg_decision_idx].get("opciones", []):
 		var btn := Button.new()
@@ -803,7 +807,7 @@ func _jg_responder(op: Dictionary, btn: Button) -> void:
 		if GameState.marcar_escena_vista(_capitulo_activo, 100 + _jg_decision_idx):
 			GameState.dar_xp(10)
 		_jg_decision_idx += 1
-		get_tree().create_timer(2.4).timeout.connect(_jg_mostrar_decision, CONNECT_ONE_SHOT)
+		get_tree().create_timer(1.8).timeout.connect(_jg_mostrar_decision, CONNECT_ONE_SHOT)
 	else:
 		# Incorrecta: retro + permite reintentar con la otra opción
 		_boton_estilo(btn, COL_ROJO, COL_CREMA)
@@ -817,7 +821,7 @@ func _jg_mostrar_biografia() -> void:
 		return
 	var n := _jg_nodos()
 	_jg_limpiar(n)
-	(n["titulo"] as Label).text = "Completa la biografía de B.P."
+	(n["titulo"] as Label).text = str(bio.get("titulo", "Completa las frases clave"))
 	_jg_bio_idx = 0
 	_jg_render_biografia(n)
 	var palabras: Array = []
