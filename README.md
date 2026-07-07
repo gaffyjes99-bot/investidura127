@@ -23,8 +23,53 @@ claude
 🟢 Fase 1 — Extracción de contenidos: **Completa** (matriz maestra + banco de 120 preguntas)
 🟢 Fase 2 — Guion pedagógico y de juego: **Completa** (guion.md, escenas.json, preguntas.json en cada capítulo + docs/Fase2_Guion_Pedagogico.md)
 🟢 Fase 3 — Storyboard: **Especificación completa** (docs/Fase3_Guia_de_Estilo.md + docs/Fase3_Storyboard_48_Escenas.md)
-🟡 Fase 4 — Producción gráfica: **En curso, ajustada a equipo de 1 persona** — arte generado con IA local (Stable Diffusion/Fooocus), prompts listos en docs/Fase4_Prompts_Generacion_Arte.md
-⬜ Fase 5 en adelante
+🟡 Fase 4 — Producción gráfica: **En curso** — arte generado con IA (fondo transparente). Sprites, escudos y badges de caps 1–11 listos. Tarjetas de mapa (cap_NN_bloqueada/desbloqueada) completas.
+🟡 Fase 7 — Implementación Godot: **En curso activo** — ver detalle abajo
+⬜ Fase 5, 6, 8 — Pendientes
+
+## Fase 7 — Estado de implementación Godot (2026-07-06)
+
+### Funcional y deployado en gh-pages
+- **Mapa de capítulos:** TextureButton con tarjetas `cap_NN_bloqueada/desbloqueada.png`, toast para capítulos bloqueados, badge de insignia animada (pop) sobre capítulo completado.
+- **Escenas de narración:** texto typewriter, imagen lateral, Ken Burns con viñetas animadas.
+- **Juego (mini-game):** decisiones de opción múltiple con retroalimentación inmediata + fill-in-the-blank (banco de palabras). Cap 2 completamente configurado.
+- **Cuestionario (evaluación):** preguntas de opción múltiple, retroalimentación por respuesta, badge de insignia al aprobar.
+- **Sistema XP:** acumulado por escena, mostrado en header.
+- **Caps 1–11:** `escenas.json` + `preguntas.json` con contenido real. Cap 12 pendiente (examen integrador).
+
+### Decisiones técnicas críticas
+| Tema | Decisión |
+|------|----------|
+| Lógica UI | Todo en `godot/autoload/SceneRouter.gd` (AutoLoad). Scripts de escena `.gd` NO ejecutan en web export. |
+| `expand_mode` badges | Usar `EXPAND_IGNORE_SIZE` (= 1). `EXPAND_KEEP_SIZE` (= 0) fuerza tamaño de textura (600×600). |
+| Limpieza de nodos en web | `remove_child(c)` + `c.queue_free()` — más confiable que solo `queue_free()` en web. |
+| Tarjetas de mapa | `TextureButton` con `ignore_texture_size = true` + `STRETCH_SCALE`. |
+| Distractores quiz | Soporta dos formatos: string `"a \| b \| c"` (caps 1, 3–11) y array JSON `["a","b","c"]` (cap 2). |
+| Edición de SceneRouter.gd | Usar Python via Bash para reemplazos exactos con tabs — el Edit tool falla por indentación. |
+
+### Pipeline de publicación
+```powershell
+# Ejecutable Godot
+$godot = "C:\Users\gaffy\Downloads\Godot_v4.7-stable_win64.exe\Godot_v4.7-stable_win64.exe"
+
+# 1. Exportar
+& $godot --headless --path godot --export-release "Web" export/web/index.html
+
+# 2. Commit + push gh-pages (en Bash)
+git add godot/ export/web/
+git commit -m "mensaje"
+git subtree push --prefix=export/web origin gh-pages
+```
+> Siempre probar en modo incógnito — el browser cachea el `.pck` agresivamente.
+
+### Pendientes Fase 7
+- [ ] Cap 12 — Examen integrador (no implementado)
+- [ ] Cap 8 — Audio de señales de silbato (requiere grabación del dirigente)
+- [ ] Caps 3–11 `titulo_decision` en `escenas.json` (usan default `"¿Qué harías?"`)
+- [ ] Integración Firestore (progreso persistente entre sesiones)
+- [ ] Panel dirigente en `scouts-app`
+
+---
 
 ## Stack & Arquitectura Técnica
 - **Frontend:** Godot Engine 4 → export HTML5 → GitHub Pages (costo: $0)
