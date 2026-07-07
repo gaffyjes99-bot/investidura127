@@ -7,7 +7,6 @@ extends Node
 
 # Credenciales — OBTENER DE: https://console.firebase.google.com/
 # Proyecto > Configuración del proyecto > Tu app > Credenciales web
-class_name FirebaseConfig
 
 # TODO: Reemplazar con valores reales del proyecto fichas-actividad-scout
 const API_KEY = "AIzaSyBPFCRvhezdhz27OzPbZJijlOVKLnzKNo4"

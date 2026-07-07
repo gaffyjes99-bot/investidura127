@@ -5,8 +5,6 @@ extends Node
 # Proyecto: fichas-actividad-scout (Grupo 127)
 # ============================================================================
 
-class_name FirebaseSync
-
 signal scout_found(scout_id: String, name: String, patrol: String)
 signal scout_not_found(error_message: String)
 signal multiple_matches(matches: Array[Dictionary])
@@ -25,23 +23,23 @@ var _last_sync_time: float = 0.0
 var _sync_error_count: int = 0
 
 # HttpRequest nodes
-var _http_get: HttpRequest
-var _http_patch: HttpRequest
-var _http_post: HttpRequest
+var _http_get
+var _http_patch
+var _http_post
 
 # Timers
-var _sync_timer: Timer
+var _sync_timer
 
 func _ready() -> void:
-	_http_get = HttpRequest.new()
+	_http_get = ClassDB.instantiate("HttpRequest")
 	add_child(_http_get)
 	_http_get.request_completed.connect(_on_http_request_completed.bind(_http_get))
 
-	_http_patch = HttpRequest.new()
+	_http_patch = ClassDB.instantiate("HttpRequest")
 	add_child(_http_patch)
 	_http_patch.request_completed.connect(_on_http_request_completed.bind(_http_patch))
 
-	_http_post = HttpRequest.new()
+	_http_post = ClassDB.instantiate("HttpRequest")
 	add_child(_http_post)
 	_http_post.request_completed.connect(_on_http_request_completed.bind(_http_post))
 
@@ -74,7 +72,7 @@ func find_scout_in_firestore(nombre_input: String, patrulla: String) -> void:
 	_http_get.request(
 		endpoint,
 		PackedStringArray(),
-		HttpClient.METHOD_GET
+		0
 	)
 	# Guardamos contexto de búsqueda para procesar respuesta
 	_http_get.set_meta("search_context", {
@@ -173,7 +171,7 @@ func get_scout_progress(grupo_id: String, scout_id: String) -> void:
 	_http_get.request(
 		endpoint,
 		PackedStringArray(),
-		HttpClient.METHOD_GET
+		0
 	)
 	_http_get.set_meta("operation", "get_progress")
 	_http_get.set_meta("scout_id", scout_id)
@@ -236,7 +234,7 @@ func _create_default_progress(scout_id: String, grupo_id: String) -> void:
 	_http_post.request(
 		endpoint,
 		headers,
-		HttpClient.METHOD_POST,
+		1,
 		json_body
 	)
 	_http_post.set_meta("operation", "create_progress")
@@ -293,7 +291,7 @@ func _try_sync() -> void:
 	_http_patch.request(
 		endpoint,
 		headers,
-		HttpClient.METHOD_PATCH,
+		5,
 		json_body
 	)
 	_http_patch.set_meta("operation", "sync_progress")
@@ -303,7 +301,7 @@ func _try_sync() -> void:
 # MANEJADORES DE RESPUESTAS HTTP
 # ============================================================================
 
-func _on_http_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, http_node: HttpRequest) -> void:
+func _on_http_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, http_node) -> void:
 	var response_body = body.get_string_from_utf8()
 	var operation = http_node.get_meta("operation", "")
 
@@ -440,7 +438,7 @@ func _levenshtein_distance(s1: String, s2: String) -> int:
 			if s1[i - 1] == s2[j - 1]:
 				dp[i][j] = dp[i - 1][j - 1]
 			else:
-				dp[i][j] = 1 + mini(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+				dp[i][j] = 1 + mini(dp[i - 1][j], mini(dp[i][j - 1], dp[i - 1][j - 1]))
 
 	return dp[len1][len2]
 
