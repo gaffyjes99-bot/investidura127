@@ -254,7 +254,8 @@ func _init_onboarding(s: Node) -> void:
 			b.icon = escudo_tex
 			b.add_theme_constant_override("icon_max_width", 40)
 		_boton_estilo(b, COL_CREMA, COL_CAFE_OSC)
-	_ob_bi.pressed.connect(_ob_iniciar)
+	# Nota: El botón es manejado por onboarding.gd para validar con Firebase
+	# No conectar aquí para evitar conflictos con la validación de scout
 
 	# Scouts de bienvenida en las esquinas inferiores
 	for datos in [["scout_boy_v1", true], ["scout_girl_v1", false]]:
