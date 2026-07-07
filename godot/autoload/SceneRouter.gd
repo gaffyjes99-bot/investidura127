@@ -371,21 +371,22 @@ func _init_mapa(s: Node) -> void:
 		var completado: bool = num in GameState.capitulos_completados
 		var actual := desbloqueado and not completado
 
-		var btn := Button.new()
+		var card_num := "%02d" % num
+		var card_tex := load("res://assets/images/tarjetas_capitulos/cap_%s_%s.png" % [card_num, "desbloqueada" if desbloqueado else "bloqueada"]) as Texture2D
+		var btn := TextureButton.new()
 		btn.custom_minimum_size = Vector2(btn_w, btn_h)
 		btn.size = Vector2(btn_w, btn_h)
 		btn.position = centros[i] - Vector2(btn_w, btn_h) / 2.0
-		btn.add_theme_font_size_override("font_size", 15)
-		btn.text = "Cap.%d\n%s" % [num, cap["nombre"]]
-		btn.disabled = not desbloqueado
-		btn.pressed.connect(ir_a_capitulo.bind(num))
-		if completado:
-			_boton_estilo(btn, COL_VERDE, COL_CREMA)
-		elif actual:
-			_boton_estilo(btn, COL_FOGATA, COL_CAFE_OSC)
-			y_actual = centros[i].y
+		btn.ignore_texture_size = true
+		btn.stretch_mode = TextureButton.STRETCH_SCALE
+		if card_tex:
+			btn.texture_normal = card_tex
+		if desbloqueado:
+			btn.pressed.connect(ir_a_capitulo.bind(num))
 		else:
-			_boton_estilo(btn, Color(0.16, 0.13, 0.10), Color(0.62, 0.58, 0.52))
+			btn.pressed.connect(func(): _mp_toast(s, "Completa el capítulo anterior para desbloquear este"))
+		if actual:
+			y_actual = centros[i].y
 		senda.add_child(btn)
 
 		if actual:
@@ -418,6 +419,30 @@ func _init_mapa(s: Node) -> void:
 	if not GameState.xp_changed.is_connected(_mp_on_xp):
 		GameState.xp_changed.connect(_mp_on_xp)
 	print("SceneRouter: mapa listo")
+
+func _mp_toast(s: Node, mensaje: String) -> void:
+	var toast := s.get_node_or_null("ToastBloqueado") as Label
+	if toast == null:
+		toast = Label.new()
+		toast.name = "ToastBloqueado"
+		toast.add_theme_font_size_override("font_size", 16)
+		toast.add_theme_color_override("font_color", Color(1.0, 0.9, 0.7))
+		toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		toast.anchor_left = 0.0
+		toast.anchor_right = 1.0
+		toast.anchor_top = 1.0
+		toast.anchor_bottom = 1.0
+		toast.offset_left = 20.0
+		toast.offset_right = -20.0
+		toast.offset_top = -80.0
+		toast.offset_bottom = -16.0
+		s.add_child(toast)
+	toast.text = mensaje
+	toast.modulate = Color(1, 1, 1, 1)
+	var tw := toast.create_tween()
+	tw.tween_interval(2.0)
+	tw.tween_property(toast, "modulate:a", 0.0, 0.5)
 
 func _mp_on_xp(nuevo_xp: int) -> void:
 	if _mp_xp_lbl:
