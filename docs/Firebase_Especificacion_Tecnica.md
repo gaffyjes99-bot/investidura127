@@ -105,12 +105,14 @@ Usa `apiKey` como parámetro de query: `?key={apiKey}`
 ### 3.2 Flujo de sincronización
 
 **Al iniciar sesión:**
-1. Scout ingresa `nombre` y elige `patrulla`.
-2. Script construye el documentId `{grupoId}_{scoutId}` (ej: `127_scout123`).
-   - Si el scout **no tiene scoutId en Firestore**, se busca por nombre en la colección `scouts` existente para obtenerlo.
-3. HttpRequest GET a `https://firestore.googleapis.com/v1/projects/fichas-actividad-scout/databases/(default)/documents/libro_interactivo_progreso/{documentId}?key={apiKey}` para descargar su progreso completo.
-4. Si no existe (primer login), crea un documento nuevo en Firestore con valores por defecto (XP=0, rango=Pietierno, etc.).
-5. Carga los datos en memoria (variables locales del scout).
+1. Scout ingresa `nombre` (completo, tal como aparece en la colección `scouts`) y elige `patrulla`.
+2. Script busca en la colección `scouts` existente usando **búsqueda fuzzy (80% de similitud)** del nombre + filtro por patrulla exacta.
+   - Si encuentra una coincidencia: obtiene el `scoutId` de ese documento.
+   - Si NO encuentra coincidencia o tiene múltiples resultados (ambigüedad): mostrar mensaje "Scout no encontrado" o "Coincidencias múltiples, intenta con el nombre completo" — NO crear documento nuevo.
+3. Una vez identificado el scoutId (ej: `scout123`), construye documentId `{grupoId}_{scoutId}` (ej: `127_scout123`).
+4. HttpRequest GET a `https://firestore.googleapis.com/v1/projects/fichas-actividad-scout/databases/(default)/documents/libro_interactivo_progreso/{documentId}?key={apiKey}` para descargar su progreso.
+5. Si el documento de progreso NO existe (primer acceso al Libro Interactivo), crea un documento nuevo en Firestore con valores por defecto (XP=0, rango=Pietierno, etc.), usando el scoutId validado.
+6. Carga los datos en memoria (variables locales del scout).
 
 **Después de cada acción (completar escena, pasar quiz, validación):**
 1. Actualiza la variable local en Godot.
@@ -176,7 +178,13 @@ Se agrega un nuevo componente React a la app scouts-app existente (`src/componen
    - Guardarlas en `godot/firebase_config.gd`
 
 2. Crear script `godot/scripts/firebase_sync.gd` con funciones:
-   - `get_scout_from_firestore(nombre, patrulla)` — busca el scoutId en la colección `scouts` por nombre, luego descarga su progreso de `libro_interactivo_progreso`.
+   - `find_scout_in_firestore(nombre_input, patrulla)` — **búsqueda fuzzy** en colección `scouts`:
+     * Descarga todos los scouts de la patrulla ingresada
+     * Usa algoritmo de similitud (Levenshtein o similar) para encontrar coincidencia ≥80% del nombre
+     * Si encuentra 1 coincidencia exacta: retorna scoutId
+     * Si encuentra múltiples coincidencias: retorna lista para que el usuario confirme
+     * Si NO encuentra: retorna null y muestra mensaje "Scout no encontrado en esa patrulla"
+   - `get_scout_progress(grupoId, scoutId)` — descarga progreso de `libro_interactivo_progreso` usando el scoutId validado. Si no existe, crea documento nuevo.
    - `push_scout_data(grupoId, scoutId, datos_a_actualizar)` — envía cambios a Firestore usando REST API.
    - `sync_on_interval()` — intenta sincronizar cada 5 segundos si hay cambios locales pendientes.
 
@@ -184,10 +192,17 @@ Se agrega un nuevo componente React a la app scouts-app existente (`src/componen
    - GET/PATCH: `https://firestore.googleapis.com/v1/projects/fichas-actividad-scout/databases/(default)/documents/libro_interactivo_progreso/{documentId}?key={apiKey}`
 
 ### Durante Fase 7:
-- Cada vez que el scout completa una escena, quiz o actividad validada, llamar a `push_scout_data()` para actualizar Firestore.
-- El game loop debe llamar a `sync_on_interval()` regularmente (cada 5 segundos) para mantener sincronización en segundo plano.
-- Manejar pérdida de conexión: mostrar icono de "sincronizando..." si hay cambios pendientes >10 segundos, pero la app sigue funcionando localmente.
-- Guardar progreso localmente (en memoria o en archivo) en caso de que Firestore no esté disponible.
+- **Login:** 
+  * Scout ingresa nombre completo + elige patrulla
+  * Llamar a `find_scout_in_firestore(nombre, patrulla)` — búsqueda fuzzy 80% similitud en colección `scouts`
+  * Si encuentra coincidencia: obtener scoutId, llamar a `get_scout_progress(grupoId, scoutId)`
+  * Si NO encuentra: mostrar mensaje de error, permitir reintentar con otro nombre
+  * Si hay múltiples coincidencias: mostrar lista para que confirm cuál es él
+- **Durante juego:**
+  * Cada vez que el scout completa una escena, quiz o actividad validada, llamar a `push_scout_data()` para actualizar Firestore.
+  * El game loop debe llamar a `sync_on_interval()` regularmente (cada 5 segundos) para mantener sincronización en segundo plano.
+  * Manejar pérdida de conexión: mostrar icono de "sincronizando..." si hay cambios pendientes >10 segundos, pero la app sigue funcionando localmente.
+  * Guardar progreso localmente (en memoria o en archivo) en caso de que Firestore no esté disponible.
 
 ### Después de Fase 7 (Fase 9):
 - Crear componente React `src/components/LibroInteractivoProgreso.jsx` en la app scouts-app existente.
