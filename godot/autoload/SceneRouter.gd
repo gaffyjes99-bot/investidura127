@@ -616,6 +616,8 @@ func _cap_mostrar_escena(idx: int) -> void:
 			"juego":
 				personaje_lbl.text = "Actividad"
 				texto = escena.get("contenido", "")
+		# Personaliza el texto con el nombre del scout (ej. oracion de patrulla)
+		texto = texto.replace("{nombre}", GameState.nombre_scout)
 		_texto_typewriter(dialogo_lbl, texto)
 		# Mostrar sprite del capítulo en narracion y animacion
 		imagen_rect.scale = Vector2.ONE
