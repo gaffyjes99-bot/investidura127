@@ -25,15 +25,25 @@
     },
     {
       "tipo": "juego",
-      "contenido": "Examen final integrador de 20 preguntas mezclando los 12 capítulos (incluye las 2 preguntas fijas de la pañoleta), mínimo 80% para aprobar. Reintentos ilimitados sin penalización.",
-      "xp": 20
+      "contenido": "[b][color=#F2A93B]Examen Final Integrador[/color][/b]\n\nAhora, {nombre}, demostrarás todo lo aprendido en los 12 capítulos.\n\n• 20 preguntas tomadas al azar de toda la Bitácora.\n• Cada intento trae preguntas nuevas.\n• Necesitas [b]90%[/b] (18 de 20) para aprobar.\n• Reintentos ilimitados, sin penalización.\n\nCuando apruebes, vivirás tu Gran Ceremonia. ¡Siempre Listo!",
+      "xp": 5
     },
     {
       "tipo": "evaluacion",
-      "contenido": "Validación de comportamiento en el hogar (código de padres) + validación de rendimiento académico (código de dirigente). Al cumplir ambas + aprobar el examen: se desbloquea la animación de la Gran Ceremonia (llamado de pito → formación → bandera → Promesa → entrega de pañoleta → puente de tropa → Investidura).",
-      "xp": 30,
-      "xp_perfecto_bonus": 15,
-      "minimo_aprobar_pct": 80
+      "contenido": "Examen final integrador: 20 preguntas al azar de los 12 capítulos. Necesitas 90% para aprobar. Cada intento toma preguntas nuevas.",
+      "examen_final": true,
+      "num_preguntas": 20,
+      "xp": 40,
+      "xp_perfecto_bonus": 20,
+      "minimo_aprobar_pct": 90,
+      "ceremonia": [
+        { "titulo": "El Llamado de Pito", "descripcion": "Suena el pito del Jefe de Tropa. Los scouts corren desde cada rincón y se reúnen. La Gran Ceremonia comienza.", "icono": "🎺", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "Formación y Bandera", "descripcion": "La Tropa forma en herradura. Se iza la bandera y todos saludan. El silencio se llena de respeto.", "icono": "🚩", "movimiento": "pan_horizontal", "tinte": "cool" },
+        { "titulo": "Tu Promesa", "descripcion": "Das un paso al frente y, con la mano en alto, haces tu Promesa ante toda la Tropa. Tu palabra de honor queda sellada.", "icono": "✋", "movimiento": "zoom_horizonte", "tinte": "fire" },
+        { "titulo": "La Pañoleta del 127", "descripcion": "Tu dirigente coloca sobre tus hombros la pañoleta roja y amarilla: la fuerza del espíritu y la riqueza del corazón.", "icono": "🧣", "movimiento": "zoom_in", "tinte": "warm" },
+        { "titulo": "El Puente de Tropa", "descripcion": "Cruzas el puente de tropa. Del otro lado ya no eres aspirante: eres scout investido de tu Tropa.", "icono": "🌉", "movimiento": "pan_horizontal", "tinte": "nature" },
+        { "titulo": "¡Investidura!", "descripcion": "Tu Tropa te rodea y celebra. Desde hoy perteneces a la hermandad mundial: millones de scouts en más de 170 países. ¡Bienvenido!", "icono": "🏅", "movimiento": "zoom_out", "tinte": "fire" }
+      ]
     }
   ]
 }

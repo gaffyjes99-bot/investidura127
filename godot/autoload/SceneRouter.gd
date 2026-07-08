@@ -31,7 +31,7 @@ const CAP_SPRITES := {
 	9:  "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell
 	10: "res://assets/sprites/akela_talking_v1.png",      # Akela
 	11: "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell
-	12: "res://assets/sprites/kotick_celebrate_v1.png",   # Cameo final (todos)
+	12: "res://assets/sprites/bp_young_celebrate_v1.png", # Baden Powell (cierre)
 }
 
 const CAPITULOS := [
@@ -493,8 +493,13 @@ var _cap_preguntas: Array = []
 var _cap_escena_idx: int = 0
 var _cap_quiz_idx: int = 0
 var _cap_correctas: int = 0
-var _cap_estado: int = 0  # 0=jugando, 1=aprobado, 2=reprobado
+var _cap_estado: int = 0  # 0=jugando, 1=aprobado, 2=reprobado, 3=examen aprobado (pend. ceremonia)
 var _tw_texto: Tween = null
+
+# examen final integrador (cap 12)
+var _examen_final: bool = false
+var _ceremonia_vinetas: Array = []
+var _en_ceremonia: bool = false
 
 # mini-juego (escena tipo "juego" con datos estructurados)
 var _jg_escena: Dictionary = {}
@@ -553,6 +558,25 @@ func _init_capitulo(s: Node) -> void:
 	_cap_mostrar_escena(0)
 	print("SceneRouter: capitulo listo cap=", _capitulo_activo, " preguntas=", _cap_preguntas.size())
 
+func _cargar_banco_examen(n: int) -> Array:
+	# Junta las preguntas de los 12 capitulos y devuelve n al azar (nuevas cada intento)
+	var banco: Array = []
+	for cap in range(1, 13):
+		var f := FileAccess.open("res://capitulos/%02d/preguntas.json" % cap, FileAccess.READ)
+		if f == null:
+			continue
+		var d = JSON.parse_string(f.get_as_text())
+		f.close()
+		if typeof(d) != TYPE_DICTIONARY:
+			continue
+		for q in d.get("preguntas", []):
+			if q.get("distractores", null) != null:
+				banco.append(q)
+	banco.shuffle()
+	if n > 0 and banco.size() > n:
+		banco = banco.slice(0, n)
+	return banco
+
 func _cap_mostrar_escena(idx: int) -> void:
 	_cap_escena_idx = idx
 	_anim_vinetas = []  # limpiar estado de animación al cambiar escena
@@ -583,6 +607,12 @@ func _cap_mostrar_escena(idx: int) -> void:
 		btn_sig.visible = false
 		_cap_quiz_idx = 0
 		_cap_correctas = 0
+		_examen_final = escena.get("examen_final", false)
+		_ceremonia_vinetas = escena.get("ceremonia", [])
+		if _examen_final:
+			# Examen integrador: N preguntas al azar de los 12 capitulos, nuevas cada intento
+			var n_preg: int = escena.get("num_preguntas", 20) as int
+			_cap_preguntas = _cargar_banco_examen(n_preg)
 		quiz_panel.visible = true
 		_cap_mostrar_pregunta()
 	elif tipo == "juego" and escena.has("decisiones"):
@@ -657,8 +687,49 @@ func _cap_siguiente() -> void:
 				if _cap_escenas[i].get("tipo", "") == "evaluacion":
 					_cap_mostrar_escena(i)
 					return
+		3:
+			_cap_estado = 0
+			_lanzar_ceremonia()
 		_:
 			_cap_mostrar_escena(_cap_escena_idx + 1)
+
+func _lanzar_ceremonia() -> void:
+	var s := _cap_s
+	(s.get_node("ContenidoArea/NarracionPanel") as Control).visible = false
+	(s.get_node("ContenidoArea/QuizPanel") as Control).visible = false
+	var anim_panel := s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
+	if anim_panel == null or _ceremonia_vinetas.is_empty():
+		_ir_a("mapa")
+		return
+	anim_panel.visible = true
+	_en_ceremonia = true
+	_anim_vinetas = _ceremonia_vinetas
+	_anim_vineta_idx = 0
+	_anim_mostrar_vineta()
+
+func _ceremonia_final() -> void:
+	var s := _cap_s
+	var anim_panel := s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
+	if anim_panel:
+		anim_panel.visible = false
+	var narr_panel    := s.get_node("ContenidoArea/NarracionPanel") as Control
+	var btn_sig       := s.get_node("Footer/BotonSiguiente") as Button
+	var personaje_lbl := s.get_node("ContenidoArea/NarracionPanel/PersonajeLabel") as Label
+	var dialogo_lbl   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/DialogoLabel") as RichTextLabel
+	var imagen_rect   := s.get_node("ContenidoArea/NarracionPanel/ContentRow/ImagenRect") as TextureRect
+	narr_panel.visible = true
+	personaje_lbl.text = "¡Investidura!"
+	_texto_typewriter(dialogo_lbl, "[b]%s[/b], ya eres [color=#F2A93B]candidato a la investidura[/color].\n\nLo que sigue lo vives ante tu Tropa. ¡Bienvenido a la hermandad mundial! ¡Siempre Listo!" % GameState.nombre_scout)
+	var badge_tex := load("res://assets/badges/badge_cap12_v1.png") as Texture2D
+	if badge_tex and imagen_rect:
+		imagen_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		imagen_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		imagen_rect.texture = badge_tex
+		imagen_rect.visible = true
+		_animar_pop(imagen_rect)
+	btn_sig.text = "Volver al Mapa"
+	btn_sig.visible = true
+	_cap_estado = 1
 
 # ── Ken Burns: secuencia de viñetas con paneo/zoom ──────────────────────────
 
@@ -769,9 +840,12 @@ func _anim_terminar() -> void:
 		_anim_tw.kill()
 	if _anim_icono_tw and _anim_icono_tw.is_valid():
 		_anim_icono_tw.kill()
-	var vinetas_tmp := _anim_vinetas
 	_anim_vinetas = []
 	_anim_vineta_idx = 0
+	if _en_ceremonia:
+		_en_ceremonia = false
+		_ceremonia_final()
+		return
 	# XP por ver la animación completa
 	var primera_vez := GameState.marcar_escena_vista(_capitulo_activo, _cap_escena_idx)
 	if primera_vez:
@@ -1022,9 +1096,7 @@ func _cap_quiz_fin() -> void:
 		_ultimo_cap_completado = _capitulo_activo
 		GameState.dar_xp(xp_ganado)
 		SaveManager.guardar()
-		btn_sig.text = "Volver al Mapa"
 		personaje_lbl.text = "¡Capítulo completado!"
-		_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capítulo y ganado [color=#F2A93B]%d XP[/color]. ¡Ganaste la insignia del capítulo!" % [_cap_correctas, total, pct, xp_ganado])
 		var badge_tex := load("res://assets/badges/badge_cap%d_v1.png" % _capitulo_activo) as Texture2D
 		if badge_tex and imagen_rect:
 			imagen_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -1032,6 +1104,13 @@ func _cap_quiz_fin() -> void:
 			imagen_rect.texture = badge_tex
 			imagen_rect.visible = true
 			_animar_pop(imagen_rect)
+		if _examen_final and _ceremonia_vinetas.size() > 0:
+			_cap_estado = 3  # aprobado; pendiente ver la Gran Ceremonia
+			btn_sig.text = "Ver la Gran Ceremonia"
+			_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\n¡Aprobaste el Examen Final! Ganaste [color=#F2A93B]%d XP[/color].\n\nPresiona para vivir tu Gran Ceremonia." % [_cap_correctas, total, pct, xp_ganado])
+		else:
+			btn_sig.text = "Volver al Mapa"
+			_texto_typewriter(dialogo_lbl, "[b]%d/%d correctas (%.0f%%)[/b]\n\nHas completado el capítulo y ganado [color=#F2A93B]%d XP[/color]. ¡Ganaste la insignia del capítulo!" % [_cap_correctas, total, pct, xp_ganado])
 	else:
 		_cap_estado = 2
 		btn_sig.text = "Reintentar"
