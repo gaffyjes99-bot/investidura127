@@ -565,7 +565,7 @@ func _cap_mostrar_escena(idx: int) -> void:
 		anim_panel.visible = true
 		_anim_iniciar(escena)
 	else:
-		btn_sig.text = "Siguiente ->"
+		btn_sig.text = ""
 		btn_sig.visible = true
 		narr_panel.visible = true
 		var personaje_lbl := s.get_node("ContenidoArea/NarracionPanel/PersonajeLabel") as Label
@@ -686,7 +686,7 @@ func _anim_mostrar_vineta() -> void:
 		_anim_icono_tw.kill()
 
 	var es_ultima: bool = (_anim_vineta_idx >= _anim_vinetas.size() - 1)
-	btn_sig.text = "Siguiente ->" if es_ultima else ("Viñeta %d →" % (_anim_vineta_idx + 2))
+	btn_sig.text = ""
 	btn_sig.visible = true
 
 	# Defer para que el layout compute el tamaño antes de animar
@@ -888,7 +888,7 @@ func _jg_reset_palabra(btn: Button) -> void:
 
 func _jg_terminar() -> void:
 	var btn_sig := _cap_s.get_node("Footer/BotonSiguiente") as Button
-	btn_sig.text = "Siguiente ->"
+	btn_sig.text = ""
 	btn_sig.visible = true
 
 func _cap_mostrar_pregunta() -> void:

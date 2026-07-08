@@ -1,91 +1,35 @@
-[gd_scene format=3 load_steps=15]
+[gd_scene format=3 load_steps=7]
 
-[ext_resource type="Texture2D" path="res://assets/ui/btn_p_n.png" id="TEX_P_N"]
-[ext_resource type="Texture2D" path="res://assets/ui/btn_p_h.png" id="TEX_P_H"]
-[ext_resource type="Texture2D" path="res://assets/ui/btn_p_p.png" id="TEX_P_P"]
-[ext_resource type="Texture2D" path="res://assets/ui/btn_s_n.png" id="TEX_S_N"]
-[ext_resource type="Texture2D" path="res://assets/ui/btn_s_h.png" id="TEX_S_H"]
-[ext_resource type="Texture2D" path="res://assets/ui/btn_s_p.png" id="TEX_S_P"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_siguiente.jpg" id="TEX_SIG"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_mapa.png" id="TEX_MAP"]
 
-[sub_resource type="StyleBoxTexture" id="SBT_S_N"]
-texture = ExtResource("TEX_S_N")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 18.0
-content_margin_top = 6.0
-content_margin_right = 18.0
-content_margin_bottom = 6.0
+[sub_resource type="StyleBoxTexture" id="SBT_SIG"]
+texture = ExtResource("TEX_SIG")
+texture_margin_left = 0.0
+texture_margin_top = 0.0
+texture_margin_right = 0.0
+texture_margin_bottom = 0.0
 
-[sub_resource type="StyleBoxTexture" id="SBT_S_H"]
-texture = ExtResource("TEX_S_H")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 18.0
-content_margin_top = 6.0
-content_margin_right = 18.0
-content_margin_bottom = 6.0
+[sub_resource type="StyleBoxTexture" id="SBT_MAP"]
+texture = ExtResource("TEX_MAP")
+texture_margin_left = 0.0
+texture_margin_top = 0.0
+texture_margin_right = 0.0
+texture_margin_bottom = 0.0
 
-[sub_resource type="StyleBoxTexture" id="SBT_S_P"]
-texture = ExtResource("TEX_S_P")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 18.0
-content_margin_top = 6.0
-content_margin_right = 18.0
-content_margin_bottom = 6.0
+[sub_resource type="StyleBoxFlat" id="SF_SIG_D"]
+bg_color = Color(0.3, 0.3, 0.1, 0.40)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
 
-[sub_resource type="StyleBoxFlat" id="SF_S_D"]
-bg_color = Color(0.22, 0.28, 0.22, 0.40)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxTexture" id="SBT_P_N"]
-texture = ExtResource("TEX_P_N")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 20.0
-content_margin_top = 6.0
-content_margin_right = 20.0
-content_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxTexture" id="SBT_P_H"]
-texture = ExtResource("TEX_P_H")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 20.0
-content_margin_top = 6.0
-content_margin_right = 20.0
-content_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxTexture" id="SBT_P_P"]
-texture = ExtResource("TEX_P_P")
-texture_margin_left = 22.0
-texture_margin_top = 22.0
-texture_margin_right = 22.0
-texture_margin_bottom = 22.0
-content_margin_left = 20.0
-content_margin_top = 6.0
-content_margin_right = 20.0
-content_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxFlat" id="SF_P_D"]
-bg_color = Color(0.28, 0.24, 0.18, 0.40)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxFlat" id="SF_MAP_D"]
+bg_color = Color(0.2, 0.15, 0.1, 0.40)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
 
 [node name="Capitulo" type="Control"]
 layout_mode = 3
@@ -128,7 +72,7 @@ layout_mode = 1
 anchor_left = 0.0
 anchor_top = 0.08
 anchor_right = 1.0
-anchor_bottom = 0.87
+anchor_bottom = 0.77
 
 [node name="NarracionPanel" type="VBoxContainer" parent="ContenidoArea"]
 layout_mode = 1
@@ -322,38 +266,36 @@ text = ""
 [node name="Footer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchor_left = 0.0
-anchor_top = 0.88
+anchor_top = 0.78
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 40.0
 offset_right = -40.0
 alignment = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 40
 
 [node name="BotonMapa" type="Button" parent="Footer"]
 layout_mode = 2
-custom_minimum_size = Vector2(180, 60)
+custom_minimum_size = Vector2(160, 160)
+theme_override_styles/normal   = SubResource("SBT_MAP")
+theme_override_styles/hover    = SubResource("SBT_MAP")
+theme_override_styles/pressed  = SubResource("SBT_MAP")
+theme_override_styles/disabled = SubResource("SF_MAP_D")
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1.0)
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 18
-theme_override_styles/normal   = SubResource("SBT_S_N")
-theme_override_styles/hover    = SubResource("SBT_S_H")
-theme_override_styles/pressed  = SubResource("SBT_S_P")
-theme_override_styles/disabled = SubResource("SF_S_D")
-theme_override_colors/font_color          = Color(0.88, 0.97, 0.88, 1.0)
-theme_override_colors/font_hover_color    = Color(1.0, 1.0, 1.0, 1.0)
-theme_override_colors/font_pressed_color  = Color(0.75, 0.90, 0.75, 1.0)
-theme_override_colors/font_disabled_color = Color(0.55, 0.60, 0.55, 0.55)
-text = "<- Mapa"
+text = ""
 
 [node name="BotonSiguiente" type="Button" parent="Footer"]
 layout_mode = 2
-custom_minimum_size = Vector2(262, 60)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal   = SubResource("SBT_P_N")
-theme_override_styles/hover    = SubResource("SBT_P_H")
-theme_override_styles/pressed  = SubResource("SBT_P_P")
-theme_override_styles/disabled = SubResource("SF_P_D")
-theme_override_colors/font_color          = Color(1.0, 1.0, 1.0, 1.0)
-theme_override_colors/font_hover_color    = Color(1.0, 1.0, 0.88, 1.0)
-theme_override_colors/font_pressed_color  = Color(0.82, 0.92, 0.82, 1.0)
-theme_override_colors/font_disabled_color = Color(0.60, 0.58, 0.50, 0.55)
-text = "Siguiente ->"
+custom_minimum_size = Vector2(160, 160)
+theme_override_styles/normal   = SubResource("SBT_SIG")
+theme_override_styles/hover    = SubResource("SBT_SIG")
+theme_override_styles/pressed  = SubResource("SBT_SIG")
+theme_override_styles/disabled = SubResource("SF_SIG_D")
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.0, 0.0, 1.0)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = ""
