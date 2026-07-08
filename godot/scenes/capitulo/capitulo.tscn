@@ -1,6 +1,6 @@
 [gd_scene format=3 load_steps=7]
 
-[ext_resource type="Texture2D" path="res://assets/ui/btn_siguiente.jpg" id="TEX_SIG"]
+[ext_resource type="Texture2D" path="res://assets/ui/btn_siguiente.png" id="TEX_SIG"]
 [ext_resource type="Texture2D" path="res://assets/ui/btn_mapa.png" id="TEX_MAP"]
 
 [sub_resource type="StyleBoxTexture" id="SBT_SIG"]
