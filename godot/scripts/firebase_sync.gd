@@ -198,7 +198,7 @@ func _create_default_progress(scout_id: String, grupo_id: String) -> void:
 	var json_body = JSON.stringify(default_data)
 
 	print("[FirebaseSync] 📝 Creando progreso nuevo")
-	var result = await _fetch_async("POST", endpoint, json_body)
+	var result = await _fetch_async("PATCH", endpoint, json_body)
 
 	if result.has("error"):
 		print("[FirebaseSync] ❌ Error crear: %s" % result["error"])
@@ -232,7 +232,13 @@ func _try_sync() -> void:
 	emit_signal("sync_status_changed", true)
 
 	var doc_id = "%s_%s" % [_current_grupo_id, _current_scout_id]
-	var endpoint = FirebaseConfig.get_progreso_endpoint(doc_id)
+	var base_endpoint = FirebaseConfig.get_progreso_endpoint(doc_id)
+
+	# updateMask para solo actualizar los campos del buffer (no borrar metadata)
+	var mask_params := ""
+	for key in _pending_sync_buffer.keys():
+		mask_params += "&updateMask.fieldPaths=" + key
+	var endpoint = base_endpoint + mask_params
 
 	var firestore_updates = {"fields": {}}
 	for key in _pending_sync_buffer.keys():
@@ -246,7 +252,7 @@ func _try_sync() -> void:
 		print("[FirebaseSync] ✅ Sincronizado")
 	else:
 		_sync_error_count += 1
-		print("[FirebaseSync] ⚠️ Sync fallido")
+		print("[FirebaseSync] ⚠️ Sync fallido: HTTP %d" % result.get("code", 0))
 
 	_sync_in_progress = false
 	emit_signal("sync_status_changed", false)
@@ -343,14 +349,19 @@ func _get_field_value(fields: Dictionary, field_name: String, default = null):
 	return default
 
 func _convert_to_firestore_format(value) -> Dictionary:
-	if value is String:
-		return {"stringValue": value}
+	if value is bool:
+		return {"booleanValue": value}
 	elif value is int:
 		return {"integerValue": str(value)}
-	elif value is bool:
-		return {"booleanValue": value}
+	elif value is float:
+		return {"doubleValue": value}
+	elif value is String:
+		return {"stringValue": value}
 	elif value is Array:
-		return {"arrayValue": {"values": value}}
+		var converted: Array = []
+		for item in value:
+			converted.append(_convert_to_firestore_format(item))
+		return {"arrayValue": {"values": converted}}
 	elif value is Dictionary:
 		var firestore_fields = {}
 		for k in value.keys():

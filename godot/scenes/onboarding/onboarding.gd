@@ -184,10 +184,25 @@ func _get_int_field(fields: Dictionary, field_name: String, default: int = 0) ->
 	return default
 
 func _get_array_field(fields: Dictionary, field_name: String, default: Array = []) -> Array:
-	if fields.has(field_name) and fields[field_name].has("arrayValue"):
-		var arr = fields[field_name]["arrayValue"].get("values", [])
-		return arr if arr is Array else default
-	return default
+	if not fields.has(field_name) or not fields[field_name].has("arrayValue"):
+		return default
+	var raw = fields[field_name]["arrayValue"].get("values", [])
+	if not raw is Array:
+		return default
+	var result: Array = []
+	for item in raw:
+		if item is Dictionary:
+			if item.has("integerValue"):
+				result.append(int(item["integerValue"]))
+			elif item.has("stringValue"):
+				result.append(item["stringValue"])
+			elif item.has("booleanValue"):
+				result.append(item["booleanValue"])
+			else:
+				result.append(item)
+		else:
+			result.append(item)
+	return result
 
 func _on_dialog_scout_selected(scout_id: String, name: String, patrol: String) -> void:
 	"""Manejador cuando el usuario selecciona un scout del diálogo."""
