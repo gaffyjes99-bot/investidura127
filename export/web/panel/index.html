@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Dirigente – Grupo Scout 127</title>
+<style>
+:root {
+  --verde:       #2d6a4f;
+  --verde-osc:   #1e4d38;
+  --verde-claro: #52b788;
+  --cafe:        #774936;
+  --amarillo:    #f4a261;
+  --bg:          #f0f4f0;
+  --borde:       #cde0cd;
+  --texto:       #1b2d1b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--texto); min-height: 100vh; }
+
+/* ── LOGIN ── */
+#login-screen {
+  display: flex; align-items: center; justify-content: center; min-height: 100vh;
+  background: linear-gradient(135deg, var(--verde) 0%, var(--cafe) 100%);
+}
+.login-card {
+  background: white; border-radius: 14px; padding: 44px 36px;
+  max-width: 360px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,.3); text-align: center;
+}
+.login-logo { font-size: 3rem; margin-bottom: 12px; }
+.login-card h1 { color: var(--verde); font-size: 1.35rem; margin-bottom: 6px; }
+.login-card p  { color: #777; font-size: .88rem; margin-bottom: 28px; }
+.login-card input {
+  width: 100%; padding: 12px 16px; border: 2px solid var(--borde); border-radius: 8px;
+  font-size: 1rem; margin-bottom: 12px; outline: none; transition: border-color .2s;
+}
+.login-card input:focus { border-color: var(--verde); }
+.btn-primary {
+  width: 100%; padding: 13px; background: var(--verde); color: white;
+  border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: background .2s;
+}
+.btn-primary:hover { background: var(--verde-osc); }
+.error-msg { color: #c0392b; font-size: .85rem; margin-top: 10px; min-height: 1.2em; }
+
+/* ── DASHBOARD ── */
+#dashboard { display: none; }
+header {
+  background: var(--verde); color: white; padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+header h1       { font-size: 1.1rem; font-weight: 700; }
+header .subtitle { font-size: .78rem; opacity: .75; margin-top: 2px; }
+.logout-btn {
+  background: rgba(255,255,255,.15); color: white; border: 1px solid rgba(255,255,255,.35);
+  padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: .82rem;
+  transition: background .2s;
+}
+.logout-btn:hover { background: rgba(255,255,255,.25); }
+
+main { padding: 24px; max-width: 1500px; margin: 0 auto; }
+
+/* ── STATS ── */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+.stat-card {
+  background: white; border-radius: 10px; padding: 16px 20px;
+  border-left: 4px solid var(--verde); box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.stat-card .val   { font-size: 1.9rem; font-weight: 700; color: var(--verde); line-height: 1; }
+.stat-card .lbl   { font-size: .78rem; color: #777; margin-top: 4px; }
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; align-items: center;
+}
+.controls select,
+.controls input[type="text"] {
+  padding: 8px 12px; border: 2px solid var(--borde); border-radius: 6px;
+  font-size: .875rem; background: white; outline: none; transition: border-color .2s;
+}
+.controls select:focus,
+.controls input:focus { border-color: var(--verde); }
+.status-bar { font-size: .8rem; color: #777; margin-left: auto; }
+.btn-refresh {
+  background: white; border: 2px solid var(--verde); color: var(--verde);
+  padding: 7px 16px; border-radius: 6px; font-size: .85rem; font-weight: 600;
+  cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.btn-refresh:hover { background: var(--verde); color: white; }
+.btn-refresh:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ── TABLE ── */
+.table-wrapper {
+  background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.07);
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: .845rem; }
+thead { background: var(--verde); color: white; }
+th    { padding: 12px 10px; text-align: left; font-weight: 600; white-space: nowrap; }
+td    { padding: 9px 10px; border-bottom: 1px solid var(--borde); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td      { background: #f4fbf4; }
+
+.patrulla-badge {
+  display: inline-block; padding: 3px 9px; border-radius: 20px;
+  font-size: .72rem; font-weight: 700; white-space: nowrap;
+}
+.p-jaguares  { background: #fef3c7; color: #92400e; }
+.p-lobos     { background: #dbeafe; color: #1e3a8a; }
+.p-mapaches  { background: #fce7f3; color: #831843; }
+.p-pandas    { background: #d1fae5; color: #065f46; }
+
+.rango-txt { font-size: .78rem; font-weight: 600; color: var(--verde-osc); }
+
+.caps-row { display: flex; gap: 2px; flex-wrap: nowrap; }
+.cap-dot  {
+  width: 17px; height: 17px; border-radius: 50%; font-size: .6rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 1.5px solid #ccc; flex-shrink: 0;
+}
+.cap-dot.done    { background: var(--verde-claro); border-color: var(--verde); color: white; }
+.cap-dot.pending { background: #f0f0f0; color: #bbb; border-color: #ddd; }
+
+.counter-ctrl { display: flex; align-items: center; gap: 5px; }
+.cbtn {
+  width: 22px; height: 22px; border-radius: 50%; border: none; cursor: pointer;
+  font-size: 1rem; font-weight: bold; display: flex; align-items: center; justify-content: center;
+  transition: filter .15s, transform .1s; line-height: 1;
+}
+.cbtn:active { transform: scale(.9); }
+.cbtn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+.cbtn.minus { background: #fee2e2; color: #b91c1c; }
+.cbtn.plus  { background: #dcfce7; color: #15803d; }
+.cbtn:not(:disabled):hover { filter: brightness(.88); }
+.cval { min-width: 26px; text-align: center; font-weight: 700; font-size: .9rem; }
+
+.code-cell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.code-badge {
+  font-family: 'Courier New', monospace; font-size: .8rem; letter-spacing: .1em;
+  background: #fef9c3; border: 1px solid #fbbf24; color: #78350f;
+  padding: 2px 7px; border-radius: 4px; font-weight: 700;
+}
+.no-code { color: #bbb; font-size: .78rem; }
+.validado { font-size: .7rem; padding: 1px 6px; border-radius: 10px; font-weight: 600; }
+.validado.si { background: #dcfce7; color: #166534; }
+.btn-code {
+  padding: 3px 9px; font-size: .73rem; border-radius: 4px;
+  border: 1px solid var(--verde); background: white; color: var(--verde);
+  cursor: pointer; white-space: nowrap; transition: all .15s;
+}
+.btn-code:hover:not(:disabled) { background: var(--verde); color: white; }
+.btn-code:disabled { opacity: .5; cursor: not-allowed; }
+
+.loading-row td { text-align: center; padding: 48px; color: #999; font-size: .95rem; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+  background: #1b2d1b; color: white; padding: 11px 20px;
+  border-radius: 8px; font-size: .875rem; box-shadow: 0 4px 20px rgba(0,0,0,.3);
+  transform: translateY(80px); opacity: 0; transition: transform .28s, opacity .28s;
+  pointer-events: none;
+}
+#toast.show      { transform: translateY(0); opacity: 1; }
+#toast.is-error  { background: #b91c1c; }
+#toast.is-ok     { background: #15803d; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ LOGIN ════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">⚜️</div>
+    <h1>Panel del Dirigente</h1>
+    <p>Grupo Scout 127 · Libro Animado de Investidura</p>
+    <input type="password" id="clave-input" placeholder="Clave de acceso"
+           onkeydown="if(event.key==='Enter') intentarLogin()">
+    <button class="btn-primary" onclick="intentarLogin()">Ingresar</button>
+    <div class="error-msg" id="login-error"></div>
+  </div>
+</div>
+
+<!-- ════════════════ DASHBOARD ════════════════ -->
+<div id="dashboard">
+  <header>
+    <div>
+      <h1>Panel del Dirigente — GS127</h1>
+      <div class="subtitle">Progreso scouts · Validaciones · Códigos de investidura</div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+  </header>
+
+  <main>
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card"><div class="val" id="s-total">—</div><div class="lbl">Scouts</div></div>
+      <div class="stat-card"><div class="val" id="s-caps">—</div><div class="lbl">Caps promedio completados</div></div>
+      <div class="stat-card"><div class="val" id="s-xp">—</div><div class="lbl">XP promedio</div></div>
+      <div class="stat-card"><div class="val" id="s-ba">—</div><div class="lbl">Buenas acciones (total)</div></div>
+      <div class="stat-card"><div class="val" id="s-camp">—</div><div class="lbl">Noches campamento (total)</div></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <select id="f-patrulla" onchange="renderTabla()">
+        <option value="">Todas las patrullas</option>
+        <option value="Jaguares">Jaguares</option>
+        <option value="Lobos">Lobos</option>
+        <option value="Mapaches">Mapaches</option>
+        <option value="Pandas">Pandas</option>
+      </select>
+      <input type="text" id="f-nombre" placeholder="Buscar scout…" oninput="renderTabla()" style="min-width:180px">
+      <select id="f-orden" onchange="renderTabla()">
+        <option value="nombre">Orden: nombre</option>
+        <option value="xp">Orden: XP (mayor)</option>
+        <option value="caps">Orden: capítulos</option>
+        <option value="patrulla">Orden: patrulla</option>
+      </select>
+      <div class="status-bar" id="status-bar">—</div>
+      <button class="btn-refresh" id="btn-refresh" onclick="cargarDatos()">⟳ Actualizar</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Scout</th>
+            <th>Patrulla</th>
+            <th>XP</th>
+            <th>Rango</th>
+            <th>Capítulos 1–12</th>
+            <th>Buenas Acciones</th>
+            <th>Campamento (noches)</th>
+            <th title="Cap 11 — Comportamiento en el hogar">Cód. Hogar (cap11)</th>
+            <th title="Cap 12 — Rendimiento académico">Cód. Acad. (cap12)</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr class="loading-row"><td colspan="10">⏳ Iniciando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// CONFIGURACIÓN
+// ════════════════════════════════════════════════════════════
+const API_KEY    = 'AIzaSyBPFCRvhezdhz27OzPbZJijlOVKLnzKNo4';
+const PROJECT_ID = 'fichas-actividad-scout';
+const GRUPO_ID   = '127';
+const FS_BASE    = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
+
+// ⚠️  Cambiar esta clave antes de compartir el panel con los dirigentes
+const CLAVE_PANEL = 'gs127panel2026';
+
+// ════════════════════════════════════════════════════════════
+// ESTADO
+// ════════════════════════════════════════════════════════════
+let scouts    = [];   // Array de { id, nombre, patrulla, docId }
+let progresos = {};   // { docId: { xp, rango, caps, validaciones } }
+let ocupado   = false;
+
+// ════════════════════════════════════════════════════════════
+// AUTH SIMPLE
+// ════════════════════════════════════════════════════════════
+function intentarLogin() {
+  const val = document.getElementById('clave-input').value.trim();
+  if (val === CLAVE_PANEL) {
+    sessionStorage.setItem('panel_ok', '1');
+    mostrarDashboard();
+  } else {
+    document.getElementById('login-error').textContent = 'Clave incorrecta. Intenta de nuevo.';
+    document.getElementById('clave-input').value = '';
+    document.getElementById('clave-input').focus();
+  }
+}
+
+function mostrarDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display    = 'block';
+  cargarDatos();
+}
+
+function logout() {
+  sessionStorage.removeItem('panel_ok');
+  location.reload();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('panel_ok') === '1') {
+    mostrarDashboard();
+  } else {
+    document.getElementById('clave-input').focus();
+  }
+});
+
+// ════════════════════════════════════════════════════════════
+// FIRESTORE HELPERS
+// ════════════════════════════════════════════════════════════
+function parseField(f) {
+  if (!f) return null;
+  if ('stringValue'  in f) return f.stringValue;
+  if ('integerValue' in f) return parseInt(f.integerValue, 10);
+  if ('doubleValue'  in f) return parseFloat(f.doubleValue);
+  if ('booleanValue' in f) return f.booleanValue;
+  if ('nullValue'    in f) return null;
+  if ('arrayValue'   in f) return (f.arrayValue.values || []).map(parseField);
+  if ('mapValue'     in f) {
+    const r = {};
+    for (const [k, v] of Object.entries(f.mapValue.fields || {})) r[k] = parseField(v);
+    return r;
+  }
+  return null;
+}
+
+function toFirestore(val) {
+  if (val === null || val === undefined) return { nullValue: null };
+  if (typeof val === 'boolean')          return { booleanValue: val };
+  if (typeof val === 'string')           return { stringValue: val };
+  if (Number.isInteger(val))             return { integerValue: String(val) };
+  if (typeof val === 'number')           return { doubleValue: val };
+  if (Array.isArray(val))                return { arrayValue: { values: val.map(toFirestore) } };
+  if (typeof val === 'object') {
+    const fields = {};
+    for (const [k, v] of Object.entries(val)) fields[k] = toFirestore(v);
+    return { mapValue: { fields } };
+  }
+  return { nullValue: null };
+}
+
+async function fsList(col) {
+  const r = await fetch(`${FS_BASE}/${col}?key=${API_KEY}&pageSize=200`);
+  if (!r.ok) throw new Error(`LIST ${col}: HTTP ${r.status}`);
+  const d = await r.json();
+  return d.documents || [];
+}
+
+async function fsPatch(path, fields, maskPaths) {
+  const mask = maskPaths.map(p => `updateMask.fieldPaths=${encodeURIComponent(p)}`).join('&');
+  const r = await fetch(`${FS_BASE}/${path}?key=${API_KEY}&${mask}`, {
+    method:  'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ fields }),
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    throw new Error(`PATCH ${path}: HTTP ${r.status} — ${txt.slice(0, 200)}`);
+  }
+  return r.json();
+}
+
+// ════════════════════════════════════════════════════════════
+// CARGA DE DATOS
+// ════════════════════════════════════════════════════════════
+async function cargarDatos() {
+  if (ocupado) return;
+  ocupado = true;
+  setStatus('Cargando scouts…');
+  document.getElementById('btn-refresh').disabled = true;
+  document.getElementById('tbody').innerHTML =
+    '<tr class="loading-row"><td colspan="10">⏳ Cargando datos…</td></tr>';
+
+  try {
+    // 1. Scouts
+    const sdocs = await fsList('scouts_busqueda');
+    scouts = sdocs.map(d => {
+      const f = d.fields || {};
+      const id = parseField(f.idScout) || parseField(f.scoutId) || '';
+      return {
+        id,
+        nombre:   parseField(f.nombre)   || '(sin nombre)',
+        patrulla: parseField(f.patrulla) || '?',
+        docId:    `${GRUPO_ID}_${id}`,
+      };
+    }).filter(s => s.id);
+
+    // 2. Progresos
+    setStatus('Cargando progresos…');
+    const pdocs = await fsList('libro_interactivo_progreso');
+    progresos = {};
+    for (const d of pdocs) {
+      const key = d.name.split('/').pop();
+      const f   = d.fields || {};
+      const valRaw = parseField(f.validaciones) || {};
+      progresos[key] = {
+        xp:   parseField(f.xp_total) || 0,
+        rango: parseField(f.rango)   || 'Pietierno',
+        caps:  parseField(f.capitulos_completados) || [],
+        validaciones: {
+          buenas_acciones:    valRaw.buenas_acciones    || 0,
+          noches_campamento:  valRaw.noches_campamento  || 0,
+          meses_participacion: valRaw.meses_participacion || 0,
+          comportamiento_hogar: {
+            aprobado:          valRaw.comportamiento_hogar?.aprobado          ?? false,
+            codigo_validacion: valRaw.comportamiento_hogar?.codigo_validacion ?? null,
+            aprobado_por:      valRaw.comportamiento_hogar?.aprobado_por      ?? null,
+            fecha_validacion:  valRaw.comportamiento_hogar?.fecha_validacion  ?? null,
+          },
+          rendimiento_academico: {
+            aprobado:          valRaw.rendimiento_academico?.aprobado          ?? false,
+            codigo_validacion: valRaw.rendimiento_academico?.codigo_validacion ?? null,
+            aprobado_por:      valRaw.rendimiento_academico?.aprobado_por      ?? null,
+            fecha_validacion:  valRaw.rendimiento_academico?.fecha_validacion  ?? null,
+          },
+        },
+      };
+    }
+
+    actualizarStats();
+    renderTabla();
+    setStatus(`${scouts.length} scouts · actualizado ${new Date().toLocaleTimeString('es-CO')}`);
+  } catch (e) {
+    setStatus('⚠️ Error: ' + e.message);
+    toast('Error al cargar datos: ' + e.message, 'error');
+    console.error(e);
+  } finally {
+    ocupado = false;
+    document.getElementById('btn-refresh').disabled = false;
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// ESTADÍSTICAS
+// ════════════════════════════════════════════════════════════
+function actualizarStats() {
+  const con = scouts.filter(s => progresos[s.docId]);
+  const n   = con.length || 1;
+  const avgCaps = Math.round(con.reduce((a, s) => a + (progresos[s.docId].caps?.length || 0), 0) / n * 10) / 10;
+  const avgXp   = Math.round(con.reduce((a, s) => a + (progresos[s.docId].xp || 0), 0) / n);
+  const totalBA = con.reduce((a, s) => a + (progresos[s.docId].validaciones?.buenas_acciones || 0), 0);
+  const totalNC = con.reduce((a, s) => a + (progresos[s.docId].validaciones?.noches_campamento || 0), 0);
+  document.getElementById('s-total').textContent = scouts.length;
+  document.getElementById('s-caps').textContent  = con.length ? avgCaps : '—';
+  document.getElementById('s-xp').textContent    = con.length ? avgXp   : '—';
+  document.getElementById('s-ba').textContent    = totalBA;
+  document.getElementById('s-camp').textContent  = totalNC;
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER TABLA
+// ════════════════════════════════════════════════════════════
+function renderTabla() {
+  const fPat = document.getElementById('f-patrulla').value.toLowerCase();
+  const fNom = document.getElementById('f-nombre').value.toLowerCase().trim();
+  const ord  = document.getElementById('f-orden').value;
+
+  let lista = scouts.slice();
+  if (fPat) lista = lista.filter(s => s.patrulla.toLowerCase() === fPat);
+  if (fNom) lista = lista.filter(s => s.nombre.toLowerCase().includes(fNom));
+
+  if (ord === 'xp')      lista.sort((a, b) => (progresos[b.docId]?.xp || 0) - (progresos[a.docId]?.xp || 0));
+  else if (ord === 'caps') lista.sort((a, b) => (progresos[b.docId]?.caps?.length || 0) - (progresos[a.docId]?.caps?.length || 0));
+  else if (ord === 'patrulla') lista.sort((a, b) => a.patrulla.localeCompare(b.patrulla, 'es') || a.nombre.localeCompare(b.nombre, 'es'));
+  else lista.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+
+  const tbody = document.getElementById('tbody');
+  if (!lista.length) {
+    tbody.innerHTML = '<tr class="loading-row"><td colspan="10">Sin resultados.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = lista.map((s, i) => filaHTML(s, i + 1)).join('');
+}
+
+function filaHTML(s, n) {
+  const prog = progresos[s.docId] || { xp: 0, rango: '—', caps: [], validaciones: {} };
+  const val  = prog.validaciones || {};
+  const ba   = val.buenas_acciones   || 0;
+  const nc   = val.noches_campamento || 0;
+  const ch   = val.comportamiento_hogar  || {};
+  const ra   = val.rendimiento_academico || {};
+
+  const patKey = s.patrulla.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const capsDots = Array.from({ length: 12 }, (_, k) => {
+    const num  = k + 1;
+    const done = (prog.caps || []).includes(num);
+    return `<div class="cap-dot ${done ? 'done' : 'pending'}" title="Cap ${num}">${done ? '✓' : num}</div>`;
+  }).join('');
+
+  const codCH = ch.codigo_validacion
+    ? `<span class="code-badge">${ch.codigo_validacion}</span>${ch.aprobado ? '<span class="validado si">✓</span>' : ''}`
+    : '<span class="no-code">—</span>';
+  const codRA = ra.codigo_validacion
+    ? `<span class="code-badge">${ra.codigo_validacion}</span>${ra.aprobado ? '<span class="validado si">✓</span>' : ''}`
+    : '<span class="no-code">—</span>';
+
+  const did = s.docId;
+  return `<tr>
+    <td style="color:#aaa;font-size:.78rem">${n}</td>
+    <td><strong>${escHtml(s.nombre)}</strong></td>
+    <td><span class="patrulla-badge p-${patKey}">${escHtml(s.patrulla)}</span></td>
+    <td><strong>${prog.xp}</strong></td>
+    <td><span class="rango-txt">${escHtml(prog.rango)}</span></td>
+    <td><div class="caps-row">${capsDots}</div></td>
+    <td>
+      <div class="counter-ctrl">
+        <button class="cbtn minus" onclick="delta('${did}','buenas_acciones',-1)" ${ba<=0?'disabled':''}>−</button>
+        <span class="cval" id="ba-${did}">${ba}</span>
+        <button class="cbtn plus"  onclick="delta('${did}','buenas_acciones',+1)">+</button>
+      </div>
+    </td>
+    <td>
+      <div class="counter-ctrl">
+        <button class="cbtn minus" onclick="delta('${did}','noches_campamento',-1)" ${nc<=0?'disabled':''}>−</button>
+        <span class="cval" id="nc-${did}">${nc}</span>
+        <button class="cbtn plus"  onclick="delta('${did}','noches_campamento',+1)">+</button>
+      </div>
+    </td>
+    <td>
+      <div class="code-cell">
+        <span id="ch-${did}">${codCH}</span>
+        <button class="btn-code" id="ch-btn-${did}" onclick="generarCodigo('${did}','comportamiento_hogar')">
+          ${ch.codigo_validacion ? '↺ Nuevo' : '+ Generar'}
+        </button>
+      </div>
+    </td>
+    <td>
+      <div class="code-cell">
+        <span id="ra-${did}">${codRA}</span>
+        <button class="btn-code" id="ra-btn-${did}" onclick="generarCodigo('${did}','rendimiento_academico')">
+          ${ra.codigo_validacion ? '↺ Nuevo' : '+ Generar'}
+        </button>
+      </div>
+    </td>
+  </tr>`;
+}
+
+// ════════════════════════════════════════════════════════════
+// ACTUALIZAR CONTADOR (con debounce para reducir escrituras)
+// ════════════════════════════════════════════════════════════
+const pendingWrites = {};
+
+function delta(docId, campo, d) {
+  const prog = progresos[docId];
+  if (!prog) return;
+  prog.validaciones = prog.validaciones || {};
+  const anterior = prog.validaciones[campo] || 0;
+  const nuevo    = Math.max(0, anterior + d);
+  prog.validaciones[campo] = nuevo;
+
+  // Actualizar UI inmediatamente
+  const pfx = campo === 'buenas_acciones' ? 'ba' : 'nc';
+  const el  = document.getElementById(`${pfx}-${docId}`);
+  if (el) el.textContent = nuevo;
+
+  // Actualizar botón minus
+  const row = el?.closest('tr');
+  if (row) {
+    row.querySelectorAll(`.cbtn.minus`).forEach(btn => {
+      if (btn.getAttribute('onclick')?.includes(campo)) btn.disabled = nuevo <= 0;
+    });
+  }
+
+  // Debounce: escribir a Firestore 1s después de la última pulsación
+  clearTimeout(pendingWrites[docId]);
+  pendingWrites[docId] = setTimeout(() => guardarValidaciones(docId), 1000);
+}
+
+async function guardarValidaciones(docId) {
+  const prog = progresos[docId];
+  if (!prog) return;
+  try {
+    await fsPatch(
+      `libro_interactivo_progreso/${docId}`,
+      { validaciones: toFirestore(prog.validaciones) },
+      ['validaciones']
+    );
+    toast('Guardado ✓', 'ok');
+  } catch (e) {
+    toast('Error al guardar: ' + e.message, 'error');
+    console.error(e);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// GENERAR CÓDIGO DE VALIDACIÓN
+// ════════════════════════════════════════════════════════════
+function genCode() {
+  // 6 chars alfanumérico en mayúsculas, fácil de dictar
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+async function generarCodigo(docId, tipo) {
+  const prog = progresos[docId];
+  if (!prog) return;
+
+  const pfx    = tipo === 'comportamiento_hogar' ? 'ch' : 'ra';
+  const btnEl  = document.getElementById(`${pfx}-btn-${docId}`);
+  if (btnEl) btnEl.disabled = true;
+
+  const codigo = genCode();
+  prog.validaciones = prog.validaciones || {};
+  prog.validaciones[tipo] = {
+    aprobado:          false,
+    codigo_validacion: codigo,
+    aprobado_por:      null,
+    fecha_validacion:  null,
+  };
+
+  try {
+    await guardarValidaciones(docId);
+
+    // Actualizar UI
+    const spanEl = document.getElementById(`${pfx}-${docId}`);
+    if (spanEl) spanEl.innerHTML = `<span class="code-badge">${codigo}</span>`;
+    if (btnEl)  { btnEl.textContent = '↺ Nuevo'; btnEl.disabled = false; }
+
+    toast(`Código: ${codigo}`, 'ok');
+  } catch (e) {
+    if (btnEl) btnEl.disabled = false;
+    // error already toasted in guardarValidaciones
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// UI HELPERS
+// ════════════════════════════════════════════════════════════
+function setStatus(msg) {
+  document.getElementById('status-bar').textContent = msg;
+}
+
+let toastTimer;
+function toast(msg, tipo = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = `show is-${tipo}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 2800);
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

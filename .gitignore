@@ -29,4 +29,6 @@ Thumbs.db
 *.tmp
 
 export/web/*
+!export/web/panel/
+!export/web/panel/**
 export/android/*
