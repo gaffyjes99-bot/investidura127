@@ -70,12 +70,31 @@ func _ready() -> void:
 		# Escala global: todo el contenido 30% mas grande en celular/tablet
 		get_window().content_scale_factor = 1.3
 	_construir_tema()
+	_crear_marca_version()
 	call_deferred("_ruta_inicial")
 
 func _es_movil() -> bool:
 	return DisplayServer.is_touchscreen_available() \
 		or OS.has_feature("web_android") or OS.has_feature("web_ios") \
 		or OS.has_feature("android") or OS.has_feature("ios")
+
+# Marca discreta con version y modo (M=movil, D=desktop) para diagnosticar cache
+func _crear_marca_version() -> void:
+	var capa := CanvasLayer.new()
+	capa.layer = 100
+	var lbl := Label.new()
+	var ver := str(ProjectSettings.get_setting("application/config/version", "?"))
+	lbl.text = "v%s-%s" % [ver, "M" if _es_movil() else "D"]
+	lbl.add_theme_font_size_override("font_size", 12)
+	lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.45))
+	lbl.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	lbl.offset_left = -110.0
+	lbl.offset_top = -24.0
+	lbl.offset_right = -8.0
+	lbl.offset_bottom = -6.0
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	add_child(capa)
+	capa.add_child(lbl)
 
 # ── tema visual global ───────────────────────────────────────────────────────
 
