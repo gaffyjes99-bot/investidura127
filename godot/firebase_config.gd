@@ -19,8 +19,8 @@ const GRUPO_ID = "127"
 const FIRESTORE_API_BASE = "https://firestore.googleapis.com/v1/projects/%s/databases/(default)/documents"
 const FIRESTORE_PROGRESO_COLLECTION = "libro_interactivo_progreso"
 
-# Nombres de colecciones existentes (para búsqueda de scouts)
-const SCOUTS_COLLECTION = "scouts"
+# Colección pública con solo nombre/patrulla/grupoId/idScout (sin datos sensibles)
+const SCOUTS_COLLECTION = "scouts_busqueda"
 
 # Configuración de sincronización
 const SYNC_INTERVAL_SECONDS = 5.0  # Reintentar cada 5 segundos
