@@ -101,7 +101,6 @@ theme_override_constants/separation = 24
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 fit_content = false
 text = ""
@@ -129,7 +128,6 @@ visible = false
 [node name="PreguntaLabel" type="RichTextLabel" parent="ContenidoArea/QuizPanel"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 fit_content = false
 text = ""
@@ -166,7 +164,6 @@ text = ""
 [node name="JuegoTexto" type="RichTextLabel" parent="ContenidoArea/JuegoPanel"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 20
 bbcode_enabled = true
 fit_content = false
 text = ""

@@ -76,7 +76,10 @@ func _construir_tema() -> void:
 	var fuente := load("res://assets/fonts/Baloo2-Regular.ttf") as FontFile
 	if fuente:
 		tema.default_font = fuente
-	tema.default_font_size = 18
+	# En pantallas tactiles (celular/tablet) la letra sube de tamano para lectura comoda
+	var es_tactil := DisplayServer.is_touchscreen_available()
+	tema.default_font_size = 21 if es_tactil else 18
+	tema.set_font_size("normal_font_size", "RichTextLabel", 24 if es_tactil else 20)
 
 	var b_normal := StyleBoxFlat.new()
 	b_normal.bg_color = COL_VERDE
