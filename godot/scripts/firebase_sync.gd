@@ -33,36 +33,44 @@ func _ready() -> void:
 
 func _fetch_async(method: String, url: String, body: String = "") -> Dictionary:
 	"""Ejecuta fetch asincrónico y retorna respuesta."""
-	var options = ""
-	if method != "GET":
-		options = ', {"method": "%s", "headers": {"Content-Type": "application/json"}, "body": \'%s\'}' % [method, body.replace("'", "\\'")]
+	# Resetear antes del fetch para no leer resultado obsoleto
+	JavaScriptBridge.eval("window.lastFetchResult = null;")
 
-	var js_code = """
-	(async () => {
-		try {
-			console.log('[FirebaseSync JS] Fetch %s: %s', '%s'.substring(0, 80) + '...', '%s');
-			const resp = await fetch('%s'%s);
-			const text = await resp.text();
-			window.lastFetchResult = {status: 'ok', code: resp.status, body: text};
-			console.log('[FirebaseSync JS] ✅ Response %d, %d bytes', resp.status, text.length);
-		} catch(e) {
-			console.log('[FirebaseSync JS] ❌ Error: ' + e.message);
-			window.lastFetchResult = {status: 'error', error: e.message};
-		}
-	})();
-	""" % [method, url, body, url]
+	# Construir JS con concatenación (sin operador % para evitar conflictos de formato)
+	var safe_url = url.replace("\\", "\\\\").replace("'", "\\'")
+	var js: String
+	if method == "GET":
+		js = "(async()=>{try{const r=await fetch('" + safe_url + "');const t=await r.text();window.lastFetchResult={status:'ok',code:r.status,body:t};}catch(e){console.error('[FirebaseSync]',e.message);window.lastFetchResult={status:'error',code:0,body:'',error:e.message};}})();"
+	else:
+		var safe_body = body.replace("\\", "\\\\").replace("'", "\\'")
+		js = "(async()=>{try{const r=await fetch('" + safe_url + "',{method:'" + method + "',headers:{'Content-Type':'application/json'},body:'" + safe_body + "'});const t=await r.text();window.lastFetchResult={status:'ok',code:r.status,body:t};}catch(e){console.error('[FirebaseSync]',e.message);window.lastFetchResult={status:'error',code:0,body:'',error:e.message};}})();"
 
-	JavaScriptBridge.eval(js_code)
-	# Aumentar timeout de 0.8s a 3s para Firestore
-	await get_tree().create_timer(3.0).timeout
+	JavaScriptBridge.eval(js)
 
-	if not JavaScriptBridge.get_interface("window").has("lastFetchResult"):
-		print("[FirebaseSync] ❌ Timeout esperando respuesta de fetch")
+	# Polling hasta 5s (0.1s por tick) en vez de espera fija
+	var elapsed := 0.0
+	while elapsed < 5.0:
+		await get_tree().create_timer(0.1).timeout
+		elapsed += 0.1
+		if JavaScriptBridge.eval("window.lastFetchResult !== null"):
+			break
+
+	if not JavaScriptBridge.eval("window.lastFetchResult !== null"):
+		print("[FirebaseSync] ❌ Fetch timeout: " + url.substr(0, 80))
 		return {"error": "Fetch timeout"}
 
-	var result = JavaScriptBridge.get_interface("window").lastFetchResult
-	print("[FirebaseSync] 📦 Resultado fetch: status=%s, code=%s" % [result.get("status"), result.get("code")])
-	return result
+	# Leer campos vía eval (JavaScriptObject no soporta .get())
+	var ok: bool = JavaScriptBridge.eval("window.lastFetchResult.status === 'ok'")
+	var code: int = int(JavaScriptBridge.eval("window.lastFetchResult.code || 0"))
+	var resp_body: String = str(JavaScriptBridge.eval("window.lastFetchResult.body || ''"))
+
+	print("[FirebaseSync] Fetch %s %d (%d bytes)" % [method, code, resp_body.length()])
+
+	if ok:
+		return {"status": "ok", "code": code, "body": resp_body}
+
+	var err_val = JavaScriptBridge.eval("window.lastFetchResult.error || 'HTTP error'")
+	return {"status": "error", "code": code, "body": resp_body, "error": str(err_val)}
 
 # ============================================================================
 # BÚSQUEDA FUZZY DE SCOUTS
