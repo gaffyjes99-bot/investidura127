@@ -5,71 +5,71 @@
       "pregunta": "Antes de solicitar tu investidura, ¿en qué dos aspectos debes destacarte, según la Bitácora?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Rendimiento académico y comportamiento ejemplar en casa",
-      "distractores": "Solo en actividades deportivas",
+      "distractores": "Solo en actividades deportivas | En campamentos y manualidades | En puntualidad y uniforme solamente",
       "fuente": "Bitácora - previo a la investidura"
     },
     {
       "pregunta": "¿A quién debes buscar cuando te sientas listo para tu ceremonia de investidura?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "A tu dirigente, para solicitarle la ceremonia",
-      "distractores": "A cualquier scout mayor",
+      "distractores": "A cualquier scout mayor | Al guía de otra patrulla | A tus padres para que la organicen",
       "fuente": "Bitácora - previo a la investidura"
     },
     {
       "pregunta": "Repaso: ¿Cuál es el lema scout?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "¡Siempre Listo!",
-      "distractores": "Repite de Cap. 5",
+      "distractores": "¡Siempre Unidos! | ¡Adelante Siempre! | ¡Con Honor y Valor!",
       "fuente": "Bitácora - Lema"
     },
     {
       "pregunta": "Repaso: ¿Qué significa el color ROJO de la pañoleta del Grupo 127?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La fuerza del espíritu que nos fortalece para cumplir las metas",
-      "distractores": "Repite de Cap. 6",
+      "distractores": "La riqueza del alma y el corazón | El valor en el combate | La pureza de intención",
       "fuente": "Requisito del Grupo 127"
     },
     {
       "pregunta": "Repaso: ¿Qué significa el color AMARILLO de la pañoleta del Grupo 127?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La riqueza del alma y el corazón",
-      "distractores": "Repite de Cap. 6",
+      "distractores": "La fuerza del espíritu | La alegría del servicio | La luz que guía el camino",
       "fuente": "Requisito del Grupo 127"
     },
     {
       "pregunta": "Repaso: ¿Cuál es la Divisa Scout?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Hacer una buena acción diaria",
-      "distractores": "Repite de Cap. 7",
+      "distractores": "Siempre ser el mejor | Ganar todas las competencias | Ayudar solo cuando te lo pidan",
       "fuente": "Bitácora - Divisa Scout"
     },
     {
       "pregunta": "Repaso: Nombra los tres principios scouts.",
       "tipo": "Opción múltiple",
-      "respuesta_correcta": "Deberes con la espiritualidad, con los demás/cosas/entorno, y consigo mismo",
-      "distractores": "Repite de Cap. 4",
+      "respuesta_correcta": "Deberes con la espiritualidad, con los demás y el entorno, y consigo mismo",
+      "distractores": "Lealtad, Pureza y Abnegación | Honor, Valentía y Hermandad | Fe, Esperanza y Caridad",
       "fuente": "Bitácora - Principios"
     },
     {
       "pregunta": "Repaso: ¿Qué representa la Flor de Lis?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La dirección hacia lo alto y el camino del deber",
-      "distractores": "Repite de Cap. 5",
+      "distractores": "El escudo de armas de B.P. | La primera patrulla scout del mundo | Los tres principios del Escultismo",
       "fuente": "Bitácora - Flor de Lis"
     },
     {
-      "pregunta": "Validación de comportamiento en el hogar (código de padres).",
-      "tipo": "Validación externa",
-      "respuesta_correcta": "Código ingresado por los padres",
-      "distractores": null,
-      "fuente": "Mecánica del app - Validación de hogar"
+      "pregunta": "Verdadero o Falso: La investidura marca el inicio oficial de tu vida como scout comprometido.",
+      "tipo": "Verdadero/Falso",
+      "respuesta_correcta": "Verdadero",
+      "distractores": "Falso",
+      "fuente": "Bitácora - La ceremonia de investidura"
     },
     {
-      "pregunta": "Validación de rendimiento académico (código de dirigente/acudiente).",
-      "tipo": "Validación externa",
-      "respuesta_correcta": "Código ingresado por dirigente",
-      "distractores": null,
-      "fuente": "Mecánica del app - Validación académica"
+      "pregunta": "¿Qué representa la ceremonia de investidura para el scout y su comunidad?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "El compromiso público de vivir los valores scouts ante su tropa y familia",
+      "distractores": "Solo un evento social del grupo | El fin del proceso de aprendizaje scout | Una formalidad para recibir el uniforme completo",
+      "fuente": "Bitácora - La gran ceremonia"
     }
   ]
 }

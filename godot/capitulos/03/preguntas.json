@@ -12,21 +12,14 @@
       "pregunta": "Según B.P., la Promesa Scout es...",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Muy seria y difícil de cumplir, requiere el máximo esfuerzo",
-      "distractores": "Solo un formalismo de la ceremonia",
+      "distractores": "Solo un formalismo de la ceremonia | Un requisito fácil que cualquiera cumple sin esfuerzo | Importante solo en los primeros meses de la tropa",
       "fuente": "Bitácora - Promesa Scout"
     },
     {
-      "pregunta": "Recita de memoria la Promesa Scout completa (evaluación oral/escrita con espacios crecientes).",
-      "tipo": "Completar espacio (memoria progresiva)",
-      "respuesta_correcta": "Texto oficial de la Promesa de la Asociación Scouts de Colombia",
-      "distractores": null,
-      "fuente": "Confirmar texto exacto con jefe pedagógico / Escultismo para Muchachos"
-    },
-    {
-      "pregunta": "¿Qué representan las tres partes que se prometen por el honor, según el significado del saludo?",
+      "pregunta": "¿Qué representan las tres partes que se prometen por el honor en la Promesa Scout?",
       "tipo": "Opción múltiple",
-      "respuesta_correcta": "Cumplir deberes, ayudar al prójimo y cumplir la Ley Scout",
-      "distractores": "Ganar insignias, acampar y cantar",
+      "respuesta_correcta": "Cumplir deberes con Dios y el país, ayudar al prójimo y cumplir la Ley Scout",
+      "distractores": "Ganar insignias, acampar y cantar | Acampar tres veces, ganar tres insignias y aprender tres nudos | Respetar a los animales, el agua y el bosque",
       "fuente": "Bitácora - Saludo Scout (vínculo con la Promesa)"
     },
     {
@@ -40,35 +33,42 @@
       "pregunta": "¿Qué se realiza inmediatamente después de la Promesa ante la Tropa?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Iniciar los desafíos de la fase de progresión (Vigía)",
-      "distractores": "Recibir el rango de Expedicionario directamente",
+      "distractores": "Recibir el rango de Expedicionario directamente | Esperar seis meses más de preparación | Recibir automáticamente todas las insignias",
       "fuente": "Bitácora - Ruta de la Progresión"
     },
     {
       "pregunta": "Después de la Promesa ante la Tropa, ¿ante quién se hace la promesa de patrulla?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Ante el guía, en compañía de todos los integrantes de la patrulla",
-      "distractores": "Ante el Jefe de Grupo en solitario",
+      "distractores": "Ante el Jefe de Grupo en solitario | Ante todos los dirigentes del grupo en asamblea | Ante el Comisionado Nacional de Scouts",
       "fuente": "Bitácora - La Patrulla Scout"
     },
     {
       "pregunta": "¿Qué actitud debe tener el scout al comprometerse con su Promesa según la Bitácora?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Comprender el compromiso con su sociedad, país y familia",
-      "distractores": "Solo memorizar el texto sin comprenderlo",
+      "distractores": "Solo memorizar el texto sin comprenderlo | Hacerlo para cumplir el requisito sin profundizar | Esperar a ser más grande para entender el compromiso",
       "fuente": "Bitácora - previo a la investidura"
     },
     {
       "pregunta": "¿Qué scout puede solicitar la ceremonia de investidura?",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "El que se siente listo para asumir el nuevo estilo de vida scout",
-      "distractores": "Cualquiera sin importar su preparación",
+      "distractores": "Cualquiera sin importar su preparación | El que ha cumplido exactamente dos años en la tropa | El que ha ganado todas las insignias disponibles",
       "fuente": "Bitácora - previo a la investidura"
     },
     {
       "pregunta": "La palabra de honor en la Promesa Scout se sostiene con:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "El compromiso personal y la voluntad de cumplirla",
-      "distractores": "Solo la supervisión del dirigente",
+      "distractores": "Solo la supervisión del dirigente | La firma del documento oficial de promesa | La aprobación formal de todos los dirigentes del grupo",
+      "fuente": "Bitácora - Promesa Scout"
+    },
+    {
+      "pregunta": "¿Por qué la Promesa Scout se hace 'por mi honor'?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Porque el honor es lo más valioso para un scout y respalda todo su compromiso",
+      "distractores": "Porque es una frase tradicional sin significado profundo | Porque así lo exige el reglamento del grupo | Porque el dirigente lo decide en cada ceremonia",
       "fuente": "Bitácora - Promesa Scout"
     }
   ]

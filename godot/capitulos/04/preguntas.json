@@ -3,58 +3,51 @@
   "preguntas": [
     {
       "pregunta": "¿Cuáles son los tres principios scouts?",
-      "tipo": "Clasificar categorías",
-      "respuesta_correcta": "Deberes para con la espiritualidad, deberes para con los demás/las cosas/el medio ambiente, deberes para consigo mismo",
-      "distractores": "Virtudes como distractor (Lealtad, Pureza, Abnegación)",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "Deberes para con la espiritualidad, deberes para con los demás y el entorno, deberes para consigo mismo",
+      "distractores": "Lealtad, Pureza y Abnegación | Honor, Valentía y Hermandad | Obediencia, Servicio y Naturaleza",
       "fuente": "Bitácora - Principios"
     },
     {
       "pregunta": "¿Cuáles son las tres virtudes scouts mencionadas en la Bitácora?",
-      "tipo": "Clasificar categorías",
+      "tipo": "Opción múltiple",
       "respuesta_correcta": "Lealtad, Pureza, Abnegación",
-      "distractores": "Principios como distractor",
+      "distractores": "Honor, Valentía y Verdad | Bondad, Justicia y Templanza | Fidelidad, Disciplina y Coraje",
       "fuente": "Bitácora - Virtudes"
     },
     {
       "pregunta": "La virtud de la Lealtad está basada en:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La verdad y la sinceridad",
-      "distractores": "La fuerza y la competencia",
+      "distractores": "La fuerza y la competencia | El sacrificio y la renuncia | La obediencia absoluta al dirigente",
       "fuente": "Bitácora - Virtudes"
     },
     {
       "pregunta": "La virtud de la Abnegación se define como:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "El sacrificio espontáneo de bienes, voluntad y afectos por el bien del prójimo",
-      "distractores": "La capacidad de ganar competencias sin ayuda",
+      "distractores": "La capacidad de ganar competencias sin ayuda | La habilidad de memorizar la Ley Scout | La disciplina de seguir órdenes sin cuestionar",
       "fuente": "Bitácora - Virtudes"
     },
     {
       "pregunta": "El principio de 'deberes para con la espiritualidad' implica:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La lealtad a la religión propia y la aceptación de sus deberes",
-      "distractores": "Ser el más fuerte de la patrulla",
+      "distractores": "Ser el más fuerte de la patrulla | Asistir a todos los campamentos del año | Ganar la mayor cantidad de insignias posibles",
       "fuente": "Bitácora - Principios"
     },
     {
       "pregunta": "El principio de 'deberes para con los demás' incluye:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "Lealtad al país, paz, cooperación y respeto a la dignidad humana",
-      "distractores": "Ganar todas las insignias posibles",
+      "distractores": "Ganar todas las insignias posibles | Ser el guía de la patrulla antes de los 12 años | Completar todos los capítulos del libro sin ayuda",
       "fuente": "Bitácora - Principios"
     },
     {
-      "pregunta": "¿Qué pide el scout a Dios en la Oración Scout, según su primera línea?",
-      "tipo": "Completar espacio",
+      "pregunta": "¿Qué pide el scout a Dios en la primera línea de la Oración Scout?",
+      "tipo": "Opción múltiple",
       "respuesta_correcta": "Enséñame a ser generoso",
-      "distractores": "Enséñame a ser el mejor | Enséñame a ganar | Enséñame a mandar",
-      "fuente": "Bitácora - Oración Scout"
-    },
-    {
-      "pregunta": "Ordena las líneas de la Oración Scout (karaoke / secuencia).",
-      "tipo": "Ordenar secuencia",
-      "respuesta_correcta": "Secuencia oficial de la Oración Scout de la Bitácora",
-      "distractores": null,
+      "distractores": "Enséñame a ser el mejor | Enséñame a ganar siempre | Enséñame a mandar a otros",
       "fuente": "Bitácora - Oración Scout"
     },
     {
@@ -68,7 +61,14 @@
       "pregunta": "El principio de 'deberes para consigo mismo' se resume en:",
       "tipo": "Opción múltiple",
       "respuesta_correcta": "La responsabilidad en el desarrollo personal",
-      "distractores": "La obligación de complacer siempre a los demás",
+      "distractores": "La obligación de complacer siempre a los demás | Ser el primero en llegar a todas las reuniones | Obedecer sin cuestionar a los dirigentes",
+      "fuente": "Bitácora - Principios"
+    },
+    {
+      "pregunta": "Según la Bitácora, ¿qué representa el segundo principio scout (deberes para con los demás)?",
+      "tipo": "Opción múltiple",
+      "respuesta_correcta": "El servicio a la sociedad, el respeto a la naturaleza y la hermandad universal",
+      "distractores": "Solo el respeto a los adultos mayores | La obligación de participar en política | Únicamente el cuidado del medio ambiente",
       "fuente": "Bitácora - Principios"
     }
   ]
