@@ -1,6 +1,4 @@
-[gd_scene format=3]
-
-[gd_scene load_steps=2 format=3 uid="uid://b7yt4kp5xu0t1"]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://scenes/onboarding/onboarding.gd" id="1"]
 
