@@ -66,8 +66,16 @@ var _mp_rango_lbl: Label = null
 # ── arranque ────────────────────────────────────────────────────────────────
 
 func _ready() -> void:
+	if _es_movil():
+		# Escala global: todo el contenido 30% mas grande en celular/tablet
+		get_window().content_scale_factor = 1.3
 	_construir_tema()
 	call_deferred("_ruta_inicial")
+
+func _es_movil() -> bool:
+	return DisplayServer.is_touchscreen_available() \
+		or OS.has_feature("web_android") or OS.has_feature("web_ios") \
+		or OS.has_feature("android") or OS.has_feature("ios")
 
 # ── tema visual global ───────────────────────────────────────────────────────
 
@@ -77,7 +85,7 @@ func _construir_tema() -> void:
 	if fuente:
 		tema.default_font = fuente
 	# En pantallas tactiles (celular/tablet) la letra sube de tamano para lectura comoda
-	var es_tactil := DisplayServer.is_touchscreen_available()
+	var es_tactil := _es_movil()
 	tema.default_font_size = 21 if es_tactil else 18
 	tema.set_font_size("normal_font_size", "RichTextLabel", 24 if es_tactil else 20)
 
