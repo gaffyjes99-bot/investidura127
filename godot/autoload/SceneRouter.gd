@@ -20,18 +20,18 @@ const COL_CREMA     := Color("#F4EDE0")  # crema hueso
 const COL_CAFE_OSC  := Color("#3B2A1E")  # texto sobre fondos claros
 
 const CAP_SPRITES := {
-	1:  "res://assets/sprites/bp_young_talking_v1.png",
-	2:  "res://assets/sprites/bp_young_v1.png",
-	3:  "res://assets/sprites/scout_boy_talking_v1.png",
-	4:  "res://assets/sprites/scout_girl_v1.png",
-	5:  "res://assets/sprites/akela_talking_v1.png",
-	6:  "res://assets/sprites/scout_boy_v1.png",
-	7:  "res://assets/sprites/scout_girl_celebrate_v1.png",
-	8:  "res://assets/sprites/baloo_talking_v1.png",
-	9:  "res://assets/sprites/kaa_v1.png",
-	10: "res://assets/sprites/wontolla_talking_v1.png",
-	11: "res://assets/sprites/jacala_v1.png",
-	12: "res://assets/sprites/kotick_celebrate_v1.png",
+	1:  "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell (joven)
+	2:  "res://assets/sprites/akela_talking_v1.png",      # Akela
+	3:  "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell
+	4:  "res://assets/sprites/baloo_talking_v1.png",      # Baloo
+	5:  "res://assets/sprites/jacala_talking_v1.png",     # Jacala
+	6:  "res://assets/sprites/wontolla_talking_v1.png",   # Wontolla
+	7:  "res://assets/sprites/kaa_talking_v1.png",        # Kaa
+	8:  "res://assets/sprites/kotick_talking_v1.png",     # Kotick
+	9:  "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell
+	10: "res://assets/sprites/akela_talking_v1.png",      # Akela
+	11: "res://assets/sprites/bp_young_talking_v1.png",   # Baden Powell
+	12: "res://assets/sprites/kotick_celebrate_v1.png",   # Cameo final (todos)
 }
 
 const CAPITULOS := [
