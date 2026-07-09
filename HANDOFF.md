@@ -1,7 +1,7 @@
 # Handoff — Libro Animado Investidura GS127
 
-**Fecha última actualización:** 2026-07-08 (sesión noche)
-**Versión app:** `0.4.3`
+**Fecha última actualización:** 2026-07-09
+**Versión app:** `0.5.0`
 **Rama:** `main` → desplegado en `gh-pages`
 **URL producción:** https://gaffyjes99-bot.github.io/investidura127/
 **Panel dirigente:** https://gaffyjes99-bot.github.io/investidura127/panel/
@@ -36,6 +36,7 @@ Sirve para confirmar si el celular tiene la versión nueva o una cacheada. Se ge
 | **Promesa scout** (cap 3) con texto oficial + nombre personalizado | ✅ |
 | **Llamados de pito en Morse** (cap 8) | ✅ |
 | **Fondo de bosque en capítulos** con velo de legibilidad | ✅ |
+| **Circuito de validación por código** (caps 11-12): scout ingresa el código del dirigente → marca `aprobado` en Firestore | ✅ |
 
 ---
 
@@ -113,21 +114,32 @@ Panel del Dirigente
 
 ---
 
-## Próxima prioridad — Circuito de validación caps 11-12 (SIGUE PENDIENTE)
+## Circuito de validación por código caps 11-12 (COMPLETADO en v0.5.0)
 
-El Panel del Dirigente ya genera un código de 6 chars y lo guarda en Firestore:
-- Cap 11: `validaciones.comportamiento_hogar.codigo_validacion`
-- Cap 12: `validaciones.rendimiento_academico.codigo_validacion`
+Implementado en commit `c391c9c`. El Panel del Dirigente genera un código de 6 chars y lo guarda en
+Firestore; el scout lo ingresa en el libro para aprobar el requisito.
 
-**Falta:** el scout no puede aún ingresar ese código. Implementar:
-1. Tipo de pregunta `"Codigo"` en `capitulos/11/preguntas.json` (Q3/Q8) y `12/preguntas.json` (Q1/Q2, hoy `null`).
-2. En `SceneRouter.gd`: mostrar `LineEdit` en `QuizPanel`; al confirmar, leer de Firestore
-   `validaciones.X.codigo_validacion`; si coincide → PATCH `aprobado=true`, `aprobado_por="scout"`, `fecha_validacion`.
-3. Helper de lectura GET en `firebase_sync.gd`.
-4. Nodo `LineEdit` en `capitulo.tscn` dentro de `QuizPanel`.
+- **Escena tipo `"codigo"`** en `capitulos/11/escenas.json` (`validacion: comportamiento_hogar`) y
+  `capitulos/12/escenas.json` (`validacion: rendimiento_academico`), insertada antes de la `evaluacion`.
+  Campos: `validacion`, `titulo`, `instruccion`, `xp`.
+- **`firebase_sync.gd`**: `obtener_validacion(tipo)` (GET estado) y `verificar_codigo(tipo, codigo)`
+  (GET + compara case-insensitive + PATCH `validaciones.<tipo>.{aprobado,aprobado_por,fecha_validacion}`
+  con **updateMask anidado** — verificado que NO borra el `codigo_validacion` ni campos hermanos).
+- **`SceneRouter.gd`**: rama `"codigo"` en `_cap_mostrar_escena`, `_mostrar_codigo()`, `_codigo_check_estado()`,
+  `_on_validar_codigo()`, `_codigo_bloquear_ok()`. Var `_codigo_tipo`. No bloquea: el scout puede continuar
+  sin código y volver luego. Muestra "ya validado" / "aún no hay código" / errores.
+- **`capitulo.tscn`**: nodo `CodigoPanel` (Titulo, Instruccion, CodigoInput LineEdit, BotonValidar, EstadoLabel).
 
-> Nota: el examen final del cap 12 (aprobar quiz + Gran Ceremonia) ya está hecho. Lo pendiente es
-> SOLO el ingreso del código de padres/dirigente para las validaciones de comportamiento/rendimiento.
+> Pendiente de prueba jugable end-to-end en dispositivo (login + caps desbloqueados): generar código en
+> el panel, ingresarlo en el cap 11/12, confirmar el ✓ en el panel.
+
+---
+
+## Próximas prioridades (sugeridas)
+
+1. Prueba end-to-end del circuito de validación en dispositivo real.
+2. Mejoras de contenido con preguntas `null`/1 distractor (tabla abajo) — requieren datos del Grupo 127.
+3. Fase 9 (notificaciones de rango/insignia).
 
 ---
 
@@ -140,8 +152,8 @@ El Panel del Dirigente ya genera un código de 6 chars y lo guarda en Firestore:
 | 08 | Preguntas de audio sin soporte de audio (los llamados ya están en Morse en texto) |
 | 09 | Q5–Q7 simuladores visuales (`null`) — no implementados |
 | 10 | Q4, Q9, Q10 `null` — datos del grupo |
-| 11 | Q3, Q8 `null` — circuito de validación |
-| 12 | Q1-Q2 `null` — circuito de validación |
+| 11 | Validación por código ya implementada (escena `codigo`); resto de preguntas OK |
+| 12 | Evaluación = examen final integrador; validación por código ya implementada |
 
 ---
 
