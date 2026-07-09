@@ -37,6 +37,7 @@ Sirve para confirmar si el celular tiene la versión nueva o una cacheada. Se ge
 | **Llamados de pito en Morse** (cap 8) | ✅ |
 | **Fondo de bosque en capítulos** con velo de legibilidad | ✅ |
 | **Circuito de validación por código** (caps 11-12): scout ingresa el código del dirigente → marca `aprobado` en Firestore | ✅ |
+| **Panel muestra el progreso real** (fix de clave de documento, commit `9b09a4c`) | ✅ |
 
 ---
 
@@ -85,6 +86,28 @@ abortaba y **ningún capítulo posterior al primero se sincronizaba** a Firestor
 
 **Nota:** la puesta al día sube lo que esté en localStorage del dispositivo. Si el guardado local se perdió
 (incógnito, borrar datos), no hay nada que recuperar de esas partidas — pero de ahí en adelante sincroniza bien.
+
+---
+
+## Convención de clave del documento de progreso (IMPORTANTE — no romper)
+
+El documento de `libro_interactivo_progreso` de cada scout se llama:
+
+```
+127_<ID del documento en scouts_busqueda>      ej. 127_127_Tropa_430002057
+```
+
+Es decir: `GRUPO_ID` + `"_"` + el **ID del documento** de `scouts_busqueda` (que ya empieza por `127_Tropa_...`),
+lo que produce el doble `127_`. **NO** se usa el campo `idScout` (`430002057`) para la clave.
+
+- La app (Godot) lo construye así porque `FirebaseSync._current_scout_id` = `doc.name.split("/")[-1]`
+  de `scouts_busqueda` (ver `_process_find_scout_response`), y el doc de progreso es `127_<_current_scout_id>`.
+- El **panel** debe usar la misma clave: `docId = 127_<d.name.split('/').pop()>` (arreglado en commit `9b09a4c`).
+  Antes usaba `127_<campo idScout>` y no encontraba el progreso (mostraba ceros) ni escribía los códigos
+  de validación donde la app los lee.
+
+> Si algún día se cambia la clave, hay que cambiarla **a la vez** en `firebase_sync.gd` (app) y en
+> `export/web/panel/index.html` (panel), y migrar los documentos existentes.
 
 ---
 
