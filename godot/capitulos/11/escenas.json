@@ -51,6 +51,13 @@
       }
     },
     {
+      "tipo": "codigo",
+      "validacion": "comportamiento_hogar",
+      "titulo": "Validación: comportamiento en casa",
+      "instruccion": "[b]Este requisito no se aprueba en la pantalla.[/b] Cuando tus padres y tu dirigente confirmen tu buen comportamiento en casa, tu dirigente generará un [b]código[/b] en su panel. Escríbelo aquí para dejar validado este requisito de tu investidura.\n\n¿Aún no tienes el código? Puedes continuar y volver a ingresarlo más adelante.",
+      "xp": 10
+    },
+    {
       "tipo": "evaluacion",
       "contenido": "No es un quiz tradicional: la 'evaluación' es el cumplimiento real de los requisitos (2 noches validadas + 4 meses cumplidos). 5 preguntas de comprensión sobre campismo de bajo impacto y planificación de salidas.",
       "xp": 30,

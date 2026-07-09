@@ -24,6 +24,13 @@
       ]
     },
     {
+      "tipo": "codigo",
+      "validacion": "rendimiento_academico",
+      "titulo": "Validación: rendimiento académico",
+      "instruccion": "[b]Este requisito lo confirma tu dirigente.[/b] Cuando valide tu buen rendimiento académico, generará un [b]código[/b] en su panel. Escríbelo aquí antes de tu examen final para dejarlo registrado.\n\n¿Aún no tienes el código? Puedes continuar y volver a ingresarlo más adelante.",
+      "xp": 10
+    },
+    {
       "tipo": "juego",
       "contenido": "[b][color=#F2A93B]Examen Final Integrador[/color][/b]\n\nAhora, {nombre}, demostrarás todo lo aprendido en los 12 capítulos.\n\n• 20 preguntas tomadas al azar de toda la Bitácora.\n• Cada intento trae preguntas nuevas.\n• Necesitas [b]90%[/b] (18 de 20) para aprobar.\n• Reintentos ilimitados, sin penalización.\n\nCuando apruebes, vivirás tu Gran Ceremonia. ¡Siempre Listo!",
       "xp": 5

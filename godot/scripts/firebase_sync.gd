@@ -271,6 +271,59 @@ func _on_sync_timer_timeout() -> void:
 		_try_sync()
 
 # ============================================================================
+# VALIDACIÓN POR CÓDIGO (caps 11-12: comportamiento_hogar / rendimiento_academico)
+# ============================================================================
+
+func _validacion_fields(doc: Dictionary, tipo: String) -> Dictionary:
+	# Devuelve el mapa de campos de validaciones.<tipo> desde la respuesta Firestore.
+	var fields = doc.get("fields", {})
+	var valf = fields.get("validaciones", {}).get("mapValue", {}).get("fields", {})
+	var sub = valf.get(tipo, {})
+	return sub.get("mapValue", {}).get("fields", {})
+
+func obtener_validacion(tipo: String) -> Dictionary:
+	# Lee el estado actual de una validación. Devuelve {ok, codigo, aprobado, existe}.
+	if _current_scout_id.is_empty():
+		return {"ok": false, "error": "no_scout"}
+	var doc_id = "%s_%s" % [_current_grupo_id, _current_scout_id]
+	var result = await _fetch_async("GET", FirebaseConfig.get_progreso_endpoint(doc_id))
+	if result.has("error") or result.get("code", 0) >= 400:
+		return {"ok": false, "error": "fetch"}
+	var json = JSON.new()
+	if json.parse(result.get("body", "")) != OK:
+		return {"ok": false, "error": "parse"}
+	var sub = _validacion_fields(json.data, tipo)
+	var codigo = str(sub.get("codigo_validacion", {}).get("stringValue", ""))
+	var aprobado = bool(sub.get("aprobado", {}).get("booleanValue", false))
+	return {"ok": true, "codigo": codigo, "aprobado": aprobado, "existe": codigo != ""}
+
+func verificar_codigo(tipo: String, codigo_ingresado: String) -> Dictionary:
+	# Compara el código ingresado contra el generado por el dirigente y, si coincide,
+	# marca la validación como aprobada. Devuelve {ok, error?}.
+	var estado = await obtener_validacion(tipo)
+	if not estado.get("ok", false):
+		return estado
+	if not estado.get("existe", false):
+		return {"ok": false, "error": "sin_codigo"}
+	if codigo_ingresado.strip_edges().to_upper() != str(estado["codigo"]).strip_edges().to_upper():
+		return {"ok": false, "error": "no_coincide"}
+	if estado.get("aprobado", false):
+		return {"ok": true, "ya": true}
+
+	var doc_id = "%s_%s" % [_current_grupo_id, _current_scout_id]
+	var base = FirebaseConfig.get_progreso_endpoint(doc_id)
+	var mask = ""
+	for campo in ["aprobado", "aprobado_por", "fecha_validacion"]:
+		mask += "&updateMask.fieldPaths=validaciones.%s.%s" % [tipo, campo]
+	var fecha = Time.get_datetime_string_from_system(true)
+	var payload = {tipo: {"aprobado": true, "aprobado_por": "scout", "fecha_validacion": fecha}}
+	var body = {"fields": {"validaciones": _convert_to_firestore_format(payload)}}
+	var result = await _fetch_async("PATCH", base + mask, JSON.stringify(body))
+	if result.has("error") or result.get("code", 0) >= 400:
+		return {"ok": false, "error": "guardar"}
+	return {"ok": true}
+
+# ============================================================================
 # UTILIDADES
 # ============================================================================
 

@@ -501,6 +501,9 @@ var _examen_final: bool = false
 var _ceremonia_vinetas: Array = []
 var _en_ceremonia: bool = false
 
+# validacion por codigo (caps 11-12)
+var _codigo_tipo: String = ""
+
 # mini-juego (escena tipo "juego" con datos estructurados)
 var _jg_escena: Dictionary = {}
 var _jg_decision_idx: int = 0
@@ -588,6 +591,7 @@ func _cap_mostrar_escena(idx: int) -> void:
 	var btn_sig      := s.get_node("Footer/BotonSiguiente") as Button
 	var juego_panel  := s.get_node("ContenidoArea/JuegoPanel") as Control
 	var anim_panel   := s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
+	var codigo_panel := s.get_node_or_null("ContenidoArea/CodigoPanel") as Control
 
 	titulo_lbl.text = "Cap.%d — %s" % [_capitulo_activo, CAPITULOS[_capitulo_activo - 1]["nombre"]]
 	progreso_lbl.text = "Escena %d / %d" % [idx + 1, _cap_escenas.size()]
@@ -596,6 +600,8 @@ func _cap_mostrar_escena(idx: int) -> void:
 	juego_panel.visible = false
 	if anim_panel:
 		anim_panel.visible = false
+	if codigo_panel:
+		codigo_panel.visible = false
 
 	if idx >= _cap_escenas.size():
 		return
@@ -603,7 +609,12 @@ func _cap_mostrar_escena(idx: int) -> void:
 	var escena: Dictionary = _cap_escenas[idx]
 	var tipo: String = escena.get("tipo", "")
 
-	if tipo == "evaluacion":
+	if tipo == "codigo":
+		_cap_estado = 0
+		btn_sig.text = ""
+		btn_sig.visible = true
+		_mostrar_codigo(escena)
+	elif tipo == "evaluacion":
 		btn_sig.visible = false
 		_cap_quiz_idx = 0
 		_cap_correctas = 0
@@ -996,6 +1007,109 @@ func _jg_terminar() -> void:
 	var btn_sig := _cap_s.get_node("Footer/BotonSiguiente") as Button
 	btn_sig.text = ""
 	btn_sig.visible = true
+
+# ── validacion por codigo (caps 11-12) ─────────────────────────────────────
+
+func _mostrar_codigo(escena: Dictionary) -> void:
+	var s := _cap_s
+	var panel := s.get_node_or_null("ContenidoArea/CodigoPanel") as Control
+	if panel == null:
+		# Escena de codigo sin panel (export viejo): no bloquear, avanzar
+		_cap_mostrar_escena(_cap_escena_idx + 1)
+		return
+	panel.visible = true
+	_codigo_tipo = str(escena.get("validacion", ""))
+	var titulo := panel.get_node("Titulo") as Label
+	var instr := panel.get_node("Instruccion") as RichTextLabel
+	var input := panel.get_node("CodigoInput") as LineEdit
+	var btn := panel.get_node("BotonValidar") as Button
+	var estado := panel.get_node("EstadoLabel") as Label
+
+	titulo.text = str(escena.get("titulo", "Validación"))
+	instr.text = str(escena.get("instruccion", ""))
+	input.text = ""
+	input.editable = true
+	btn.disabled = false
+	btn.text = "Validar código"
+	estado.visible = false
+	estado.remove_theme_color_override("font_color")
+
+	if not btn.pressed.is_connected(_on_validar_codigo):
+		btn.pressed.connect(_on_validar_codigo)
+
+	# XP por llegar a la escena (una vez)
+	if GameState.marcar_escena_vista(_capitulo_activo, _cap_escena_idx):
+		var xp: int = escena.get("xp", 0) as int
+		if xp > 0:
+			GameState.dar_xp(xp)
+
+	FirebaseSync.ensure_scout_context(GameState.scout_id)
+	_codigo_check_estado(_codigo_tipo)
+
+func _codigo_check_estado(tipo: String) -> void:
+	var res = await FirebaseSync.obtener_validacion(tipo)
+	if not is_instance_valid(_cap_s):
+		return
+	var panel := _cap_s.get_node_or_null("ContenidoArea/CodigoPanel") as Control
+	if panel == null or not panel.visible or _codigo_tipo != tipo:
+		return
+	var estado := panel.get_node("EstadoLabel") as Label
+	if not res.get("ok", false):
+		return  # sin conexion: dejar que el scout intente igual
+	if res.get("aprobado", false):
+		_codigo_bloquear_ok(panel, "Ya validado por tu dirigente ✓")
+	elif not res.get("existe", false):
+		estado.add_theme_color_override("font_color", Color(0.85, 0.85, 0.6))
+		estado.text = "Aún no hay código. Pídeselo a tu dirigente cuando aprueben tu requisito; puedes continuar y volver luego."
+		estado.visible = true
+
+func _on_validar_codigo() -> void:
+	var panel := _cap_s.get_node_or_null("ContenidoArea/CodigoPanel") as Control
+	if panel == null:
+		return
+	var input := panel.get_node("CodigoInput") as LineEdit
+	var btn := panel.get_node("BotonValidar") as Button
+	var estado := panel.get_node("EstadoLabel") as Label
+	var codigo := input.text.strip_edges()
+	if codigo.is_empty():
+		estado.remove_theme_color_override("font_color")
+		estado.add_theme_color_override("font_color", Color(1.0, 0.6, 0.4))
+		estado.text = "Escribe el código que te dio tu dirigente."
+		estado.visible = true
+		return
+	btn.disabled = true
+	btn.text = "Validando..."
+	estado.visible = false
+	FirebaseSync.ensure_scout_context(GameState.scout_id)
+	var res = await FirebaseSync.verificar_codigo(_codigo_tipo, codigo)
+	if not is_instance_valid(panel) or not panel.visible:
+		return
+	if res.get("ok", false):
+		_codigo_bloquear_ok(panel, "¡Validado! Requisito aprobado ✓")
+		SaveManager.guardar()
+	else:
+		btn.disabled = false
+		btn.text = "Validar código"
+		estado.remove_theme_color_override("font_color")
+		estado.add_theme_color_override("font_color", Color(1.0, 0.55, 0.5))
+		match str(res.get("error", "")):
+			"no_coincide": estado.text = "El código no coincide. Verifícalo con tu dirigente."
+			"sin_codigo":  estado.text = "Aún no hay código generado. Pídeselo a tu dirigente."
+			"no_scout":    estado.text = "Conéctate a internet e inicia sesión para validar."
+			_:             estado.text = "No se pudo validar. Revisa tu conexión e intenta de nuevo."
+		estado.visible = true
+
+func _codigo_bloquear_ok(panel: Control, msg: String) -> void:
+	var input := panel.get_node("CodigoInput") as LineEdit
+	var btn := panel.get_node("BotonValidar") as Button
+	var estado := panel.get_node("EstadoLabel") as Label
+	input.editable = false
+	btn.disabled = true
+	btn.text = "Validado ✓"
+	estado.remove_theme_color_override("font_color")
+	estado.add_theme_color_override("font_color", Color(0.55, 0.95, 0.55))
+	estado.text = msg
+	estado.visible = true
 
 func _cap_mostrar_pregunta() -> void:
 	if _cap_quiz_idx >= _cap_preguntas.size():
