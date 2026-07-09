@@ -1,34 +1,89 @@
 # Handoff — Libro Animado Investidura GS127
 
-**Fecha última actualización:** 2026-07-07  
-**Rama:** `main` → desplegado en `gh-pages`  
-**URL producción:** https://gaffyjes99-bot.github.io/investidura127/  
+**Fecha última actualización:** 2026-07-08 (sesión noche)
+**Versión app:** `0.4.3`
+**Rama:** `main` → desplegado en `gh-pages`
+**URL producción:** https://gaffyjes99-bot.github.io/investidura127/
 **Panel dirigente:** https://gaffyjes99-bot.github.io/investidura127/panel/
 
 ---
 
 ## Estado actual del proyecto
 
-App web educativa (Godot 4.7 → WebGL) para scouts del Grupo 127 de Colombia.  
-12 capítulos con narrativa, mini-juegos y quizzes. Progreso sincronizado con Firestore.
+App web educativa (Godot 4.7 → WebGL) para scouts del Grupo 127 de Colombia.
+12 capítulos con narrativa, mini-juegos, quizzes y examen final. Progreso sincronizado con Firestore.
+Optimizada para celular. **Verificado funcionando por el cliente** (login, progreso, capítulos).
+
+### Marca de versión (diagnóstico de caché)
+Esquina inferior derecha de cada capítulo muestra `vX.Y.Z-M` (móvil) o `-D` (escritorio).
+Sirve para confirmar si el celular tiene la versión nueva o una cacheada. Se genera en
+`SceneRouter._crear_marca_version()` y lee `application/config/version` de `project.godot`.
 
 ### Features completas
 
 | Feature | Estado |
 |---------|--------|
-| Login con validación Firestore (nombre + patrulla) | ✅ |
-| Búsqueda fuzzy de scouts (Levenshtein + keywords) | ✅ |
-| Guardar/cargar progreso en Firestore | ✅ |
-| 12 capítulos con contenido y quizzes | ✅ |
-| Mini-juego decisiones + biografía (cap 1) | ✅ |
-| Insignias por capítulo completado | ✅ |
-| Ken Burns animations | ✅ |
-| Web export en GitHub Pages | ✅ |
-| Colección `scouts_busqueda` (pública, datos mínimos) | ✅ |
-| Colección `scouts` (privada, datos sensibles) | ✅ |
-| **Panel del Dirigente** (`/panel/`) | ✅ |
-| **Botones badge scout** (insignias PNG transparentes) | ✅ |
-| **Fondo Mapa Senda** actualizado | ✅ |
+| Login con validación Firestore (nombre + patrulla) + búsqueda fuzzy | ✅ |
+| Guardar/cargar progreso (localStorage + Firestore) | ✅ |
+| 12 capítulos con contenido, mini-juegos y quizzes | ✅ |
+| Insignias por capítulo + Ken Burns animations | ✅ |
+| Panel del Dirigente (`/panel/`) | ✅ |
+| Botones badge scout (PNG transparentes) | ✅ |
+| **Soporte móvil**: teclado virtual, orientación landscape, aviso "gira tu celular", escala global 1.4× en táctil, texto de lectura 28pt | ✅ |
+| **Sprite del narrador correcto por capítulo** (CAP_SPRITES) | ✅ |
+| **Examen final integrador** (cap 12): 20 preguntas al azar del banco de los 12 caps, 90%, reintentos ilimitados, animación Gran Ceremonia al aprobar | ✅ |
+| **Oración de patrulla** (cap 10) con nombre personalizado | ✅ |
+| **Promesa scout** (cap 3) con texto oficial + nombre personalizado | ✅ |
+| **Llamados de pito en Morse** (cap 8) | ✅ |
+| **Fondo de bosque en capítulos** con velo de legibilidad | ✅ |
+
+---
+
+## Cambios de esta sesión (2026-07-08)
+
+Ver commits `f8fb1ce`, `74f5c7d`, `8a78191`, `84fc6ce`, `ea0177e`, `7eb596e`, `1b5e7b2`, `3614d38`, `99bc946` en `main`.
+
+1. **Soporte móvil completo** (`export_presets.cfg`, `project.godot`, `SceneRouter.gd`):
+   - `html/experimental_virtual_keyboard=true` — teclado al tocar campos de texto.
+   - `window/handheld/orientation=4` (landscape).
+   - Overlay CSS "Gira tu celular" (solo en `orientation: portrait` táctil) vía `html/head_include`.
+   - `content_scale_factor = 1.4` cuando `_es_movil()` — todo 40% más grande en táctil.
+   - Texto de lectura (RichTextLabel) 28pt en móvil.
+   - El pellizco para zoom del navegador **no funciona** (el motor captura el gesto); la escala 1.4 es el reemplazo.
+
+2. **`{nombre}` en narración** (`SceneRouter.gd` ~línea 620): `texto.replace("{nombre}", GameState.nombre_scout)`.
+   Usado en la oración de patrulla (cap 10), promesa (cap 3) e intro del examen (cap 12).
+
+3. **CAP_SPRITES corregido** (`SceneRouter.gd`): cada capítulo muestra el sprite de su narrador real
+   (1,3,9,11 BP · 2,10 Akela · 4 Baloo · 5 Jacala · 6 Wontolla · 7 Kaa · 8 Kotick · 12 BP celebrate).
+
+4. **Examen final** (`SceneRouter.gd` + `capitulos/12/escenas.json`):
+   - `_cargar_banco_examen(n)` junta las preguntas de los 12 caps (105 válidas) y toma `n` al azar.
+   - Flag `examen_final` + `num_preguntas` + `minimo_aprobar_pct: 90` en la escena `evaluacion`.
+   - Estado `_cap_estado = 3` (aprobado, pendiente ceremonia) → botón "Ver la Gran Ceremonia".
+   - `_lanzar_ceremonia()` / `_ceremonia_final()` reutilizan el motor Ken Burns; 6 viñetas en campo `ceremonia`.
+
+5. **Fix de sincronización de progreso** (`firebase_sync.gd`, `SaveManager.gd`) — ver sección abajo.
+
+6. **Contenido**: promesa cap 3 (texto oficial + `{nombre}` + "mi familia"), oración patrulla cap 10,
+   llamados de pito en Morse cap 8, fondo `Fondo_Capitulos.png` + velo 62%.
+
+---
+
+## Fix de sincronización de progreso (importante)
+
+**Bug encontrado y resuelto:** al reabrir el libro con progreso guardado, la app va directo al mapa
+**sin re-login**, pero `FirebaseSync._current_scout_id` solo se seteaba en el login → `push_scout_data`
+abortaba y **ningún capítulo posterior al primero se sincronizaba** a Firestore (ni al panel).
+
+**Solución (commit `8a78191`):**
+- `FirebaseSync.ensure_scout_context(scout_id)` — restaura el `scout_id` desde `GameState`.
+- `SaveManager._sync_to_firestore()` llama `ensure_scout_context` antes de cada push.
+- `SaveManager.cargar()` hace una sincronización de puesta al día del estado local completo.
+- `ultima_actualizacion` ahora usa `Time.get_unix_time_from_system()` (antes `get_ticks_msec`, que se reiniciaba).
+
+**Nota:** la puesta al día sube lo que esté en localStorage del dispositivo. Si el guardado local se perdió
+(incógnito, borrar datos), no hay nada que recuperar de esas partidas — pero de ahí en adelante sincroniza bien.
 
 ---
 
@@ -36,72 +91,43 @@ App web educativa (Godot 4.7 → WebGL) para scouts del Grupo 127 de Colombia.
 
 ```
 Godot 4.7 (GDScript)
-├── AutoLoads: GameState, SaveManager, SceneRouter, FirebaseSync, FirebaseConfig
+├── AutoLoads: GameState, SaveManager, SceneRouter, FirebaseConfig, FirebaseSync
 ├── Escenas: onboarding, mapa_senda, capitulo, perfil, quiz
-├── Assets/UI: godot/assets/ui/btn_siguiente.png, btn_mapa.png (insignias scout)
-└── Web export → export/web/ → gh-pages
+├── Fondo capítulos: godot/assets/sprites/Fondo_Capitulos.png (+ Velo ColorRect 62% en capitulo.tscn)
+├── Sprites narrador: godot/assets/sprites/<personaje>_talking_v1.png (CAP_SPRITES)
+└── Web export → export/web/ → gh-pages (vía git subtree)
 
 Firebase (fichas-actividad-scout)
-├── scouts/            — privada, datos completos del scout
+├── scouts/            — privada, datos completos
 ├── scouts_busqueda/   — pública, solo nombre/patrulla/grupoId/idScout
-└── libro_interactivo_progreso/ — pública R/W, progreso por scout (127_scoutId)
-   └── campos clave: xp_total, rango, capitulos_completados, insignias_desbloqueadas
+└── libro_interactivo_progreso/ — pública R/W, doc id = 127_<scoutId>
+   └── xp_total, rango, capitulos_completados, insignias_desbloqueadas, ultima_actualizacion
        validaciones.{buenas_acciones, noches_campamento, comportamiento_hogar, rendimiento_academico}
-          └── cada sub-campo tiene: valor, aprobado, codigo_validacion, aprobado_por, fecha_validacion
 
 Panel del Dirigente
 └── export/web/panel/index.html — HTML/JS/CSS vanilla, sin build
     ├── Lee: scouts_busqueda + libro_interactivo_progreso
-    └── Escribe: validaciones (con updateMask)
-    └── Clave de acceso: gs127panel2026 (cambiar const CLAVE_PANEL en el HTML)
+    ├── Escribe: validaciones (updateMask) + genera códigos
+    └── Clave acceso: gs127panel2026 (const CLAVE_PANEL en el HTML)
 ```
 
 ---
 
-## Botones de capítulo (estado actual)
+## Próxima prioridad — Circuito de validación caps 11-12 (SIGUE PENDIENTE)
 
-Ambos botones son insignias circulares PNG con fondo transparente, 160×160 px:
-
-| Botón | Imagen | Estilo |
-|-------|--------|--------|
-| SIGUIENTE | `godot/assets/ui/btn_siguiente.png` | Círculo dorado, flecha amarilla, banner "SIGUIENTE" |
-| MAPA | `godot/assets/ui/btn_mapa.png` | Círculo madera, mapa del tesoro, banner "MAPA" |
-
-- **Sin NinePatch**: `texture_margin_* = 0` — imagen llena el área sin deformar
-- **Footer**: anchor_top=0.78 (antes 0.88), anchor_bottom=1.0
-- **ContenidoArea**: anchor_bottom=0.77 (antes 0.87)
-- **Texto en runtime**: vacío en estados normales (texto bakeado en imagen); "Volver al Mapa" / "Reintentar" se muestran sobreimpresos con outline negro
-
----
-
-## Próxima prioridad — Circuito de validación caps 11-12
-
-### Contexto
-El Panel del Dirigente ya genera un código (6 chars alfanuméricos) y lo guarda en Firestore:
+El Panel del Dirigente ya genera un código de 6 chars y lo guarda en Firestore:
 - Cap 11: `validaciones.comportamiento_hogar.codigo_validacion`
 - Cap 12: `validaciones.rendimiento_academico.codigo_validacion`
 
-### Qué falta
-El scout NO puede aún ingresar el código en el quiz. Hay que implementar:
+**Falta:** el scout no puede aún ingresar ese código. Implementar:
+1. Tipo de pregunta `"Codigo"` en `capitulos/11/preguntas.json` (Q3/Q8) y `12/preguntas.json` (Q1/Q2, hoy `null`).
+2. En `SceneRouter.gd`: mostrar `LineEdit` en `QuizPanel`; al confirmar, leer de Firestore
+   `validaciones.X.codigo_validacion`; si coincide → PATCH `aprobado=true`, `aprobado_por="scout"`, `fecha_validacion`.
+3. Helper de lectura GET en `firebase_sync.gd`.
+4. Nodo `LineEdit` en `capitulo.tscn` dentro de `QuizPanel`.
 
-1. **Nuevo tipo de pregunta** `"Codigo"` en `godot/capitulos/11/preguntas.json` y `12/preguntas.json`
-   - Q3 o Q8 del cap 11 (actualmente `null` distractores)
-   - Q1 o Q2 del cap 12 (actualmente `null` distractores)
-
-2. **Lógica en `SceneRouter.gd`** para manejar tipo `"Codigo"`:
-   - Mostrar un `LineEdit` en el `QuizPanel` en lugar de botones de opciones
-   - Al confirmar: llamar a Firestore para leer `validaciones.X.codigo_validacion` del scout actual
-   - Si coincide: PATCH `validaciones.X.aprobado = true`, `aprobado_por = "scout"`, `fecha_validacion = fecha_actual`
-   - Si no coincide: mostrar error, permitir reintento
-
-3. **Firebase helper** en `firebase_sync.gd` o inline en SceneRouter para leer el código esperado
-
-### Archivos clave para implementar
-- `godot/autoload/SceneRouter.gd` — función `_quiz_mostrar_pregunta()` y `_quiz_verificar()`
-- `godot/scripts/firebase_sync.gd` — helpers de Firestore (fetch GET con filtros)
-- `godot/capitulos/11/preguntas.json` — cambiar tipo de Q3/Q8 a `"Codigo"`
-- `godot/capitulos/12/preguntas.json` — cambiar tipo de Q1/Q2 a `"Codigo"`
-- `godot/scenes/capitulo/capitulo.tscn` — agregar nodo `LineEdit` en `QuizPanel`
+> Nota: el examen final del cap 12 (aprobar quiz + Gran Ceremonia) ya está hecho. Lo pendiente es
+> SOLO el ingreso del código de padres/dirigente para las validaciones de comportamiento/rendimiento.
 
 ---
 
@@ -110,19 +136,58 @@ El scout NO puede aún ingresar el código en el quiz. Hay que implementar:
 | Cap | Problema |
 |-----|----------|
 | 05 | Q2, Q5, Q6 con 1 distractor |
-| 06 | Q4, Q5, Q8 con 1 distractor; Q6 y Q9 con `null` (datos del grupo) |
-| 08 | Preguntas de audio sin soporte de audio |
-| 09 | Q5–Q7 son simuladores visuales (`null`) — feature no implementada |
-| 10 | Q4, Q9, Q10 con `null` — requieren datos del grupo |
-| 11 | Q3, Q8 `null` — pendientes circuito de validación |
-| 12 | Q1-Q2 `null` — pendientes circuito de validación |
+| 06 | Q4, Q5, Q8 con 1 distractor; Q6/Q9 `null` (datos del grupo) |
+| 08 | Preguntas de audio sin soporte de audio (los llamados ya están en Morse en texto) |
+| 09 | Q5–Q7 simuladores visuales (`null`) — no implementados |
+| 10 | Q4, Q9, Q10 `null` — datos del grupo |
+| 11 | Q3, Q8 `null` — circuito de validación |
+| 12 | Q1-Q2 `null` — circuito de validación |
 
 ---
 
-## Fase 9 (futura) — Notificaciones
+## Flujo de trabajo: export, deploy y verificación
 
-- Scout logra nuevo rango → notificación visual
-- Insignia desbloqueada → animación de celebración
+> ⚠️ **Usar Bash/git, NO PowerShell.** El proyecto está en OneDrive; PowerShell dio lecturas
+> corruptas de binarios y estados de git falsos ("working tree clean" cuando no lo estaba).
+> Con Git Bash el flujo es confiable. Nota: el `python` del sistema es nativo de Windows y no
+> entiende rutas MSYS (`/c/...`) al escribir — usar rutas relativas o `C:\...`.
+
+```bash
+cd "<ruta del proyecto>"
+
+# 1. Subir versión en godot/project.godot: config/version="0.4.X"
+
+# 2. Exportar a web (importa assets nuevos automáticamente)
+"/c/Godot/Godot_v4.7-stable_win64.exe" --headless --path godot \
+  --export-release "Web" "$(pwd)/export/web/index.html" 2>&1 | grep -iE "error|parse"
+# (sin líneas de error = OK)
+
+# 3. Verificar que el contenido/asset nuevo quedó empaquetado
+python -c "d=open('export/web/index.pck','rb').read(); print(d.find('<texto nuevo>'.encode('utf-8'))>=0)"
+
+# 4. Commit y deploy
+git add godot/... export/web/index.html export/web/index.pck
+git commit -m "..."
+git push origin main
+git subtree push --prefix=export/web origin gh-pages
+
+# 5. Verificar que producción sirve el pck nuevo (GitHub Pages tarda 1-3 min)
+disk=$(sha256sum export/web/index.pck | cut -d' ' -f1)
+curl -s -o /tmp/live.pck "https://gaffyjes99-bot.github.io/investidura127/index.pck?t=$(date +%s)"
+[ "$disk" = "$(sha256sum /tmp/live.pck | cut -d' ' -f1)" ] && echo "OK" || echo "aún propagando"
+```
+
+**Aviso de LFS**: `index.pck` pesa ~58 MB; GitHub muestra warning de tamaño >50 MB en cada push. No bloquea.
+
+---
+
+## Limitación de verificación
+
+El recorrido jugable dentro de un capítulo (narrativa, quiz, examen, ceremonia) **no se puede probar
+en el entorno del agente**: requiere login real de Firebase + capítulos desbloqueados. Lo que SÍ se
+verifica del lado del agente: JSON válido, export sin errores de script, contenido/asset empaquetado
+en el pck, y hash de producción == build local. La legibilidad del fondo se validó con una composición
+PIL (imagen + velo + texto). La prueba jugable final la hace el cliente en su dispositivo.
 
 ---
 
@@ -130,65 +195,23 @@ El scout NO puede aún ingresar el código en el quiz. Hay que implementar:
 
 | Archivo | Propósito |
 |---------|-----------|
-| `godot/scripts/firebase_sync.gd` | Toda la comunicación con Firestore vía fetch API |
-| `godot/firebase_config.gd` | Endpoints, API key, colecciones |
+| `godot/autoload/SceneRouter.gd` | Navegación, capítulos, quiz, examen final, ceremonia, CAP_SPRITES, `{nombre}`, marca de versión |
+| `godot/autoload/SaveManager.gd` | Guardar local + sync Firestore + puesta al día en `cargar()` |
+| `godot/autoload/GameState.gd` | Estado global (XP, rango, capítulos, scout_id) |
+| `godot/scripts/firebase_sync.gd` | Firestore vía fetch API; `ensure_scout_context()` |
+| `godot/firebase_config.gd` | Endpoints, API key, colecciones, doc por defecto |
 | `godot/scenes/onboarding/onboarding.gd` | Login + carga de progreso |
-| `godot/autoload/SceneRouter.gd` | Navegación + lógica de capítulos/quizzes |
-| `godot/autoload/SaveManager.gd` | Guardar local (localStorage) + sync Firestore |
-| `godot/autoload/GameState.gd` | Estado global del scout (XP, rango, capítulos) |
-| `godot/scenes/capitulo/capitulo.tscn` | Escena principal con botones badge PNG |
-| `godot/assets/ui/btn_siguiente.png` | Botón SIGUIENTE — insignia circular dorada |
-| `godot/assets/ui/btn_mapa.png` | Botón MAPA — insignia circular madera |
-| `godot/capitulos/NN/preguntas.json` | Preguntas y distractores del quiz de cada cap |
-| `godot/capitulos/NN/escenas.json` | Narrativa y mini-juegos de cada cap |
+| `godot/scenes/capitulo/capitulo.tscn` | Escena de capítulo (fondo TextureRect + Velo, paneles, botones badge) |
+| `godot/capitulos/NN/escenas.json` | Narrativa, mini-juegos, viñetas de cada cap |
+| `godot/capitulos/NN/preguntas.json` | Preguntas y distractores del quiz |
 | `export/web/panel/index.html` | Panel del Dirigente (vanilla HTML/JS) |
+| `export_presets.cfg` (en `godot/`) | Config export web: teclado virtual, `head_include` (overlay + zoom) |
 | `docs/FIRESTORE_RULES_FINAL.md` | Reglas Firestore actuales |
-
----
-
-## Historial de commits relevantes
-
-```
-87f1005  fix: replace siguiente button JPEG with transparent PNG
-49a1c76  feat: replace chapter buttons with scout-style badge images
-dc1b05a  docs: actualizar HANDOFF.md
-d784c76  feat: botones con imagen PIL (reemplazados)
-96474d6  assets: actualizar fondo del mapa de la Senda
-9fce649  feat: Panel del Dirigente
-```
-
----
-
-## Comandos útiles
-
-```bash
-# Exportar a web
-C:\Godot\Godot_v4.7-stable_win64.exe --headless --path godot --export-release "Web" C:/<ruta>/export/web/index.html
-
-# Desplegar a GitHub Pages
-git add -f export/web/index.html export/web/index.pck
-git commit -m "build: web export"
-git subtree push --prefix=export/web origin gh-pages
-
-# Panel del Dirigente: clave de acceso
-# const CLAVE_PANEL = 'gs127panel2026'  ← está en export/web/panel/index.html
-```
-
----
-
-## Fixes previos importantes (sesiones anteriores)
-
-- `firebase_sync.gd::_fetch_async`: polling 0.1s, sin format strings `%`
-- `_try_sync`: `updateMask.fieldPaths` para no sobreescribir metadata
-- `_create_default_progress`: PATCH en vez de POST
-- `onboarding.gd::_get_array_field`: desempaca objetos tipados Firestore
-- Colección `scouts` privada; `scouts_busqueda` pública con solo 4 campos
-- Quizzes caps 02, 03, 04, 07, 12: distractores corregidos y formato estandarizado
 
 ---
 
 ## Suggested Skills
 
-- `superpowers:systematic-debugging` — bugs en login, progreso o validación
-- `superpowers:verification-before-completion` — antes de dar una feature por terminada
-- `claude-mem:mem-search` — contexto de sesiones anteriores
+- `superpowers:systematic-debugging` — bugs de login, progreso o sincronización (ver método usado en el fix de sync).
+- `superpowers:verification-before-completion` — antes de dar una feature por terminada; recordar la limitación de verificación jugable.
+- `claude-mem:mem-search` — contexto de sesiones anteriores (esta sesión: obs 2843–2921).
