@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Saludos_Scout.png",
+      "titulo": "",
+      "descripcion": "Cada posición: en descanso, atención, saludo y atención con bordón, el saludo scout y el saludo medio. Practícalas con tu dirigente hasta que te salgan naturales.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "contenido": "Animación top-down (vista de pájaro) de una tropa ejecutando fila, herradura y círculo al recibir la señal del dirigente; animación del saludo con bordón y posiciones de 'siempre listo' y 'descanso'.",
       "xp": 5,

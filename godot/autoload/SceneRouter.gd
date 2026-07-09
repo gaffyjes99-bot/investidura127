@@ -1029,6 +1029,7 @@ func _mostrar_lamina(escena: Dictionary) -> void:
 	var img := panel.get_node("LaminaImagen") as TextureRect
 	var caption := panel.get_node("LaminaCaption") as RichTextLabel
 	titulo.text = str(escena.get("titulo", ""))
+	titulo.visible = titulo.text != ""
 	caption.text = str(escena.get("descripcion", ""))
 	caption.visible = caption.text != ""
 	var tex: Texture2D = null
