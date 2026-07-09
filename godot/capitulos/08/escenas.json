@@ -8,7 +8,7 @@
       "tipo": "narracion",
       "contenido": "Kotick: 'En el bosque no siempre puedes gritar. Por eso los scouts hablamos con el pito: cada sonido es una palabra.'",
       "dialogo_muestra": "Kotick: 'Escucha con atención... ¿reconoces ese llamado? Tu tropa te está diciendo algo ahora mismo.'",
-      "texto_estudio": "[b][color=#F2A93B]El lenguaje del pito[/color][/b]\nEn el bosque no siempre puedes gritar. El [b]silbato o pito[/b] es el instrumento tradicional para dar los llamados en la Tropa: permite [b]comunicarse a distancia sin necesidad de gritar[/b]. Desde su libro Escultismo para Muchachos, B.P. ya enseñaba señales de silbato para dirigir a los scouts en el campo.\n\n[b][color=#F2A93B]Lo esencial[/color][/b]\n• Cada llamado tiene un [b]significado específico y estandarizado[/b] dentro de la tropa.\n• Al escuchar el llamado de [b]atención[/b], detén lo que estás haciendo y presta atención al dirigente.\n• Existen llamados de reunión general de Tropa, silencio, formación por patrullas, alerta y emergencia.\n\n[b][color=#F2A93B]Importante[/color][/b]\nEl código exacto de llamados lo define [b]tu dirigente del Grupo 127[/b]: apréndelo de su pito en las reuniones, porque no existe un estándar universal entre grupos. Tu misión: reconocer sin dudar los 3 llamados más usados de tu tropa.",
+      "texto_estudio": "[b][color=#F2A93B]El lenguaje del pito[/color][/b]\nEn el bosque no siempre puedes gritar. El [b]silbato o pito[/b] es el instrumento tradicional para dar los llamados en la Tropa: permite [b]comunicarse a distancia sin gritar[/b]. Desde su libro Escultismo para Muchachos, B.P. ya enseñaba señales de silbato para dirigir a los scouts en el campo.\n\n[b][color=#F2A93B]Los llamados en clave[/color][/b]  ([color=#F2A93B]·[/color] corto   [color=#F2A93B]—[/color] largo)\n[b]Atención / Silencio:[/b]   [color=#F2A93B]—[/color]   (un toque largo)\n[b]Avanzar / Dispersarse:[/b]   [color=#F2A93B]— — —[/color]   (toques largos)\n[b]Reunión / Formación:[/b]   [color=#F2A93B]— · — · —[/color]   (largo y corto alternados)\n[b]Alarma / Alerta:[/b]   [color=#F2A93B]· · · ·[/color]   (toques cortos y rápidos)\n[b]Guías de patrulla a mí:[/b]   [color=#F2A93B]· · · —[/color]   (tres cortos y un largo)\n\n[b][color=#F2A93B]Recuerda[/color][/b]\nAl escuchar el llamado de [b]atención[/b], detente y mira al dirigente. Estos son los llamados scout tradicionales: practícalos con el pito de tu dirigente en las reuniones del Grupo 127.",
       "xp": 10
     },
     {
@@ -18,7 +18,7 @@
       "tecnica": "ken_burns",
       "vinetas": [
         { "titulo": "El Silbato Habla", "descripcion": "En el bosque, bajo la lluvia, en medio del ruido: el pito llega donde la voz no alcanza. Cada llamado transmite una orden clara a toda la tropa en segundos. Apréndelos de memoria.", "icono": "📯", "movimiento": "zoom_in", "tinte": "warm" },
-        { "titulo": "La Tropa Responde", "descripcion": "Llamado de atención → todos se detienen. Llamado de formación → la tropa se forma sin dudar. Cuando todos conocen el código, actúan como un solo cuerpo. Así es la hermandad scout.", "icono": "👥", "movimiento": "zoom_out", "tinte": "cool" }
+        { "titulo": "La Tropa Responde", "descripcion": "Atención (—) → todos se detienen. Reunión (— · — · —) → la tropa se forma. Alarma (· · · ·) → alerta máxima. Cuando todos conocen el código, la tropa actúa como un solo cuerpo. Así es la hermandad scout.", "icono": "👥", "movimiento": "zoom_out", "tinte": "cool" }
       ]
     },
     {
@@ -27,7 +27,7 @@
       "xp": 20,
       "decisiones": [
         {
-          "situacion": "Están en medio de una actividad y el dirigente toca un llamado largo seguido de tres cortos — la señal de atención general. ¿Qué haces?",
+          "situacion": "Están en medio de una actividad y el dirigente toca un toque largo sostenido (—) — la señal de atención y silencio. ¿Qué haces?",
           "opciones": [
             {"texto": "Me detengo de inmediato, guardo silencio y dirijo mi atención al dirigente.", "correcta": true, "retro": "¡Correcto! El llamado de atención exige parar y escuchar. Una tropa que reacciona rápido demuestra disciplina y respeto."},
             {"texto": "Termino lo que estoy haciendo y luego me acerco con calma.", "correcta": false, "retro": "No. El llamado de atención es inmediato. 'Termino primero' rompe la disciplina del grupo y puede causar confusión."},

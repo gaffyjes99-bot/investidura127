@@ -1,7 +1,8 @@
-[gd_scene format=3 load_steps=7]
+[gd_scene format=3 load_steps=8]
 
 [ext_resource type="Texture2D" path="res://assets/ui/btn_siguiente.png" id="TEX_SIG"]
 [ext_resource type="Texture2D" path="res://assets/ui/btn_mapa.png" id="TEX_MAP"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Fondo_Capitulos.png" id="TEX_BG"]
 
 [sub_resource type="StyleBoxTexture" id="SBT_SIG"]
 texture = ExtResource("TEX_SIG")
@@ -39,12 +40,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.07, 0.15, 0.09, 1)
+texture = ExtResource("TEX_BG")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Velo" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.12, 0.08, 0.62)
+mouse_filter = 2
 
 [node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 1
