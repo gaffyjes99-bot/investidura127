@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Uniforme.png",
+      "titulo": "El Uniforme Scout — dónde va cada insignia",
+      "descripcion": "Observa la ubicación de cada insignia y distintivo según el Reglamento de Uniforme de la Asociación Scouts de Colombia. Si tienes dudas sobre una insignia, pregúntale a tu dirigente.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "contenido": "Avatar del scout girando 360° mostrando cada parte del uniforme; al tocar cada parte, se resalta y nombra.",
       "xp": 5,

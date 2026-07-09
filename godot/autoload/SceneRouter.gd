@@ -592,6 +592,7 @@ func _cap_mostrar_escena(idx: int) -> void:
 	var juego_panel  := s.get_node("ContenidoArea/JuegoPanel") as Control
 	var anim_panel   := s.get_node_or_null("ContenidoArea/AnimacionPanel") as Control
 	var codigo_panel := s.get_node_or_null("ContenidoArea/CodigoPanel") as Control
+	var lamina_panel := s.get_node_or_null("ContenidoArea/LaminaPanel") as Control
 
 	titulo_lbl.text = "Cap.%d — %s" % [_capitulo_activo, CAPITULOS[_capitulo_activo - 1]["nombre"]]
 	progreso_lbl.text = "Escena %d / %d" % [idx + 1, _cap_escenas.size()]
@@ -602,6 +603,8 @@ func _cap_mostrar_escena(idx: int) -> void:
 		anim_panel.visible = false
 	if codigo_panel:
 		codigo_panel.visible = false
+	if lamina_panel:
+		lamina_panel.visible = false
 
 	if idx >= _cap_escenas.size():
 		return
@@ -609,7 +612,12 @@ func _cap_mostrar_escena(idx: int) -> void:
 	var escena: Dictionary = _cap_escenas[idx]
 	var tipo: String = escena.get("tipo", "")
 
-	if tipo == "codigo":
+	if tipo == "lamina":
+		_cap_estado = 0
+		btn_sig.text = ""
+		btn_sig.visible = true
+		_mostrar_lamina(escena)
+	elif tipo == "codigo":
 		_cap_estado = 0
 		btn_sig.text = ""
 		btn_sig.visible = true
@@ -1007,6 +1015,37 @@ func _jg_terminar() -> void:
 	var btn_sig := _cap_s.get_node("Footer/BotonSiguiente") as Button
 	btn_sig.text = ""
 	btn_sig.visible = true
+
+# ── lamina: imagen grande con titulo y pie (ej. diagrama del uniforme) ──────
+
+func _mostrar_lamina(escena: Dictionary) -> void:
+	var s := _cap_s
+	var panel := s.get_node_or_null("ContenidoArea/LaminaPanel") as Control
+	if panel == null:
+		_cap_mostrar_escena(_cap_escena_idx + 1)
+		return
+	panel.visible = true
+	var titulo := panel.get_node("LaminaTitulo") as Label
+	var img := panel.get_node("LaminaImagen") as TextureRect
+	var caption := panel.get_node("LaminaCaption") as RichTextLabel
+	titulo.text = str(escena.get("titulo", ""))
+	caption.text = str(escena.get("descripcion", ""))
+	caption.visible = caption.text != ""
+	var tex: Texture2D = null
+	var ruta := str(escena.get("imagen", ""))
+	if ruta != "":
+		tex = load(ruta) as Texture2D
+	if tex:
+		img.texture = tex
+		img.visible = true
+		img.modulate.a = 0.0
+		create_tween().tween_property(img, "modulate:a", 1.0, 0.4)
+	else:
+		img.visible = false
+	if GameState.marcar_escena_vista(_capitulo_activo, _cap_escena_idx):
+		var xp: int = escena.get("xp", 0) as int
+		if xp > 0:
+			GameState.dar_xp(xp)
 
 # ── validacion por codigo (caps 11-12) ─────────────────────────────────────
 
