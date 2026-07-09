@@ -59,6 +59,12 @@ func cargar() -> bool:
 		insig.append(i as int)
 	GameState.insignias = insig
 	GameState.escenas_vistas = datos.get("escenas_vistas", {})
+
+	# Puesta al dia: al volver via localStorage (sin re-login) sincroniza el
+	# estado local completo a Firestore, para que el panel refleje el avance real.
+	if not GameState.scout_id.is_empty():
+		_sync_to_firestore()
+
 	return true
 
 func borrar() -> void:
@@ -78,13 +84,16 @@ func _sync_to_firestore() -> void:
 		print("[SaveManager] FirebaseSync no disponible")
 		return
 
+	# Restaurar contexto del scout (necesario cuando se vuelve sin re-login)
+	FirebaseSync.ensure_scout_context(GameState.scout_id)
+
 	# Preparar datos para Firestore
 	var updates = {
 		"xp_total": GameState.xp,
 		"rango": GameState.rango,
 		"capitulos_completados": GameState.capitulos_completados,
 		"insignias_desbloqueadas": GameState.insignias,
-		"ultima_actualizacion": Time.get_ticks_msec()
+		"ultima_actualizacion": int(Time.get_unix_time_from_system())
 	}
 
 	# Enviar a Firestore

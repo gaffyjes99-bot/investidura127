@@ -213,6 +213,15 @@ func _create_default_progress(scout_id: String, grupo_id: String) -> void:
 # SINCRONIZACIÓN
 # ============================================================================
 
+func ensure_scout_context(scout_id: String, grupo_id: String = "") -> void:
+	# Restaura el contexto del scout cuando se vuelve sin re-login (carga desde localStorage).
+	# Sin esto, push_scout_data aborta porque _current_scout_id quedo vacio en la nueva sesion.
+	if not scout_id.is_empty() and _current_scout_id.is_empty():
+		_current_scout_id = scout_id
+		print("[FirebaseSync] Contexto de scout restaurado: %s" % scout_id)
+	if not grupo_id.is_empty():
+		_current_grupo_id = grupo_id
+
 func push_scout_data(updates: Dictionary) -> void:
 	if _current_scout_id.is_empty():
 		emit_signal("sync_error", "Scout no identificado")
