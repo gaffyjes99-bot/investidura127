@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Lamina_Capitulo10.png",
+      "titulo": "",
+      "descripcion": "El organigrama de la Tropa: Jefe de Grupo → Jefe de Tropa → Guías de Patrulla → Subguías → Scouts. Y las patrullas del Grupo 127: Jaguares, Lobos, Mapaches y Pandas.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "contenido": "Animación del organigrama construyéndose pieza por pieza (Jefe de Grupo → Jefe de Tropa → Guías de Patrulla → Subguías → Scouts).",
       "xp": 5,

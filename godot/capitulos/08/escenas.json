@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Lamina_Capitulo8.png",
+      "titulo": "",
+      "descripcion": "Los llamados del pito en clave: cada señal (puntos y rayas) es una orden para toda la tropa. Apréndelos de memoria.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "contenido": "Animación de un dirigente tocando distintos llamados y la tropa reaccionando correctamente a cada uno (formarse, guardar silencio, alerta).",
       "xp": 5,

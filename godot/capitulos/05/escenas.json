@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Lamina_Capitulo5.png",
+      "titulo": "",
+      "descripcion": "Los símbolos del Grupo Scout 127 — Liceo de Cervantes: la flor de lis y sus valores, Lealtad, Servicio y Hermandad.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "contenido": "Animación de un scout ejecutando el saludo completo (45°) y el saludo medio (90°, con y sin bordón); animación del saludo de mano izquierda con la historia de la tribu Ashanti (escudo abajo, mano desprotegida).",
       "xp": 5,

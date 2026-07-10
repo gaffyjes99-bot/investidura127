@@ -12,6 +12,13 @@
       "xp": 10
     },
     {
+      "tipo": "lamina",
+      "imagen": "res://assets/sprites/Lamina_Capitulo4.png",
+      "titulo": "",
+      "descripcion": "El scout como un árbol: sus raíces son los 3 Principios, su tronco las 3 Virtudes (Lealtad, Pureza, Abnegación) y sus frutos, la Oración Scout.",
+      "xp": 5
+    },
+    {
       "tipo": "animacion",
       "tecnica": "ken_burns",
       "contenido": "Árbol animado que crece raíz por raíz a medida que se explica cada principio y virtud; cada raíz se ilumina con su nombre.",
