@@ -1,7 +1,7 @@
 # Handoff — Libro Animado Investidura GS127
 
-**Fecha última actualización:** 2026-07-09
-**Versión app:** `0.5.0`
+**Fecha última actualización:** 2026-07-09 (noche)
+**Versión app:** `0.6.0`
 **Rama:** `main` → desplegado en `gh-pages`
 **URL producción:** https://gaffyjes99-bot.github.io/investidura127/
 **Panel dirigente:** https://gaffyjes99-bot.github.io/investidura127/panel/
@@ -38,6 +38,8 @@ Sirve para confirmar si el celular tiene la versión nueva o una cacheada. Se ge
 | **Fondo de bosque en capítulos** con velo de legibilidad | ✅ |
 | **Circuito de validación por código** (caps 11-12): scout ingresa el código del dirigente → marca `aprobado` en Firestore | ✅ |
 | **Panel muestra el progreso real** (fix de clave de documento, commit `9b09a4c`) | ✅ |
+| **Láminas ilustradas en los 12 capítulos** (tipo de escena `lamina`) | ✅ |
+| **Oración Scout** (cap 4) con texto actualizado + juego de completar | ✅ |
 
 ---
 
@@ -108,6 +110,30 @@ lo que produce el doble `127_`. **NO** se usa el campo `idScout` (`430002057`) p
 
 > Si algún día se cambia la clave, hay que cambiarla **a la vez** en `firebase_sync.gd` (app) y en
 > `export/web/panel/index.html` (panel), y migrar los documentos existentes.
+
+---
+
+## Tipo de escena "lámina" (imágenes grandes por capítulo)
+
+Añadido en v0.5.2–0.6.0. Muestra una imagen grande contenida (sin recorte) con título y pie.
+Todos los 12 capítulos tienen una lámina, insertada **tras la primera narración**.
+
+**Cómo agregar/cambiar una lámina:**
+1. Poner la imagen en `godot/assets/sprites/` (convención: `Lamina_CapituloN.png`; el uniforme y los
+   saludos usan `Uniforme.png` y `Saludos_Scout.png`).
+2. En `capitulos/NN/escenas.json`, insertar una escena antes de la `animacion`:
+   ```json
+   { "tipo": "lamina", "imagen": "res://assets/sprites/Lamina_CapituloN.png",
+     "titulo": "", "descripcion": "pie de foto", "xp": 5 }
+   ```
+   `titulo` vacío si la imagen ya trae su propio encabezado (casi todas lo traen).
+3. Exportar (Godot importa la imagen nueva automáticamente) y desplegar.
+
+**Implementación:** `SceneRouter._mostrar_lamina()` + rama `"lamina"` en `_cap_mostrar_escena`.
+Panel `CodigoPanel`… no: usa `ContenidoArea/LaminaPanel` en `capitulo.tscn` (Titulo, LaminaImagen
+con `stretch_mode = KEEP_ASPECT_CENTERED`, LaminaCaption). El título se oculta solo si viene vacío.
+Las imágenes con fondo blanco/opaco se leen bien sobre el fondo de bosque; si una viniera transparente,
+habría que ponerle un respaldo claro.
 
 ---
 
