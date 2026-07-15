@@ -68,11 +68,39 @@ func cargar() -> bool:
 	return true
 
 func borrar() -> void:
+	# Resetear el progreso en Firestore ANTES de limpiar el estado local.
+	# Los callers limpian GameState despues de este llamado, asi que aqui
+	# scout_id todavia esta disponible para apuntar al documento correcto.
+	_reset_firestore()
+
 	if OS.has_feature("web"):
 		JavaScriptBridge.eval("localStorage.removeItem('%s')" % SAVE_KEY)
 	else:
 		if FileAccess.file_exists("user://save.json"):
 			DirAccess.remove_absolute("user://save.json")
+
+func _reset_firestore() -> void:
+	"""Restablece el documento de progreso del scout a valores iniciales en Firestore."""
+	if GameState.scout_id.is_empty():
+		return
+
+	if not FirebaseSync:
+		print("[SaveManager] FirebaseSync no disponible; no se reseteo la nube")
+		return
+
+	# Restaurar contexto del scout (necesario cuando se vuelve sin re-login)
+	FirebaseSync.ensure_scout_context(GameState.scout_id)
+
+	var reset = {
+		"xp_total": 0,
+		"rango": "Pietierno",
+		"capitulos_completados": [],
+		"insignias_desbloqueadas": [],
+		"ultima_actualizacion": int(Time.get_unix_time_from_system())
+	}
+
+	FirebaseSync.push_scout_data(reset)
+	print("[SaveManager] Progreso reseteado en Firestore")
 
 func _sync_to_firestore() -> void:
 	"""Sincroniza cambios locales a Firestore después de guardar."""
