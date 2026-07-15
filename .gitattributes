@@ -1,0 +1,25 @@
+# Normalización de finales de línea para archivos de Godot.
+# El proyecto vive en OneDrive/Windows; sin esto, los .import aparecen
+# eternamente "modificados" por diferencias CRLF vs LF (ver HANDOFF.md).
+# Forzamos LF en el working tree para que git status quede limpio.
+
+*.import   text eol=lf
+*.gd       text eol=lf
+*.tscn     text eol=lf
+*.tres     text eol=lf
+*.uid      text eol=lf
+*.godot    text eol=lf
+
+# Binarios — nunca aplicar conversión de EOL
+*.png   binary
+*.wasm  binary
+*.pck   binary
+*.ttf   binary
+*.otf   binary
+*.ogg   binary
+*.mp3   binary
+*.wav   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.ico   binary
