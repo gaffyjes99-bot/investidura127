@@ -1,6 +1,6 @@
 # Handoff — Libro Animado Investidura GS127
 
-**Fecha última actualización:** 2026-07-09 (noche)
+**Fecha última actualización:** 2026-07-15
 **Versión app:** `0.6.0`
 **Rama:** `main` → desplegado en `gh-pages`
 **URL producción:** https://gaffyjes99-bot.github.io/investidura127/
@@ -40,10 +40,34 @@ Sirve para confirmar si el celular tiene la versión nueva o una cacheada. Se ge
 | **Panel muestra el progreso real** (fix de clave de documento, commit `9b09a4c`) | ✅ |
 | **Láminas ilustradas en los 12 capítulos** (tipo de escena `lamina`) | ✅ |
 | **Oración Scout** (cap 4) con texto actualizado + juego de completar | ✅ |
+| **Borrar Progreso resetea Firestore** (no solo la sesión local) — verificado por el cliente | ✅ |
 
 ---
 
-## Cambios de esta sesión (2026-07-08)
+## Cambios de esta sesión (2026-07-15)
+
+**Fix: "Borrar Progreso" ahora resetea el progreso en Firestore** (commit `15ef8e2`, `main` + `gh-pages`).
+
+**Bug:** `SaveManager.borrar()` solo limpiaba localStorage/archivo local y el `GameState` en memoria.
+El documento de `libro_interactivo_progreso` en Firestore quedaba intacto, así que al reingresar el
+scout, `get_scout_progress()` recargaba el progreso viejo desde la BD. El botón solo "funcionaba" en
+la sesión abierta.
+
+**Solución** (`godot/autoload/SaveManager.gd`):
+- Nuevo `_reset_firestore()`: si hay `scout_id`, llama `ensure_scout_context()` y hace
+  `push_scout_data({xp_total: 0, rango: "Pietierno", capitulos_completados: [], insignias_desbloqueadas: [], ultima_actualizacion})`.
+- `borrar()` invoca `_reset_firestore()` **antes** de limpiar el estado local. El orden importa:
+  los dos callers (`SceneRouter._pf_borrar` y `perfil._on_borrar`) limpian `GameState` *después* de
+  `borrar()`, así que `scout_id` sigue disponible para apuntar al documento correcto.
+- Al meterse en `borrar()`, un solo cambio cubre ambos callers.
+
+Usa los mismos nombres de campo que `_sync_to_firestore()`, y como `FirebaseSync` es autoload con
+buffer + timer de reintento, la escritura se completa aunque se navegue a onboarding de inmediato.
+**Verificado funcionando por el cliente.**
+
+---
+
+## Cambios de sesión anterior (2026-07-08)
 
 Ver commits `f8fb1ce`, `74f5c7d`, `8a78191`, `84fc6ce`, `ea0177e`, `7eb596e`, `1b5e7b2`, `3614d38`, `99bc946` en `main`.
 
