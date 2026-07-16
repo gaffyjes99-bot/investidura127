@@ -4,7 +4,7 @@
 **Versión app:** `0.6.0`
 **Rama:** `main` → desplegado en `gh-pages`
 **URL producción:** https://gaffyjes99-bot.github.io/investidura127/
-**Panel dirigente:** https://gaffyjes99-bot.github.io/investidura127/panel/
+**Panel dirigente:** módulo "📖 Investidura" en la app de fichas → https://fichas-actividad-scout.web.app (repo `scouts-app-gs127`, `src/components/Investidura.jsx`). El panel estático viejo (`export/web/panel/`, clave compartida) fue retirado el 2026-07-16.
 
 ---
 
