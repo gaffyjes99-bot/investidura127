@@ -1,0 +1,140 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helpers ────────────────────────────────────────────────────────────
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Super admin: uid conocido (App.jsx SUPER_ADMIN_UID) o doc en super_admins
+    // con id == uid. Si agregas más super-admins, crea el doc super_admins/{uid}.
+    function isSuperAdmin() {
+      return signedIn() && (
+        request.auth.uid == 'CXgWd36fx9bxeDTFpOrTNvYD4zp2' ||
+        exists(/databases/$(database)/documents/super_admins/$(request.auth.uid))
+      );
+    }
+
+    function groupData(gid) {
+      return get(/databases/$(database)/documents/grupos_config/$(gid)).data;
+    }
+
+    // Admin del grupo, evaluado sobre datos ya conocidos (resource.data)
+    function isGroupAdminData(data) {
+      return signedIn() && (
+        request.auth.uid in data.get('admins', []) ||
+        request.auth.uid == data.get('adminUid', '')
+      );
+    }
+
+    // Admin del grupo, buscando la config por id
+    function isGroupAdminById(gid) {
+      return isGroupAdminData(groupData(gid));
+    }
+
+    // Miembro (admin o miembro aprobado) del grupo
+    function isGroupMember(gid) {
+      let d = groupData(gid);
+      return signedIn() && (
+        request.auth.uid in d.get('admins', []) ||
+        request.auth.uid in d.get('miembros', []) ||
+        request.auth.uid == d.get('adminUid', '')
+      );
+    }
+
+    // ── super_admins (se gestiona a mano en la consola) ────────────────────
+    match /super_admins/{docId} {
+      allow read:  if signedIn();
+      allow write: if false;
+    }
+
+    // ── grupos_config ──────────────────────────────────────────────────────
+    match /grupos_config/{gid} {
+      // Sólo se agrega a sí mismo al array pendientes (solicitud de acceso)
+      function joinPendientes() {
+        return signedIn()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pendientes'])
+          && request.resource.data.pendientes.hasAll(resource.data.get('pendientes', []))
+          && request.resource.data.pendientes.hasOnly(
+               resource.data.get('pendientes', []).concat([request.auth.uid]));
+      }
+
+      allow read:   if signedIn();
+      allow create: if isSuperAdmin()
+                    || (signedIn() && request.auth.uid in request.resource.data.admins);
+      allow update: if isSuperAdmin()
+                    || isGroupAdminData(resource.data)
+                    || joinPendientes();
+      allow delete: if isSuperAdmin() || isGroupAdminData(resource.data);
+    }
+
+    // ── grupos (perfil de cada jefe, doc id == uid) ────────────────────────
+    match /grupos/{uid} {
+      function profileGid(data) {
+        return string(data.get('numeroGrupo', '')) + '_' + data.get('rama', '');
+      }
+
+      allow read: if signedIn();
+      allow create: if signedIn() && (
+        request.auth.uid == uid ||
+        isSuperAdmin() ||
+        isGroupAdminById(profileGid(request.resource.data))
+      );
+      allow update: if signedIn() && (
+        request.auth.uid == uid ||
+        isSuperAdmin() ||
+        isGroupAdminById(profileGid(resource.data))
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── solicitudes_acceso ─────────────────────────────────────────────────
+    match /solicitudes_acceso/{id} {
+      allow read:   if isSuperAdmin()
+                    || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if isSuperAdmin();
+    }
+
+    // ── Datos de scouts (contienen PII de menores) — sólo miembros del grupo ─
+    match /scouts/{id} {
+      allow read, update, delete: if isSuperAdmin() || isGroupMember(resource.data.grupoId);
+      allow create:               if isSuperAdmin() || isGroupMember(request.resource.data.grupoId);
+    }
+    match /progresion_scouts/{id} {
+      allow read, update, delete: if isSuperAdmin() || isGroupMember(resource.data.grupoId);
+      allow create:               if isSuperAdmin() || isGroupMember(request.resource.data.grupoId);
+    }
+    match /fichas/{id} {
+      allow read, update, delete: if isSuperAdmin() || isGroupMember(resource.data.grupoId);
+      allow create:               if isSuperAdmin() || isGroupMember(request.resource.data.grupoId);
+    }
+
+    // ── Config de programa (etapas/calendario, sin PII de menores) ─────────
+    // Docs con id inconsistente (uid / grupoId / grupoId_anio); se permite a
+    // cualquier jefe autenticado leer/escribir.
+    match /progresiones/{id} {
+      allow read, write: if signedIn();
+    }
+    match /calendarios/{id} {
+      allow read, write: if signedIn();
+    }
+
+    // ── Libro Animado investidura (app Godot + panel del jefe, sin auth) ───
+    // scouts_busqueda: copia pública SIN PII (solo nombre/patrulla/grupoId/
+    // idScout). La app y el panel la listan con API key, sin login.
+    match /scouts_busqueda/{docId} {
+      allow read:  if true;
+      allow write: if false;
+    }
+
+    // libro_interactivo_progreso: progreso del libro interactivo. La app de
+    // los muchachos no tiene login, por eso queda abierta. No contiene PII
+    // sensible (nombre/patrulla/XP/capítulos).
+    match /libro_interactivo_progreso/{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
